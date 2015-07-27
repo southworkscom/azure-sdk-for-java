@@ -212,4 +212,14 @@ public class ObjectFactory {
     public AssetDeliveryPolicyRestType createAssetDeliveryPolicyType() {
         return new AssetDeliveryPolicyRestType();
     }
+    
+
+    /**
+     * Creates a instance of (@link @StreamingEndpointType).
+     * 
+     * @return the streaming endpoint type
+     */
+    public StreamingEndpointType createStreamingEndpointType() {
+        return new StreamingEndpointType();
+    }
 }
