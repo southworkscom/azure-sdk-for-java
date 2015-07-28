@@ -48,7 +48,7 @@ public class StreamingEndpointType implements MediaServiceDTO {
     private Date lastModified;
     
     @XmlElement(name = "State", namespace = Constants.ODATA_DATA_NS)
-    private Integer state;
+    private String state;
 
     @XmlElement(name = "HostName", namespace = Constants.ODATA_DATA_NS)
     private String hostName;
@@ -112,11 +112,11 @@ public class StreamingEndpointType implements MediaServiceDTO {
         this.lastModified = lastModified;
     }
 
-    public Integer getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(String state) {
         this.state = state;
     }
 

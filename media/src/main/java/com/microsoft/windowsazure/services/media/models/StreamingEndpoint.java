@@ -17,9 +17,12 @@ package com.microsoft.windowsazure.services.media.models;
 
 import java.util.List;
 
+import com.microsoft.windowsazure.services.media.entityoperations.DefaultActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
+import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultListOperation;
+import com.microsoft.windowsazure.services.media.entityoperations.EntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityCreateOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityGetOperation;
@@ -232,6 +235,10 @@ public final class StreamingEndpoint {
     public static Updater update(String streamingEndpointId) {
         return new Updater(streamingEndpointId);
     }
+    
+    public static Updater update(StreamingEndpointInfo streamingEndpointInfo) {
+        return new Updater(streamingEndpointInfo);
+    }
 
     /**
      * The Class Updater.
@@ -256,6 +263,18 @@ public final class StreamingEndpoint {
         protected Updater(String streamingEndpointId) {
             super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET,
                     streamingEndpointId));
+        }
+        
+        protected Updater(StreamingEndpointInfo streamingEndpointInfo) {
+            super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET,
+                    streamingEndpointInfo.getId()));
+            this.setCdnEnabled(streamingEndpointInfo.isCdnEnabled());
+            this.setCustomHostNames(streamingEndpointInfo.getCustomHostNames());
+            this.setDescription(streamingEndpointInfo.getDescription());
+            this.setName(streamingEndpointInfo.getName());
+            this.setSrossSiteAccessPolicies(streamingEndpointInfo.getCrossSiteAccessPolicies());
+            this.setStreamingEndpointAccessControl(streamingEndpointInfo.getStreamingEndpointAccessControl());
+            this.setStreamingEndpointCacheControl(streamingEndpointInfo.getStreamingEndpointCacheControl());
         }
 
         /*
@@ -384,5 +403,19 @@ public final class StreamingEndpoint {
      */
     public static EntityDeleteOperation delete(String streamingEndpointId) {
         return new DefaultDeleteOperation(ENTITY_SET, streamingEndpointId);
+    }
+
+    public static EntityActionOperation start(String streamingEndpointId) {
+        return new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Start");
+    }
+    
+    public static EntityActionOperation stop(String streamingEndpointId) {
+        return new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Stop");
+    }
+    
+    public static EntityActionOperation scale(String streamingEndpointId, int scaleUnits) {
+        DefaultEntityActionOperation operation = new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Scale");
+        operation.addBodyParameter("scaleUnits", scaleUnits);
+        return operation;
     }
 }

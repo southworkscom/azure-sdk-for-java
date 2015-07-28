@@ -18,6 +18,7 @@ package com.microsoft.windowsazure.services.media.models;
 import java.util.Date;
 import java.util.List;
 
+import com.microsoft.windowsazure.services.media.entityoperations.EntityWithOperationIdentifier;
 import com.microsoft.windowsazure.services.media.implementation.ODataEntity;
 import com.microsoft.windowsazure.services.media.implementation.atom.EntryType;
 import com.microsoft.windowsazure.services.media.implementation.content.CrossSiteAccessPoliciesType;
@@ -29,7 +30,10 @@ import com.microsoft.windowsazure.services.media.implementation.content.Streamin
  * Data about a Media Services Asset entity.
  * 
  */
-public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType> {
+public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType>
+        implements EntityWithOperationIdentifier {
+    
+    private String operationIdentifier = null;
 
     /**
      * Instantiates a new streaming end point info.
@@ -69,7 +73,7 @@ public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType> {
     public String getDescription() {
         return this.getContent().getDescription();
     }
-
+    
     /**
      * Get the creation date.
      * 
@@ -93,8 +97,8 @@ public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType> {
      * 
      * @return the state
      */
-    public AssetState getState() {
-        return AssetState.fromCode(getContent().getState());
+    public StreamingEndpointState getState() {
+        return StreamingEndpointState.fromCode(getContent().getState());
     }
 
     /**
@@ -156,5 +160,29 @@ public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType> {
      */
     public CrossSiteAccessPoliciesType getCrossSiteAccessPolicies() {
         return getContent().getCrossSiteAccessPolicies();
+    }
+
+    /**
+     * Get the operation-id if any.
+     */
+    @Override
+    public String getOperationId() {        
+        return operationIdentifier;
+    }
+
+    /**
+     * Set the operation-id.
+     */
+    @Override
+    public void setOperationId(String operationIdentifier) {
+        this.operationIdentifier = operationIdentifier;        
+    }
+
+    /**
+     * @return true if the entity has an operation-id.
+     */
+    @Override
+    public boolean hasOperationIdentifier() {
+        return operationIdentifier != null;
     }    
 }

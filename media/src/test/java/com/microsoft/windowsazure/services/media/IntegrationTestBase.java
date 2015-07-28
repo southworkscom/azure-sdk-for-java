@@ -36,6 +36,7 @@ import org.junit.rules.ExpectedException;
 
 import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.exception.ServiceException;
+import com.microsoft.windowsazure.services.media.entityoperations.EntityWithOperationIdentifier;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyInfo;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyPermission;
@@ -55,6 +56,11 @@ import com.microsoft.windowsazure.services.media.models.MediaProcessor;
 import com.microsoft.windowsazure.services.media.models.MediaProcessorInfo;
 import com.microsoft.windowsazure.services.media.models.NotificationEndPoint;
 import com.microsoft.windowsazure.services.media.models.NotificationEndPointInfo;
+import com.microsoft.windowsazure.services.media.models.Operation;
+import com.microsoft.windowsazure.services.media.models.OperationInfo;
+import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
+import com.microsoft.windowsazure.services.media.models.StreamingEndpointInfo;
+import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
 import com.microsoft.windowsazure.services.queue.QueueConfiguration;
 import com.microsoft.windowsazure.services.queue.QueueContract;
 import com.microsoft.windowsazure.services.queue.QueueService;
@@ -74,7 +80,7 @@ public abstract class IntegrationTestBase {
     protected static final String testChannelPrefix = "testChannel";
     protected static final String testProgramPrefix = "testProgram";
     protected static final String testNotificationEndPointPrefix = "testNotificationEndPointPrefix";
-
+    protected static final String testStreamingEndPointPrefix = "testSEPPrfx";
 
     protected static final String validButNonexistAssetId = "nb:cid:UUID:0239f11f-2d36-4e5f-aa35-44d58ccc0973";
     protected static final String validButNonexistAccessPolicyId = "nb:pid:UUID:38dcb3a0-ef64-4ad0-bbb5-67a14c6df2f7";
@@ -157,6 +163,68 @@ public abstract class IntegrationTestBase {
         removeAllTestContentKeys();
         removeAllTestQueues();
         removeAllTestNotificationEndPoints();
+        removeAllTestStreamingEndPoints();
+    }
+    
+    protected static String awaitOperation(EntityWithOperationIdentifier operation) throws ServiceException {
+        if (operation.hasOperationIdentifier()) {
+            return awaitOperation(operation.getOperationId());
+        }
+        return null;
+    }
+    
+    protected static String awaitOperation(String operationId) throws ServiceException {
+        if (operationId == null) return "Succeeded";
+        OperationInfo opinfo;
+        do {
+            opinfo = service.get(Operation.get(operationId));            
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // intentionally do nothing
+            }
+        } while(opinfo.getState().equals("InProgress"));
+        return opinfo.getState();
+    }
+    
+    private static boolean ensureStreamingPointStopped(String streamingEndpointId) throws ServiceException {
+        StreamingEndpointInfo streamingEndPoint = service.get(StreamingEndpoint.get(streamingEndpointId));
+        if (streamingEndPoint.getState().equals(StreamingEndpointState.Stopped)) {
+            return true;
+        }
+        if (streamingEndPoint.getState().equals(StreamingEndpointState.Running)) {
+            String opid = service.action(StreamingEndpoint.stop(streamingEndpointId));
+            awaitOperation(opid);
+            return ensureStreamingPointStopped(streamingEndpointId);
+        }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
+        return ensureStreamingPointStopped(streamingEndpointId);
+    }
+    
+    private static void removeAllTestStreamingEndPoints()
+    {
+        try {
+            ListResult<StreamingEndpointInfo> listStreamingEndpointResult = service.list(StreamingEndpoint.list());
+            for (StreamingEndpointInfo streamingEndPoint : listStreamingEndpointResult) {
+                if (streamingEndPoint.getName().startsWith(testStreamingEndPointPrefix)) {
+                    try {
+                        ensureStreamingPointStopped(streamingEndPoint.getId());
+                        String operationId = service.delete(StreamingEndpoint.delete(streamingEndPoint.getId()));
+                        if (operationId != null) {
+                            awaitOperation(operationId);
+                        }
+                    } catch (Exception e) {
+                        // e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
     }
     
     private static void removeAllTestNotificationEndPoints()
