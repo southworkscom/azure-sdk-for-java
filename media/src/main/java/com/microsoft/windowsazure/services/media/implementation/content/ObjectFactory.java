@@ -178,7 +178,7 @@ public class ObjectFactory {
     }
     
     /**
-     * Creates a instance of (@link @ContentKeyAuthorizationPolicyOptionType).
+     * Creates a instance of (@link ContentKeyAuthorizationPolicyOptionType).
      * 
      * @return the content key authorization policy option type
      */
@@ -187,7 +187,7 @@ public class ObjectFactory {
     }
     
     /**
-     * Creates a instance of (@link @ContentKeyAuthorizationPolicyRestrictionType).
+     * Creates a instance of (@link ContentKeyAuthorizationPolicyRestrictionType).
      * 
      * @return the content key authorization policy restriction type
      */
@@ -196,7 +196,7 @@ public class ObjectFactory {
     }
     
     /**
-     * Creates a instance of (@link @ContentKeyAuthorizationPolicyType).
+     * Creates a instance of (@link ContentKeyAuthorizationPolicyType).
      * 
      * @return the content key authorization policy type
      */
@@ -205,7 +205,7 @@ public class ObjectFactory {
     }
     
     /**
-     * Creates a instance of (@link @AssetDeliveryPolicyType).
+     * Creates a instance of (@link AssetDeliveryPolicyType).
      * 
      * @return the asset delivery policy type
      */
@@ -215,11 +215,22 @@ public class ObjectFactory {
     
 
     /**
-     * Creates a instance of (@link @StreamingEndpointType).
+     * Creates a instance of (@link StreamingEndpointType).
      * 
      * @return the streaming endpoint type
      */
     public StreamingEndpointType createStreamingEndpointType() {
         return new StreamingEndpointType();
     }
+    
+    /**
+     * Creates a instance of (@link EncodingReservedUnitType).
+     * 
+     * @return the EncodingReservedUnitType type
+     */
+    public EncodingReservedUnitRestType createEncodingReservedUnitType() {
+        return new EncodingReservedUnitRestType();
+    }
+    
+    
 }

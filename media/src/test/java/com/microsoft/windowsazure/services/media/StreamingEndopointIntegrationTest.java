@@ -31,7 +31,6 @@ import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
 public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
 
     @Test
-    @Ignore
     public void streamingEndpointCreateListByNameAndDelete() throws Exception {
         // Arrange
         String expectedName = testStreamingEndPointPrefix + "ListByNameTest";
@@ -56,7 +55,6 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
     }
     
     @Test
-    @Ignore
     public void streamingEndpointCreateStartStopDeleteTest() throws Exception {
         // Arrange
         String expectedName = testStreamingEndPointPrefix + "Startable";
@@ -90,7 +88,6 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
     
     
     @Test
-    @Ignore
     public void streamingEndpointCreateStartScaleStopDeleteTest() throws Exception {
         // Arrange
         int expectedScaleUnits = 2;

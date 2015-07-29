@@ -43,6 +43,7 @@ import com.microsoft.windowsazure.services.media.implementation.content.ContentK
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyRestrictionType;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyType;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyRestType;
+import com.microsoft.windowsazure.services.media.implementation.content.EncodingReservedUnitRestType;
 import com.microsoft.windowsazure.services.media.implementation.content.JobNotificationSubscriptionType;
 import com.microsoft.windowsazure.services.media.implementation.content.JobType;
 import com.microsoft.windowsazure.services.media.implementation.content.LocatorRestType;
@@ -150,6 +151,7 @@ public class ODataAtomMarshaller {
         classes.add(ContentKeyAuthorizationPolicyOptionType.class);
         classes.add(ContentKeyAuthorizationPolicyRestrictionType.class);
         classes.add(ContentKeyRestType.class);
+        classes.add(EncodingReservedUnitRestType.class);
         classes.add(EntryType.class);
         classes.add(FeedType.class);
         classes.add(JobNotificationSubscriptionType.class);
