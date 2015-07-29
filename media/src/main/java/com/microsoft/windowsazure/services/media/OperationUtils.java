@@ -34,7 +34,7 @@ public final class OperationUtils {
             } catch (InterruptedException e) {
                 // intentionally do nothing
             }
-        } while (opinfo.getState().equals("InProgress"));
+        } while (opinfo.getState().equals(OperationState.InProgress));
         return opinfo.getState();
     }
     
