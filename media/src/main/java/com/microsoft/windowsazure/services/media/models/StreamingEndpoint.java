@@ -246,7 +246,6 @@ public final class StreamingEndpoint {
     public static class Updater extends EntityOperationBase implements
             EntityUpdateOperation {
 
-        private String name;
         private String description;
         private boolean cdnEnabled;
         private List<String> customHostNames;
@@ -271,7 +270,6 @@ public final class StreamingEndpoint {
             this.setCdnEnabled(streamingEndpointInfo.isCdnEnabled());
             this.setCustomHostNames(streamingEndpointInfo.getCustomHostNames());
             this.setDescription(streamingEndpointInfo.getDescription());
-            this.setName(streamingEndpointInfo.getName());
             this.setSrossSiteAccessPolicies(streamingEndpointInfo.getCrossSiteAccessPolicies());
             this.setStreamingEndpointAccessControl(streamingEndpointInfo.getStreamingEndpointAccessControl());
             this.setStreamingEndpointCacheControl(streamingEndpointInfo.getStreamingEndpointCacheControl());
@@ -299,7 +297,6 @@ public final class StreamingEndpoint {
         @Override
         public Object getRequestContents() {
             StreamingEndpointType streamingEndpointType = new StreamingEndpointType();
-            streamingEndpointType.setName(name);
             streamingEndpointType.setDescription(description);
             streamingEndpointType.setCdnEnabled(cdnEnabled);
             streamingEndpointType.setCustomHostName(customHostNames);
@@ -307,18 +304,6 @@ public final class StreamingEndpoint {
             streamingEndpointType.setStreamingEndpointAccessControl(streamingEndpointAccessControl);
             streamingEndpointType.setStreamingEndpointCacheControl(streamingEndpointCacheControl);
             return streamingEndpointType;
-        }
-
-        /**
-         * Sets new name for streaming endpoint to be updated.
-         * 
-         * @param name
-         *            The new name
-         * @return Updater instance
-         */
-        public Updater setName(String name) {
-            this.name = name;
-            return this;
         }
 
         /**
