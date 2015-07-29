@@ -17,7 +17,6 @@ package com.microsoft.windowsazure.services.media.models;
 
 import java.util.List;
 
-import com.microsoft.windowsazure.services.media.entityoperations.DefaultActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;

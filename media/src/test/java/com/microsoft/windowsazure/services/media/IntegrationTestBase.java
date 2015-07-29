@@ -58,6 +58,7 @@ import com.microsoft.windowsazure.services.media.models.NotificationEndPoint;
 import com.microsoft.windowsazure.services.media.models.NotificationEndPointInfo;
 import com.microsoft.windowsazure.services.media.models.Operation;
 import com.microsoft.windowsazure.services.media.models.OperationInfo;
+import com.microsoft.windowsazure.services.media.models.OperationState;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointInfo;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
@@ -166,27 +167,6 @@ public abstract class IntegrationTestBase {
         removeAllTestStreamingEndPoints();
     }
     
-    protected static String awaitOperation(EntityWithOperationIdentifier operation) throws ServiceException {
-        if (operation.hasOperationIdentifier()) {
-            return awaitOperation(operation.getOperationId());
-        }
-        return null;
-    }
-    
-    protected static String awaitOperation(String operationId) throws ServiceException {
-        if (operationId == null) return "Succeeded";
-        OperationInfo opinfo;
-        do {
-            opinfo = service.get(Operation.get(operationId));            
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                // intentionally do nothing
-            }
-        } while(opinfo.getState().equals("InProgress"));
-        return opinfo.getState();
-    }
-    
     private static boolean ensureStreamingPointStopped(String streamingEndpointId) throws ServiceException {
         StreamingEndpointInfo streamingEndPoint = service.get(StreamingEndpoint.get(streamingEndpointId));
         if (streamingEndPoint.getState().equals(StreamingEndpointState.Stopped)) {
@@ -194,7 +174,7 @@ public abstract class IntegrationTestBase {
         }
         if (streamingEndPoint.getState().equals(StreamingEndpointState.Running)) {
             String opid = service.action(StreamingEndpoint.stop(streamingEndpointId));
-            awaitOperation(opid);
+            OperationUtils.await(service, opid);
             return ensureStreamingPointStopped(streamingEndpointId);
         }
         try {
@@ -215,7 +195,7 @@ public abstract class IntegrationTestBase {
                         ensureStreamingPointStopped(streamingEndPoint.getId());
                         String operationId = service.delete(StreamingEndpoint.delete(streamingEndPoint.getId()));
                         if (operationId != null) {
-                            awaitOperation(operationId);
+                            OperationUtils.await(service, operationId);
                         }
                     } catch (Exception e) {
                         // e.printStackTrace();

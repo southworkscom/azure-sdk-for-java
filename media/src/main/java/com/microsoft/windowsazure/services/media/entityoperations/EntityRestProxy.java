@@ -141,8 +141,8 @@ public abstract class EntityRestProxy implements EntityContract {
         Object rawResponse = clientResponse.getEntity(creator.getResponseClass());
         Object processedResponse = creator.processResponse(rawResponse);
         
-        if (processedResponse instanceof EntityWithOperationIdentifier &&
-                clientResponse.getHeaders().containsKey("operation-id")) {
+        if (processedResponse instanceof EntityWithOperationIdentifier 
+                && clientResponse.getHeaders().containsKey("operation-id")) {
             EntityWithOperationIdentifier entityWithOpId = (EntityWithOperationIdentifier) processedResponse;
             List<String> operationIds = clientResponse.getHeaders().get("operation-id");
             if (operationIds.size() >= 0) {

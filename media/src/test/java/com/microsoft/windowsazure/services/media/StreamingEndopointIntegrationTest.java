@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.services.media.models.ListResult;
+import com.microsoft.windowsazure.services.media.models.OperationState;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointInfo;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
@@ -36,7 +37,7 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         String expectedName = testStreamingEndPointPrefix + "ListByNameTest";
         StreamingEndpointInfo streamingEndpointInfo = service.create(StreamingEndpoint.create().setName(expectedName));
         
-        awaitOperation(streamingEndpointInfo);
+        OperationUtils.await(service, streamingEndpointInfo);
         
         // Act
         ListResult<StreamingEndpointInfo> listStreamingEndpointResult = service.list(StreamingEndpoint.list()
@@ -51,7 +52,7 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         
         // Cleanup
         String deleteOpId = service.delete(StreamingEndpoint.delete(info.getId()));
-        awaitOperation(deleteOpId);
+        OperationUtils.await(service, deleteOpId);
     }
     
     @Test
@@ -61,30 +62,30 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         String expectedName = testStreamingEndPointPrefix + "Startable";
         StreamingEndpointInfo streamingEndpointInfo = service.create(StreamingEndpoint.create().setName(expectedName));
         
-        awaitOperation(streamingEndpointInfo);
+        OperationUtils.await(service, streamingEndpointInfo);
         
         // Act
         String startingOpId = service.action(StreamingEndpoint.start(streamingEndpointInfo.getId()));
-        String state = awaitOperation(startingOpId);
+        OperationState state = OperationUtils.await(service, startingOpId);
         
         // Assert
-        assertEquals("Succeeded", state);        
+        assertEquals(state, OperationState.Succeeded);        
         streamingEndpointInfo = service.get(StreamingEndpoint.get(streamingEndpointInfo.getId()));
         assertNotNull(streamingEndpointInfo);        
         assertEquals(StreamingEndpointState.Running, streamingEndpointInfo.getState());
         
         // Act 2
         startingOpId = service.action(StreamingEndpoint.stop(streamingEndpointInfo.getId())); 
-        state = awaitOperation(startingOpId);
+        state = OperationUtils.await(service, startingOpId);
         
         // Assert 2
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
         
         // Cleanup
         String deleteOpId = service.delete(StreamingEndpoint.delete(streamingEndpointInfo.getId()));
-        state = awaitOperation(deleteOpId);
+        state = OperationUtils.await(service, deleteOpId);
         // Assert Cleanup
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
     }
     
     
@@ -96,37 +97,37 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         String expectedName = testStreamingEndPointPrefix + "Scalable";
         StreamingEndpointInfo streamingEndpointInfo = service.create(StreamingEndpoint.create().setName(expectedName));
         
-        awaitOperation(streamingEndpointInfo);
+        OperationUtils.await(service, streamingEndpointInfo);
         
         // Act
         String startingOpId = service.action(StreamingEndpoint.start(streamingEndpointInfo.getId()));
-        String state = awaitOperation(startingOpId);
+        OperationState state = OperationUtils.await(service, startingOpId);
         
         // Assert
-        assertEquals("Succeeded", state);        
+        assertEquals(state, OperationState.Succeeded);        
         streamingEndpointInfo = service.get(StreamingEndpoint.get(streamingEndpointInfo.getId()));
         assertNotNull(streamingEndpointInfo);        
         assertEquals(StreamingEndpointState.Running, streamingEndpointInfo.getState());
         
         startingOpId = service.action(StreamingEndpoint.scale(streamingEndpointInfo.getId(), expectedScaleUnits)); 
-        state = awaitOperation(startingOpId);
+        state = OperationUtils.await(service, startingOpId);
         // Assert 3
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
         streamingEndpointInfo = service.get(StreamingEndpoint.get(streamingEndpointInfo.getId()));
         assertNotNull(streamingEndpointInfo);
         assertEquals(expectedScaleUnits, streamingEndpointInfo.getScaleUnits());
         
         // Act 3
         startingOpId = service.action(StreamingEndpoint.stop(streamingEndpointInfo.getId())); 
-        state = awaitOperation(startingOpId);
+        state = OperationUtils.await(service, startingOpId);
         // Assert 3
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
         
         // Cleanup
         String deleteOpId = service.delete(StreamingEndpoint.delete(streamingEndpointInfo.getId()));
-        state = awaitOperation(deleteOpId);
+        state = OperationUtils.await(service, deleteOpId);
         // Assert Cleanup
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
     }
     
     @Test
@@ -137,21 +138,21 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         
         // Act 1
         StreamingEndpointInfo streamingEndpointInfo = service.create(StreamingEndpoint.create().setName(expectedName));
-        String state = awaitOperation(streamingEndpointInfo);
+        OperationState state = OperationUtils.await(service, streamingEndpointInfo);
         // Assert 1
-        assertEquals("Succeeded", state); 
+        assertEquals(state, OperationState.Succeeded); 
         
         // Act 2
         String opId = service.action(StreamingEndpoint.scale(streamingEndpointInfo.getId(), expectedScaleUnits));
-        state = awaitOperation(opId);
+        state = OperationUtils.await(service, opId);
         // Assert 2
-        assertEquals("Succeeded", state); 
+        assertEquals(state, OperationState.Succeeded); 
         
         // Act 3
         opId = service.update(StreamingEndpoint.update(streamingEndpointInfo).setCdnEnabled(true));
-        state = awaitOperation(opId);
+        state = OperationUtils.await(service, opId);
         // Assert 3
-        assertEquals("Succeeded", state); 
+        assertEquals(state, OperationState.Succeeded); 
         
         // Act 4
         streamingEndpointInfo = service.get(StreamingEndpoint.get(streamingEndpointInfo.getId()));
@@ -160,9 +161,9 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         
         // Cleanup
         String deleteOpId = service.delete(StreamingEndpoint.delete(streamingEndpointInfo.getId()));
-        state = awaitOperation(deleteOpId);
+        state = OperationUtils.await(service, deleteOpId);
         // Assert Cleanup
-        assertEquals("Succeeded", state);
+        assertEquals(state, OperationState.Succeeded);
     }
     
     

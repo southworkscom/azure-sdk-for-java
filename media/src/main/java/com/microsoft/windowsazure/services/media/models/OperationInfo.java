@@ -33,8 +33,8 @@ public class OperationInfo extends ODataEntity<OperationType> {
      * 
      * @return the state
      */
-    public String getState() {
-        return getContent().getState();
+    public OperationState getState() {
+        return OperationState.fromCode(getContent().getState());
     }
 
     /**
