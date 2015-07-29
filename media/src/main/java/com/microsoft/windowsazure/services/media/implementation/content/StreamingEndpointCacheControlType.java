@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class StreamingEndpointCacheControlType {
 
     @XmlElement(name = "MaxRange", namespace = Constants.ODATA_DATA_NS)
-    private int maxRange;
+    private Integer maxRange;
 
     public int getMaxRange() {
         return maxRange;

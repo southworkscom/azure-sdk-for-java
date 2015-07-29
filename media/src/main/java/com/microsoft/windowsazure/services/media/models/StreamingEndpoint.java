@@ -246,12 +246,12 @@ public final class StreamingEndpoint {
     public static class Updater extends EntityOperationBase implements
             EntityUpdateOperation {
 
-        private String description;
+        private String description = null;
         private boolean cdnEnabled;
-        private List<String> customHostNames;
-        private StreamingEndpointAccessControlType streamingEndpointAccessControl;
-        private StreamingEndpointCacheControlType streamingEndpointCacheControl;
-        private CrossSiteAccessPoliciesType crossSiteAccessPolicies;
+        private List<String> customHostNames  = null;
+        private StreamingEndpointAccessControlType streamingEndpointAccessControl  = null;
+        private StreamingEndpointCacheControlType streamingEndpointCacheControl = null;
+        private CrossSiteAccessPoliciesType crossSiteAccessPolicies = null;
 
         /**
          * Instantiates a new updater.

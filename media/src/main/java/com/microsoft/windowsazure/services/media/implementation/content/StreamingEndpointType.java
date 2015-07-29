@@ -54,7 +54,7 @@ public class StreamingEndpointType implements MediaServiceDTO {
     private String hostName;
 
     @XmlElement(name = "ScaleUnits", namespace = Constants.ODATA_DATA_NS)
-    private int scaleUnits;
+    private Integer scaleUnits;
     
     @XmlElement(name = "CdnEnabled", namespace = Constants.ODATA_DATA_NS)
     private boolean cdnEnabled;
