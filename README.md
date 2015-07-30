@@ -29,6 +29,9 @@ This project provides a client library in Java that makes it easy to consume Mic
     * Create/Read/Update/Cancel/Delete jobs
     * Add/Get job notifications
     * Create/Read/Update/Delete notification endpoints
+    * Create/Start/Scale/Stop/Delete streaming endpoints
+    * Get/Update encoding reserved units
+    * Get storage accounts
     * Serialize/Deserialize/GetTestToken [TokenRestriction](https://msdn.microsoft.com/en-us/library/azure/dn783467.aspx#code-snippet-4) Templates
     * Serialize/Deserialize [PlayReadyLicenseResponse](https://azure.microsoft.com/en-us/documentation/articles/media-services-playready-license-template-overview/#_schema) Templates
 * Service Management
