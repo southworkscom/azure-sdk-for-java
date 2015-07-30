@@ -232,5 +232,14 @@ public class ObjectFactory {
         return new EncodingReservedUnitRestType();
     }
     
+    /**
+     * Creates a instance of (@link EncodingReservedUnitType).
+     * 
+     * @return the EncodingReservedUnitType type
+     */
+    public StorageAccountType createStorageAccountType() {
+        return new StorageAccountType();
+    }
+    
     
 }

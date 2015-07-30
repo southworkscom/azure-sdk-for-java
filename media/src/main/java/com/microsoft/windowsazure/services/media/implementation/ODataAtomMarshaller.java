@@ -51,6 +51,7 @@ import com.microsoft.windowsazure.services.media.implementation.content.Notifica
 import com.microsoft.windowsazure.services.media.implementation.content.OperationType;
 import com.microsoft.windowsazure.services.media.implementation.content.OriginType;
 import com.microsoft.windowsazure.services.media.implementation.content.ProgramType;
+import com.microsoft.windowsazure.services.media.implementation.content.StorageAccountType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointType;
 import com.microsoft.windowsazure.services.media.implementation.content.TaskType;
 
@@ -161,6 +162,7 @@ public class ODataAtomMarshaller {
         classes.add(OperationType.class);
         classes.add(OriginType.class);
         classes.add(ProgramType.class);
+        classes.add(StorageAccountType.class);
         classes.add(StreamingEndpointType.class);
         classes.add(TaskType.class);
         return classes.toArray(new Class<?>[0]);
