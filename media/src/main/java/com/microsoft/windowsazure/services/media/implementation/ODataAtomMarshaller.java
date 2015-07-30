@@ -40,7 +40,6 @@ import com.microsoft.windowsazure.services.media.implementation.content.AssetTyp
 import com.microsoft.windowsazure.services.media.implementation.content.ChannelType;
 import com.microsoft.windowsazure.services.media.implementation.content.Constants;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyOptionType;
-import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyRestrictionType;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyType;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyRestType;
 import com.microsoft.windowsazure.services.media.implementation.content.EncodingReservedUnitRestType;
@@ -49,7 +48,6 @@ import com.microsoft.windowsazure.services.media.implementation.content.JobType;
 import com.microsoft.windowsazure.services.media.implementation.content.LocatorRestType;
 import com.microsoft.windowsazure.services.media.implementation.content.NotificationEndPointType;
 import com.microsoft.windowsazure.services.media.implementation.content.OperationType;
-import com.microsoft.windowsazure.services.media.implementation.content.OriginType;
 import com.microsoft.windowsazure.services.media.implementation.content.ProgramType;
 import com.microsoft.windowsazure.services.media.implementation.content.StorageAccountType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointType;
@@ -150,7 +148,6 @@ public class ODataAtomMarshaller {
         classes.add(ChannelType.class);
         classes.add(ContentKeyAuthorizationPolicyType.class);
         classes.add(ContentKeyAuthorizationPolicyOptionType.class);
-        classes.add(ContentKeyAuthorizationPolicyRestrictionType.class);
         classes.add(ContentKeyRestType.class);
         classes.add(EncodingReservedUnitRestType.class);
         classes.add(EntryType.class);
@@ -160,7 +157,6 @@ public class ODataAtomMarshaller {
         classes.add(LocatorRestType.class);
         classes.add(NotificationEndPointType.class);
         classes.add(OperationType.class);
-        classes.add(OriginType.class);
         classes.add(ProgramType.class);
         classes.add(StorageAccountType.class);
         classes.add(StreamingEndpointType.class);

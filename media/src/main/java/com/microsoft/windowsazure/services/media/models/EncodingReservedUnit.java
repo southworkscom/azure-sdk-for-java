@@ -22,7 +22,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityGetOpera
 import com.microsoft.windowsazure.services.media.entityoperations.EntityOperationBase;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyData;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
-import com.microsoft.windowsazure.services.media.entityoperations.EntityOperationBase.EntityUriBuilder;
 import com.microsoft.windowsazure.services.media.implementation.content.EncodingReservedUnitRestType;
 
 /**

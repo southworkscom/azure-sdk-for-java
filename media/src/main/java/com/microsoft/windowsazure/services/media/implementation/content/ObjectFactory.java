@@ -160,15 +160,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Creates an instance of (@link OriginType).
-     * 
-     * @return the origin type
-     */
-    public OriginType createOriginType() {
-        return new OriginType();
-    }
-
-    /**
      * Creates a instance of (@link @ProgramType).
      * 
      * @return the program type
@@ -226,16 +217,16 @@ public class ObjectFactory {
     /**
      * Creates a instance of (@link EncodingReservedUnitType).
      * 
-     * @return the EncodingReservedUnitType type
+     * @return the encoding reserved unit type
      */
     public EncodingReservedUnitRestType createEncodingReservedUnitType() {
         return new EncodingReservedUnitRestType();
     }
     
     /**
-     * Creates a instance of (@link EncodingReservedUnitType).
+     * Creates a instance of (@link StorageAccountType).
      * 
-     * @return the EncodingReservedUnitType type
+     * @return the storage account type
      */
     public StorageAccountType createStorageAccountType() {
         return new StorageAccountType();

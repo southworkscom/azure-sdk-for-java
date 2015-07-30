@@ -17,6 +17,7 @@ package com.microsoft.windowsazure.services.media.models;
 
 import java.util.List;
 
+import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;
@@ -33,6 +34,7 @@ import com.microsoft.windowsazure.services.media.implementation.content.CrossSit
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointAccessControlType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointCacheControlType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointType;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 
 /**
@@ -81,6 +83,27 @@ public final class StreamingEndpoint {
          */
         public Creator() {
             super(ENTITY_SET, StreamingEndpointInfo.class);
+        }
+        
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @Override
+        public Class getResponseClass() {
+            return ClientResponse.class;
+        }
+        
+        @Override
+        public Object processResponse(Object rawResponse)
+                throws ServiceException {
+            ClientResponse clientResponse = (ClientResponse) rawResponse;
+            StreamingEndpointInfo streamingEndpointInfo = clientResponse.getEntity(StreamingEndpointInfo.class);
+            
+            if (clientResponse.getHeaders().containsKey("operation-id")) {
+                List<String> operationIds = clientResponse.getHeaders().get("operation-id");
+                if (operationIds.size() >= 0) {
+                    streamingEndpointInfo.setOperationId(operationIds.get(0));
+                }
+            }
+            return streamingEndpointInfo;
         }
 
         /*
