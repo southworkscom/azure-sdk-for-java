@@ -36,7 +36,6 @@ import org.junit.rules.ExpectedException;
 
 import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.exception.ServiceException;
-import com.microsoft.windowsazure.services.media.entityoperations.EntityWithOperationIdentifier;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyInfo;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyPermission;
@@ -56,9 +55,6 @@ import com.microsoft.windowsazure.services.media.models.MediaProcessor;
 import com.microsoft.windowsazure.services.media.models.MediaProcessorInfo;
 import com.microsoft.windowsazure.services.media.models.NotificationEndPoint;
 import com.microsoft.windowsazure.services.media.models.NotificationEndPointInfo;
-import com.microsoft.windowsazure.services.media.models.Operation;
-import com.microsoft.windowsazure.services.media.models.OperationInfo;
-import com.microsoft.windowsazure.services.media.models.OperationState;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointInfo;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
