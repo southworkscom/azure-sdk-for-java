@@ -7,14 +7,14 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StreamingEndpointCacheControlType {
 
-    @XmlElement(name = "MaxRange", namespace = Constants.ODATA_DATA_NS)
-    private Integer maxRange;
+    @XmlElement(name = "MaxAge", namespace = Constants.ODATA_DATA_NS)
+    private Integer maxAge;
 
-    public int getMaxRange() {
-        return maxRange;
+    public int getMaxAge() {
+        return maxAge;
     }
 
-    public void setMaxRange(int maxRange) {
-        this.maxRange = maxRange;
+    public void setMaxAge(int maxRange) {
+        this.maxAge = maxRange;
     }
 }

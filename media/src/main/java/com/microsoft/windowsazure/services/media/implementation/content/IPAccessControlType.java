@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 public class IPAccessControlType {
 
     @XmlElementWrapper(name = "Allow", namespace = Constants.ODATA_DATA_NS)
-    @XmlElement(name = "IPRange", namespace = Constants.ODATA_DATA_NS)
+    @XmlElement(name = "element", namespace = Constants.ODATA_DATA_NS)
     private List<IPRangeType> ipRange;
 
     public List<IPRangeType> getIpRange() {

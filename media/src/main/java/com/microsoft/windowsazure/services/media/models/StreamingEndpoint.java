@@ -36,6 +36,7 @@ import com.microsoft.windowsazure.services.media.implementation.content.Streamin
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointType;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * Class for creating operations to manipulate Asset entities.
@@ -65,9 +66,8 @@ public final class StreamingEndpoint {
     /**
      * The Class Creator.
      */
-    public static class Creator extends
-            EntityOperationSingleResultBase<StreamingEndpointInfo> implements
-            EntityCreateOperation<StreamingEndpointInfo> {
+    public static class Creator extends EntityOperationSingleResultBase<StreamingEndpointInfo>
+            implements EntityCreateOperation<StreamingEndpointInfo> {
 
         private String name;
         private String description;
@@ -84,19 +84,24 @@ public final class StreamingEndpoint {
         public Creator() {
             super(ENTITY_SET, StreamingEndpointInfo.class);
         }
-        
+
         @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public Class getResponseClass() {
             return ClientResponse.class;
         }
-        
+
         @Override
-        public Object processResponse(Object rawResponse)
-                throws ServiceException {
+        public Object processResponse(Object rawResponse) throws ServiceException {
             ClientResponse clientResponse = (ClientResponse) rawResponse;
+
+            if (clientResponse.getStatus() >= 300) {
+                throw new UniformInterfaceException(
+                        String.format("Received: %s", clientResponse.getEntity(String.class)), clientResponse);
+            }
+
             StreamingEndpointInfo streamingEndpointInfo = clientResponse.getEntity(StreamingEndpointInfo.class);
-            
+
             if (clientResponse.getHeaders().containsKey("operation-id")) {
                 List<String> operationIds = clientResponse.getHeaders().get("operation-id");
                 if (operationIds.size() >= 0) {
@@ -121,8 +126,8 @@ public final class StreamingEndpoint {
             streamingEndpointType.setCustomHostName(customHostNames);
             streamingEndpointType.setCrossSiteAccessPolicies(crossSiteAccessPolicies);
             streamingEndpointType.setScaleUnits(scaleUnits);
-            streamingEndpointType.setStreamingEndpointAccessControl(streamingEndpointAccessControl);
-            streamingEndpointType.setStreamingEndpointCacheControl(streamingEndpointCacheControl);
+            streamingEndpointType.setAccessControl(streamingEndpointAccessControl);
+            streamingEndpointType.setCacheControl(streamingEndpointCacheControl);
             return streamingEndpointType;
         }
 
@@ -175,19 +180,21 @@ public final class StreamingEndpoint {
         }
 
         /**
-         * Set the access control policies of the streaming endpoint to be created.
+         * Set the access control policies of the streaming endpoint to be
+         * created.
          * 
          * @param streamingEndpointAccessControl
          *            the access control policies
          * @return The creator object (for call chaining)
          */
-        public Creator setStreamingEndpointAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
+        public Creator setAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
             this.streamingEndpointAccessControl = streamingEndpointAccessControl;
             return this;
         }
 
         /**
-         * Set the list of custom host names of the streaming endpoint to be created.
+         * Set the list of custom host names of the streaming endpoint to be
+         * created.
          * 
          * @param customHostNames
          *            the list of custom host names
@@ -199,29 +206,31 @@ public final class StreamingEndpoint {
         }
 
         /**
-         * Set the streaming endpoint cache control of the streaming endpoint to be created.
+         * Set the streaming endpoint cache control of the streaming endpoint to
+         * be created.
          * 
          * @param streamingEndpointCacheControl
          *            the streaming endpoint cache control
          * @return The creator object (for call chaining)
          */
-        public Creator setStreamingEndpointCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
+        public Creator setCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
             this.streamingEndpointCacheControl = streamingEndpointCacheControl;
             return this;
         }
 
         /**
-         * Set the cross site access policies of the streaming endpoint to be created.
+         * Set the cross site access policies of the streaming endpoint to be
+         * created.
          * 
          * @param crossSiteAccessPolicies
          *            the cross site access policies
          * @return The creator object (for call chaining)
          */
-        public Creator setSrossSiteAccessPolicies(CrossSiteAccessPoliciesType crossSiteAccessPolicies) {
+        public Creator setCrossSiteAccessPolicies(CrossSiteAccessPoliciesType crossSiteAccessPolicies) {
             this.crossSiteAccessPolicies = crossSiteAccessPolicies;
             return this;
         }
-        
+
     }
 
     /**
@@ -257,7 +266,7 @@ public final class StreamingEndpoint {
     public static Updater update(String streamingEndpointId) {
         return new Updater(streamingEndpointId);
     }
-    
+
     public static Updater update(StreamingEndpointInfo streamingEndpointInfo) {
         return new Updater(streamingEndpointInfo);
     }
@@ -265,13 +274,12 @@ public final class StreamingEndpoint {
     /**
      * The Class Updater.
      */
-    public static class Updater extends EntityOperationBase implements
-            EntityUpdateOperation {
+    public static class Updater extends EntityOperationBase implements EntityUpdateOperation {
 
         private String description = null;
         private boolean cdnEnabled;
-        private List<String> customHostNames  = null;
-        private StreamingEndpointAccessControlType streamingEndpointAccessControl  = null;
+        private List<String> customHostNames = null;
+        private StreamingEndpointAccessControlType streamingEndpointAccessControl = null;
         private StreamingEndpointCacheControlType streamingEndpointCacheControl = null;
         private CrossSiteAccessPoliciesType crossSiteAccessPolicies = null;
 
@@ -282,19 +290,17 @@ public final class StreamingEndpoint {
          *            the asset id
          */
         protected Updater(String streamingEndpointId) {
-            super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET,
-                    streamingEndpointId));
+            super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET, streamingEndpointId));
         }
-        
+
         protected Updater(StreamingEndpointInfo streamingEndpointInfo) {
-            super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET,
-                    streamingEndpointInfo.getId()));
+            super(new EntityOperationBase.EntityIdUriBuilder(ENTITY_SET, streamingEndpointInfo.getId()));
             this.setCdnEnabled(streamingEndpointInfo.isCdnEnabled());
             this.setCustomHostNames(streamingEndpointInfo.getCustomHostNames());
             this.setDescription(streamingEndpointInfo.getDescription());
-            this.setSrossSiteAccessPolicies(streamingEndpointInfo.getCrossSiteAccessPolicies());
-            this.setStreamingEndpointAccessControl(streamingEndpointInfo.getStreamingEndpointAccessControl());
-            this.setStreamingEndpointCacheControl(streamingEndpointInfo.getStreamingEndpointCacheControl());
+            this.setCrossSiteAccessPolicies(streamingEndpointInfo.getCrossSiteAccessPolicies());
+            this.setAccessControl(streamingEndpointInfo.getAccessControl());
+            this.setCacheControl(streamingEndpointInfo.getCacheControl());
         }
 
         /*
@@ -323,8 +329,8 @@ public final class StreamingEndpoint {
             streamingEndpointType.setCdnEnabled(cdnEnabled);
             streamingEndpointType.setCustomHostName(customHostNames);
             streamingEndpointType.setCrossSiteAccessPolicies(crossSiteAccessPolicies);
-            streamingEndpointType.setStreamingEndpointAccessControl(streamingEndpointAccessControl);
-            streamingEndpointType.setStreamingEndpointCacheControl(streamingEndpointCacheControl);
+            streamingEndpointType.setAccessControl(streamingEndpointAccessControl);
+            streamingEndpointType.setCacheControl(streamingEndpointCacheControl);
             return streamingEndpointType;
         }
 
@@ -341,7 +347,8 @@ public final class StreamingEndpoint {
         }
 
         /**
-         * Set the new value for CDN enabled on the streaming endpoint to be updated.
+         * Set the new value for CDN enabled on the streaming endpoint to be
+         * updated.
          * 
          * @param cdnEnabled
          *            true if CDN is enabled
@@ -353,19 +360,21 @@ public final class StreamingEndpoint {
         }
 
         /**
-         * Set the new access control policies of the streaming endpoint to be updated.
+         * Set the new access control policies of the streaming endpoint to be
+         * updated.
          * 
          * @param streamingEndpointAccessControl
          *            the access control policies
          * @return The creator object (for call chaining)
          */
-        public Updater setStreamingEndpointAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
+        public Updater setAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
             this.streamingEndpointAccessControl = streamingEndpointAccessControl;
             return this;
         }
 
         /**
-         * Set the new list of custom host names of the streaming endpoint to be updated.
+         * Set the new list of custom host names of the streaming endpoint to be
+         * updated.
          * 
          * @param customHostNames
          *            the list of custom host names
@@ -377,25 +386,27 @@ public final class StreamingEndpoint {
         }
 
         /**
-         * Set the new streaming endpoint cache control of the streaming endpoint to be updated.
+         * Set the new streaming endpoint cache control of the streaming
+         * endpoint to be updated.
          * 
          * @param streamingEndpointCacheControl
          *            the streaming endpoint cache control
          * @return The creator object (for call chaining)
          */
-        public Updater setStreamingEndpointCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
+        public Updater setCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
             this.streamingEndpointCacheControl = streamingEndpointCacheControl;
             return this;
         }
 
         /**
-         * Set the new cross site access policies of the streaming endpoint to be updated.
+         * Set the new cross site access policies of the streaming endpoint to
+         * be updated.
          * 
          * @param crossSiteAccessPolicies
          *            the cross site access policies
          * @return The creator object (for call chaining)
          */
-        public Updater setSrossSiteAccessPolicies(CrossSiteAccessPoliciesType crossSiteAccessPolicies) {
+        public Updater setCrossSiteAccessPolicies(CrossSiteAccessPoliciesType crossSiteAccessPolicies) {
             this.crossSiteAccessPolicies = crossSiteAccessPolicies;
             return this;
         }
@@ -415,13 +426,14 @@ public final class StreamingEndpoint {
     public static EntityActionOperation start(String streamingEndpointId) {
         return new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Start");
     }
-    
+
     public static EntityActionOperation stop(String streamingEndpointId) {
         return new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Stop");
     }
-    
+
     public static EntityActionOperation scale(String streamingEndpointId, int scaleUnits) {
-        DefaultEntityActionOperation operation = new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId, "Scale");
+        DefaultEntityActionOperation operation = new DefaultEntityActionOperation(ENTITY_SET, streamingEndpointId,
+                "Scale");
         operation.addBodyParameter("scaleUnits", scaleUnits);
         return operation;
     }

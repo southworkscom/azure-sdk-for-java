@@ -12,4 +12,20 @@ public class StreamingEndpointAccessControlType {
     
     @XmlElement(name = "IP", namespace = Constants.ODATA_DATA_NS)
     private IPAccessControlType iP;
+    
+    public AkamaiAccessControlType getAkamai() {
+        return akamai;
+    }
+
+    public void setAkamai(AkamaiAccessControlType akamai) {
+        this.akamai = akamai;
+    }
+
+    public IPAccessControlType getIP() {
+        return iP;
+    }
+
+    public void setIP(IPAccessControlType iP) {
+        this.iP = iP;
+    }
 }

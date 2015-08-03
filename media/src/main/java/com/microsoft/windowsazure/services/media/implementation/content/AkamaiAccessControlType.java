@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 public class AkamaiAccessControlType {
     
     @XmlElementWrapper(name = "AkamaiSignatureHeaderAuthenticationKeyList", namespace = Constants.ODATA_DATA_NS)
-    @XmlElement(name = "AkamaiSignatureHeaderAuthenticationKey", namespace = Constants.ODATA_DATA_NS)
+    @XmlElement(name = "element", namespace = Constants.ODATA_DATA_NS)
     private List<AkamaiSignatureHeaderAuthenticationKey> akamaiSignatureHeaderAuthenticationKeyList;
 
     public List<AkamaiSignatureHeaderAuthenticationKey> getAkamaiSignatureHeaderAuthenticationKeyList() {

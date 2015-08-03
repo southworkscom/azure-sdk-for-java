@@ -19,8 +19,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import org.junit.Test;
 
+import com.microsoft.windowsazure.services.media.implementation.content.AkamaiAccessControlType;
+import com.microsoft.windowsazure.services.media.implementation.content.AkamaiSignatureHeaderAuthenticationKey;
+import com.microsoft.windowsazure.services.media.implementation.content.CrossSiteAccessPoliciesType;
+import com.microsoft.windowsazure.services.media.implementation.content.IPAccessControlType;
+import com.microsoft.windowsazure.services.media.implementation.content.IPRangeType;
+import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointAccessControlType;
+import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointCacheControlType;
 import com.microsoft.windowsazure.services.media.models.ListResult;
 import com.microsoft.windowsazure.services.media.models.OperationState;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
@@ -50,7 +62,9 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         
         // Cleanup
         String deleteOpId = service.delete(StreamingEndpoint.delete(info.getId()));
-        OperationUtils.await(service, deleteOpId);
+        OperationState state = OperationUtils.await(service, deleteOpId);
+        // Assert Cleanup
+        assertEquals(state, OperationState.Succeeded);
     }
     
     @Test
@@ -84,7 +98,6 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         // Assert Cleanup
         assertEquals(state, OperationState.Succeeded);
     }
-    
     
     @Test
     public void streamingEndpointCreateStartScaleStopDeleteTest() throws Exception {
@@ -162,6 +175,101 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
         assertEquals(state, OperationState.Succeeded);
     }
     
-    
+    @Test
+    public void createAndRetrieveTheSameStreamingEndpointTest() throws Exception {
+        // Arrange
+        int expectedScaleUnits = 1;
+        boolean expectedCdnState = false;
+        String expectedName = testStreamingEndPointPrefix + "createAndRetrieve";
+        String expectedDesc = "expected description";
+        int expectedMaxAge = 1800;
+        String expectedClientAccessPolicy = "<access-policy><cross-domain-access><policy><allow-from http-request-headers='*'><domain uri='http://*' /></allow-from><grant-to><resource path='/' include-subpaths='false' /></grant-to></policy></cross-domain-access></access-policy>";
+        String expectedCrossDomainPolicy = "<?xml version='1.0'?><!DOCTYPE cross-domain-policy SYSTEM 'http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd'><cross-domain-policy><allow-access-from domain='*' /></cross-domain-policy>";
+        String expectedAkamaiIdentifier = "akamaikey";
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR, 48);
+        Date expectedAkamaiExpiration = cal.getTime();
+        String expectedAkamaiB64 = "/31iWKdqNC7YUnj8zQ3XHA==";
+        String expectedIPAddress = "0.0.0.0";
+        String expectedIPName = "Allow All";
+        
+        CrossSiteAccessPoliciesType expectedCrossSiteAccessPolicies = new CrossSiteAccessPoliciesType();
+        expectedCrossSiteAccessPolicies.setClientAccessPolicy(expectedClientAccessPolicy);
+        expectedCrossSiteAccessPolicies.setCrossDomainPolicy(expectedCrossDomainPolicy);
+        
+        IPAccessControlType expectedIP = new IPAccessControlType();
+        expectedIP.setIpRange(new ArrayList<IPRangeType>());
+        expectedIP.getIpRange().add(new IPRangeType());
+        expectedIP.getIpRange().get(0).setAddress(expectedIPAddress);
+        expectedIP.getIpRange().get(0).setName(expectedIPName);
+        expectedIP.getIpRange().get(0).setSubnetPrefixLength(0);
+        
+        AkamaiAccessControlType expectedAkamai = new AkamaiAccessControlType();
+        List<AkamaiSignatureHeaderAuthenticationKey> akamaiSignatureHeaderAuthenticationKeyList = 
+                new ArrayList<AkamaiSignatureHeaderAuthenticationKey>();
+        akamaiSignatureHeaderAuthenticationKeyList.add(new AkamaiSignatureHeaderAuthenticationKey());
+        akamaiSignatureHeaderAuthenticationKeyList.get(0).setExpiration(expectedAkamaiExpiration);
+        akamaiSignatureHeaderAuthenticationKeyList.get(0).setId(expectedAkamaiIdentifier);
+        akamaiSignatureHeaderAuthenticationKeyList.get(0).setBase64Key(expectedAkamaiB64);
+        expectedAkamai.setAkamaiSignatureHeaderAuthenticationKeyList(akamaiSignatureHeaderAuthenticationKeyList);
+        
+        StreamingEndpointAccessControlType expectedStreamingEndpointAccessControl = new StreamingEndpointAccessControlType();
+        expectedStreamingEndpointAccessControl.setAkamai(expectedAkamai);       
+        expectedStreamingEndpointAccessControl.setIP(expectedIP);
+        
+        StreamingEndpointCacheControlType expectedStreamingEndpointCacheControl = new StreamingEndpointCacheControlType();
+
+        expectedStreamingEndpointCacheControl.setMaxAge(expectedMaxAge );
+        
+        // Act
+        StreamingEndpointInfo streamingEndpointInfo = service.create(
+                        StreamingEndpoint.create()
+                            .setName(expectedName)
+                            .setCdnEnabled(expectedCdnState)
+                            .setDescription(expectedDesc)
+                            .setScaleUnits(expectedScaleUnits)  
+                            .setCrossSiteAccessPolicies(expectedCrossSiteAccessPolicies)
+                            .setAccessControl(expectedStreamingEndpointAccessControl)
+                            .setCacheControl(expectedStreamingEndpointCacheControl )
+                        );
+        
+        OperationState state = OperationUtils.await(service, streamingEndpointInfo);
+        
+        // Act validations
+        assertEquals(OperationState.Succeeded, state);
+        assertNotNull(streamingEndpointInfo);
+        
+        // Retrieve the StramingEndpoint again.
+        StreamingEndpointInfo result = service.get(StreamingEndpoint.get(streamingEndpointInfo.getId()));
+        
+        // Assert
+        assertNotNull(result);        
+        assertEquals(result.getScaleUnits(), expectedScaleUnits);
+        assertEquals(result.getName(), expectedName);
+        assertEquals(result.getDescription(), expectedDesc);
+        assertEquals(result.getCrossSiteAccessPolicies().getClientAccessPolicy(), expectedClientAccessPolicy);
+        assertEquals(result.getCrossSiteAccessPolicies().getCrossDomainPolicy(), expectedCrossDomainPolicy);
+        assertEquals(result.getCacheControl().getMaxAge(), expectedMaxAge);
+        List<AkamaiSignatureHeaderAuthenticationKey> akamai = result.getAccessControl().getAkamai().getAkamaiSignatureHeaderAuthenticationKeyList();
+        assertNotNull(akamai);  
+        assertEquals(akamai.size(), 1);
+        assertEquals(akamai.get(0).getId(), expectedAkamaiIdentifier);
+        assertEquals(akamai.get(0).getExpiration(), expectedAkamaiExpiration);
+        assertEquals(akamai.get(0).getBase64Key(), expectedAkamaiB64);
+        List<IPRangeType> ip = result.getAccessControl().getIP().getIpRange();
+        assertNotNull(ip);
+        assertEquals(ip.size(), 1);
+        assertEquals(ip.get(0).getAddress(), expectedIPAddress);
+        assertEquals(ip.get(0).getName(), expectedIPName);
+        assertEquals(ip.get(0).getSubnetPrefixLength(), 0);
+        
+        // Cleanup
+        String deleteOpId = service.delete(StreamingEndpoint.delete(result.getId()));
+        state = OperationUtils.await(service, deleteOpId);
+        // Assert Cleanup
+        assertEquals(state, OperationState.Succeeded);
+    }
 
 }

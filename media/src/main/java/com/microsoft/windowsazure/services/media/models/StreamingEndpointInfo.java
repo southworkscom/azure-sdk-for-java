@@ -140,8 +140,8 @@ public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType>
      * 
      * @return the access control policy
      */
-    public StreamingEndpointAccessControlType getStreamingEndpointAccessControl() {
-        return getContent().getStreamingEndpointAccessControl();
+    public StreamingEndpointAccessControlType getAccessControl() {
+        return getContent().getAccessControl();
     }
 
     /**
@@ -149,8 +149,8 @@ public class StreamingEndpointInfo extends ODataEntity<StreamingEndpointType>
      * 
      * @return the cahe control policy
      */
-    public StreamingEndpointCacheControlType getStreamingEndpointCacheControl() {
-        return getContent().getStreamingEndpointCacheControl();
+    public StreamingEndpointCacheControlType getCacheControl() {
+        return getContent().getCacheControl();
     }
 
     /**

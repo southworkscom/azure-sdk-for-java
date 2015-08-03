@@ -152,19 +152,19 @@ public class StreamingEndpointType implements MediaServiceDTO {
         this.cdnEnabled = cdnEnabled;
     }
 
-    public StreamingEndpointAccessControlType getStreamingEndpointAccessControl() {
+    public StreamingEndpointAccessControlType getAccessControl() {
         return streamingEndpointAccessControl;
     }
 
-    public void setStreamingEndpointAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
+    public void setAccessControl(StreamingEndpointAccessControlType streamingEndpointAccessControl) {
         this.streamingEndpointAccessControl = streamingEndpointAccessControl;
     }
 
-    public StreamingEndpointCacheControlType getStreamingEndpointCacheControl() {
+    public StreamingEndpointCacheControlType getCacheControl() {
         return streamingEndpointCacheControl;
     }
 
-    public void setStreamingEndpointCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
+    public void setCacheControl(StreamingEndpointCacheControlType streamingEndpointCacheControl) {
         this.streamingEndpointCacheControl = streamingEndpointCacheControl;
     }
 
