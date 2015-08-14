@@ -16,10 +16,14 @@ package com.microsoft.windowsazure.exception;
 
 import java.net.SocketTimeoutException;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
+
 import com.microsoft.windowsazure.core.ServiceTimeoutException;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.ClientResponse.Status;
-import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse.Status;
+//import com.sun.jersey.api.client.UniformInterfaceException;
 
 public abstract class ServiceExceptionFactory {
     public static ServiceException process(String serviceName,
@@ -30,10 +34,10 @@ public abstract class ServiceExceptionFactory {
             Class<?> scanClass = scan.getClass();
             if (ServiceException.class.isAssignableFrom(scanClass)) {
                 return populate(exception, serviceName, (ServiceException) scan);
-            } else if (UniformInterfaceException.class
+            } else if (WebApplicationException.class
                     .isAssignableFrom(scanClass)) {
                 return populate(exception, serviceName,
-                        (UniformInterfaceException) scan);
+                        (WebApplicationException) scan);
             } else if (SocketTimeoutException.class.isAssignableFrom(scanClass)) {
                 return populate(exception, serviceName,
                         (SocketTimeoutException) scan);
@@ -46,16 +50,16 @@ public abstract class ServiceExceptionFactory {
     }
 
     static ServiceException populate(ServiceException exception,
-            String serviceName, UniformInterfaceException cause) {
+            String serviceName, WebApplicationException cause) {
         exception.setServiceName(serviceName);
 
         if (cause != null) {
-            ClientResponse response = cause.getResponse();
+            Response response = cause.getResponse();
             if (response != null) {
                 // Set status
-                Status status = response.getClientResponseStatus();
+                StatusType status = response.getStatusInfo();
                 if (status == null) {
-                    status = Status.fromStatusCode(response.getStatus());
+                    status = Response.Status.fromStatusCode(response.getStatus());
                 }
                 if (status == null) {
                     exception.setHttpStatusCode(response.getStatus());
@@ -67,7 +71,7 @@ public abstract class ServiceExceptionFactory {
                 // Set raw response body
                 if (response.hasEntity()) {
                     try {
-                        String body = response.getEntity(String.class);
+                        String body = response.readEntity(String.class);
                         exception.setRawResponseBody(body);
                     } catch (Exception e) {
                         // Skip exceptions as getting the response body as a

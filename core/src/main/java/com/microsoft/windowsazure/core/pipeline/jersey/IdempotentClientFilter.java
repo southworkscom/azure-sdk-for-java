@@ -15,9 +15,9 @@
 
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * Base class for filters that enforces idempotency - the filter will only be

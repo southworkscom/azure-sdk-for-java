@@ -14,10 +14,13 @@
  */
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.config.ClientConfig;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.JerseyClient;
 
-public class HttpURLConnectionClient extends Client {
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.config.ClientConfig;
+
+public class HttpURLConnectionClient extends JerseyClient {
     private final HttpURLConnectionClientHandler rootHandler;
 
     public HttpURLConnectionClient(HttpURLConnectionClientHandler handler,

@@ -17,9 +17,12 @@ package com.microsoft.windowsazure.services.media.implementation;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.glassfish.jersey.client.ClientRequest;
+import org.glassfish.jersey.client.ClientResponse;
+
 import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * A small filter that adds the required Media services/OData 3 version headers

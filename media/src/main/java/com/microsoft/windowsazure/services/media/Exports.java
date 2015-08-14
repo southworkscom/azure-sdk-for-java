@@ -19,6 +19,8 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.glassfish.jersey.client.ClientConfig;
+
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.services.media.implementation.MediaContentProvider;
@@ -33,8 +35,8 @@ import com.microsoft.windowsazure.services.media.implementation.ODataEntityProvi
 import com.microsoft.windowsazure.services.media.implementation.RedirectFilter;
 import com.microsoft.windowsazure.services.media.implementation.ResourceLocationManager;
 import com.microsoft.windowsazure.services.media.implementation.VersionHeadersFilter;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
+//import com.sun.jersey.api.client.config.ClientConfig;
+//import com.sun.jersey.api.json.JSONConfiguration;
 
 public class Exports implements Builder.Exports {
 

@@ -28,9 +28,9 @@ import com.microsoft.windowsazure.core.RFC1123DateConverter;
 import com.microsoft.windowsazure.core.pipeline.jersey.EntityStreamingListener;
 import com.microsoft.windowsazure.services.blob.BlobConfiguration;
 import com.microsoft.windowsazure.services.blob.implementation.SharedKeyUtils.QueryParam;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class SharedKeyFilter extends ClientFilter implements
         EntityStreamingListener {

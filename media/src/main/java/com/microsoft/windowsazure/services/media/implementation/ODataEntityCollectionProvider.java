@@ -25,9 +25,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.JAXBException;
 
+import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
+
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.ListResult;
-import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
+//import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
 
 /**
  * Jersey provider to unmarshal lists of entities from Media Services.

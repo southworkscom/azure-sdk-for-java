@@ -14,16 +14,17 @@
  */
 package com.microsoft.windowsazure.core;
 
-import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestContext;
-import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
+
 /**
  * The Class UserAgentFilter.
  */
-public class UserAgentFilter implements ServiceRequestFilter {
+public class UserAgentFilter implements ClientRequestFilter {
 
     /** The azure SDK product token. */
     private static String azureSDKProductToken;
@@ -35,21 +36,6 @@ public class UserAgentFilter implements ServiceRequestFilter {
         if ((azureSDKProductToken == null) || azureSDKProductToken.isEmpty()) {
             azureSDKProductToken = createAzureSDKProductToken();
         }
-    }
-
-    @Override
-    public void filter(ServiceRequestContext request) {
-        String userAgent;
-
-        if (request.getHeader("User-Agent") != null) {
-            String currentUserAgent = request.getHeader("User-Agent");
-            userAgent = azureSDKProductToken + " " + currentUserAgent;
-            request.removeHeader("User-Agent");
-        } else {
-            userAgent = azureSDKProductToken;
-        }
-
-        request.setHeader("User-Agent", userAgent);
     }
 
     /**
@@ -92,5 +78,20 @@ public class UserAgentFilter implements ServiceRequestFilter {
         }
 
         return version;
+    }
+
+    @Override
+    public void filter(ClientRequestContext requestContext) throws IOException {
+        String userAgent;
+
+        if (requestContext.getHeaderString("User-Agent") != null) {
+            String currentUserAgent = requestContext.getHeaderString("User-Agent");
+            userAgent = azureSDKProductToken + " " + currentUserAgent;
+            requestContext.getHeaders().remove("User-Agent");
+        } else {
+            userAgent = azureSDKProductToken;
+        }
+
+        requestContext.getHeaders().add("User-Agent", userAgent);        
     }
 }

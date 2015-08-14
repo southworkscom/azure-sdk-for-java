@@ -51,10 +51,10 @@ import com.microsoft.windowsazure.services.media.models.Job;
 import com.microsoft.windowsazure.services.media.models.JobInfo;
 import com.microsoft.windowsazure.services.media.models.Task;
 import com.microsoft.windowsazure.services.media.models.TaskInfo;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.core.header.InBoundHeaders;
-import com.sun.jersey.core.util.ReaderWriter;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.core.header.InBoundHeaders;
+//import com.sun.jersey.core.util.ReaderWriter;
 
 /**
  * The Class MediaBatchOperations.

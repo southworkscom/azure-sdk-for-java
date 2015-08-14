@@ -18,7 +18,7 @@ package com.microsoft.windowsazure.services.media.entityoperations;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.microsoft.windowsazure.services.media.models.ListResult;
-import com.sun.jersey.api.client.GenericType;
+//import com.sun.jersey.api.client.GenericType;
 
 /**
  * Operation class to retrieve a list of entities

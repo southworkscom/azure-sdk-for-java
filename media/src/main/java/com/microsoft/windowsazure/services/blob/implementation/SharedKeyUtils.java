@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientRequest;
 
 public abstract class SharedKeyUtils {
     public static final String AUTHORIZATION_FILTER_MARKER = SharedKeyUtils.class

@@ -19,8 +19,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.ListResult;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+//import com.sun.jersey.api.client.GenericType;
+//import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * Generic implementation of the list operation, usable by most entities

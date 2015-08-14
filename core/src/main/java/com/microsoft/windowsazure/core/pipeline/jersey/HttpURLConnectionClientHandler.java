@@ -26,13 +26,13 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.microsoft.windowsazure.core.utils.CommaStringBuilder;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.CommittingOutputStream;
-import com.sun.jersey.api.client.TerminatingClientHandler;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.core.header.InBoundHeaders;
+//import com.sun.jersey.api.client.ClientHandlerException;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.CommittingOutputStream;
+//import com.sun.jersey.api.client.TerminatingClientHandler;
+//import com.sun.jersey.api.client.config.ClientConfig;
+//import com.sun.jersey.core.header.InBoundHeaders;
 
 public class HttpURLConnectionClientHandler extends TerminatingClientHandler {
 

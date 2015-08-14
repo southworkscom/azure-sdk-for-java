@@ -16,9 +16,11 @@
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
 import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestContext;
-import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientRequest;
 import java.net.URI;
 import java.util.List;
+
+import org.glassfish.jersey.client.ClientRequest;
 
 public class JerseyServiceRequestContext implements ServiceRequestContext {
     private ClientRequest clientRequest;
@@ -29,22 +31,22 @@ public class JerseyServiceRequestContext implements ServiceRequestContext {
 
     @Override
     public Object getProperty(String name) {
-        return clientRequest.getProperties().get(name);
+        return clientRequest.getProperty(name);
     }
 
     @Override
     public void setProperty(String name, Object value) {
-        clientRequest.getProperties().put(name, value);
+        clientRequest.setProperty(name, value);
     }
 
     @Override
     public URI getURI() {
-        return clientRequest.getURI();
+        return clientRequest.getUri();
     }
 
     @Override
     public void setURI(URI uri) {
-        clientRequest.setURI(uri);
+        clientRequest.setUri(uri);
     }
 
     @Override

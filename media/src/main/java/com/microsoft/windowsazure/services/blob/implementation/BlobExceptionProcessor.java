@@ -43,8 +43,8 @@ import com.microsoft.windowsazure.services.blob.models.ListBlobBlocksOptions;
 import com.microsoft.windowsazure.services.blob.models.ListBlobBlocksResult;
 import com.microsoft.windowsazure.services.blob.models.ListContainersOptions;
 import com.microsoft.windowsazure.services.blob.models.ListContainersResult;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.api.client.ClientHandlerException;
+//import com.sun.jersey.api.client.UniformInterfaceException;
 
 public class BlobExceptionProcessor implements BlobContract {
     private static Log log = LogFactory.getLog(BlobExceptionProcessor.class);

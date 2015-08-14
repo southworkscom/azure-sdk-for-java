@@ -17,7 +17,9 @@
  */
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
-import com.sun.jersey.api.client.ClientRequest;
+import org.glassfish.jersey.client.ClientRequest;
+
+//import com.sun.jersey.api.client.ClientRequest;
 
 public interface EntityStreamingListener {
     /**

@@ -29,7 +29,7 @@ import com.microsoft.windowsazure.services.blob.models.CreateBlobBlockOptions;
 import com.microsoft.windowsazure.services.blob.models.CreateBlobOptions;
 import com.microsoft.windowsazure.services.blob.models.CreateBlobResult;
 import com.microsoft.windowsazure.services.media.WritableBlobContainerContract;
-import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.Client;
 
 /**
  * Implementation of WritableBlobContainerContract, used to upload blobs to the

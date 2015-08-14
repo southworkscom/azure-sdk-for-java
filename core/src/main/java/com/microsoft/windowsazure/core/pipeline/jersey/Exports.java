@@ -19,11 +19,16 @@ import static com.microsoft.windowsazure.core.utils.ExportUtils.getPropertyIfExi
 
 import java.util.Map;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+
+import org.glassfish.jersey.client.ClientConfig;
+
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.Builder.Registry;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.config.ClientConfig;
+//import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class Exports implements Builder.Exports {
 
@@ -68,8 +73,8 @@ public class Exports implements Builder.Exports {
                 ClientConfig clientConfig = builder.build(profile, service,
                         ClientConfig.class, properties);
                 ClientConfigSettings settings = builder.build(profile, service,
-                        ClientConfigSettings.class, properties);
-                Client client = Client.create(clientConfig);
+                        ClientConfigSettings.class, properties);                
+                Client client = ClientBuilder.newClient(clientConfig);
                 settings.applyConfig(client);
                 return client;
             }

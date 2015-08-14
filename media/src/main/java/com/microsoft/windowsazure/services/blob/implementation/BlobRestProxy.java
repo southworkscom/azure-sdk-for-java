@@ -30,8 +30,8 @@ import com.microsoft.windowsazure.core.pipeline.jersey.HttpURLConnectionClient;
 import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.services.blob.BlobConfiguration;
 import com.microsoft.windowsazure.services.blob.BlobContract;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 public class BlobRestProxy extends BlobOperationRestProxy implements
         BlobContract {

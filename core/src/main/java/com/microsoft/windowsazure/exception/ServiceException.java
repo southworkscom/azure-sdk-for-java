@@ -17,6 +17,8 @@
  */
 package com.microsoft.windowsazure.exception;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.windowsazure.core.utils.BOMInputStream;
 
 import java.io.ByteArrayInputStream;
@@ -35,8 +37,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.JsonNode;
+//import org.codehaus.jackson.map.ObjectMapper;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -273,18 +275,18 @@ public class ServiceException extends Exception {
 
             String code;
             if (responseDoc.get("Code") != null) {
-                code = responseDoc.get("Code").getTextValue();
+                code = responseDoc.get("Code").textValue();
             } else if (responseDoc.get("code") != null) {
-                code = responseDoc.get("code").getTextValue();
+                code = responseDoc.get("code").textValue();
             } else {
                 code = Integer.toString(httpResponse.getStatusLine().getStatusCode());
             }
             
             String message;
             if (responseDoc.get("Message") != null) {
-                message = responseDoc.get("Message").getTextValue();
+                message = responseDoc.get("Message").textValue();
             } else if (responseDoc.get("message") != null) {
-                message = responseDoc.get("message").getTextValue();
+                message = responseDoc.get("message").textValue();
             } else {
                 message = httpResponse.getStatusLine().getReasonPhrase();
             }

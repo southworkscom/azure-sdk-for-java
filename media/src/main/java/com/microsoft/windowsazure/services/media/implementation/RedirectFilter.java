@@ -19,9 +19,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientHandlerException;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
 
 public class RedirectFilter extends IdempotentClientFilter {
     private final ResourceLocationManager locationManager;

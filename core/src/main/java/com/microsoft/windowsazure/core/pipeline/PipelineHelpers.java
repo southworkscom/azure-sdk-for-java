@@ -16,14 +16,20 @@ package com.microsoft.windowsazure.core.pipeline;
 
 import com.microsoft.windowsazure.core.utils.AccessConditionHeader;
 import com.microsoft.windowsazure.core.utils.AccessConditionHeaderType;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
+
+import javax.ws.rs.client.WebTarget;
+
+import org.glassfish.jersey.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.api.client.WebResource;
+//import com.sun.jersey.api.client.WebResource.Builder;
 
 public final class PipelineHelpers {
     private PipelineHelpers() {
@@ -34,7 +40,7 @@ public final class PipelineHelpers {
         String errorMessage = clientResponse.toString();
         if (clientResponse.hasEntity()) {
             errorMessage = errorMessage + " "
-                    + clientResponse.getEntity(String.class);
+                    + clientResponse.readEntity(String.class);
         }
         return errorMessage;
     }
@@ -44,33 +50,35 @@ public final class PipelineHelpers {
 
         if ((statusCode < 200) || (statusCode >= 300)) {
             String errorMessage = createErrorMessage(clientResponse);
-            throw new UniformInterfaceException(errorMessage, clientResponse);
+            //throw new UniformInterfaceException(errorMessage, clientResponse);
+            throw new RuntimeException(errorMessage); // , clientResponse);
         }
     }
 
     public static void throwIfError(ClientResponse clientResponse) {
         if (clientResponse.getStatus() >= 400) {
             String errorMessage = createErrorMessage(clientResponse);
-            throw new UniformInterfaceException(errorMessage, clientResponse);
+            // throw new UniformInterfaceException(errorMessage, clientResponse);
+            throw new RuntimeException(errorMessage); 
         }
     }
 
-    public static WebResource addOptionalQueryParam(WebResource webResource,
+    public static WebTarget addOptionalQueryParam(WebTarget webTarget,
             String key, Object value) {
         if (value != null) {
-            webResource = webResource.queryParam(key, value.toString());
+            webTarget = webTarget.queryParam(key, value.toString());
         }
-        return webResource;
+        return webTarget;
     }
 
-    public static WebResource addOptionalQueryParam(WebResource webResource,
+    public static WebTarget addOptionalQueryParam(WebTarget webTarget,
             String key, int value, int defaultValue) {
         if (value != defaultValue) {
-            webResource = webResource.queryParam(key, Integer.toString(value));
+            webTarget = webTarget.queryParam(key, Integer.toString(value));
         }
-        return webResource;
+        return webTarget;
     }
-
+/*
     public static Builder addOptionalHeader(Builder builder, String name,
             Object value) {
         if (value != null) {
@@ -138,7 +146,7 @@ public final class PipelineHelpers {
         }
         return builder;
     }
-
+*/
     public static HashMap<String, String> getMetadataFromHeaders(
             ClientResponse response) {
         HashMap<String, String> metadata = new HashMap<String, String>();

@@ -16,9 +16,12 @@
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
 import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseContext;
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse;
 import java.io.InputStream;
 import java.util.List;
+
+import org.apache.commons.lang.NotImplementedException;
+import org.glassfish.jersey.client.ClientResponse;
 
 public class JerseyServiceResponseContext implements ServiceResponseContext {
     private final ClientResponse clientResponse;
@@ -33,12 +36,14 @@ public class JerseyServiceResponseContext implements ServiceResponseContext {
 
     @Override
     public Object getProperty(String name) {
-        return clientResponse.getProperties().get(name);
+        throw new NotImplementedException("getProperty");
+        //return clientResponse.getProperty(name);
     }
 
     @Override
     public void setProperty(String name, Object value) {
-        clientResponse.getProperties().put(name, value);
+        throw new NotImplementedException("setProperty");
+        //clientResponse.setProperty(name, value);
     }
 
     @Override
@@ -78,11 +83,11 @@ public class JerseyServiceResponseContext implements ServiceResponseContext {
 
     @Override
     public InputStream getEntityInputStream() {
-        return clientResponse.getEntityInputStream();
+        return clientResponse.getEntityStream();
     }
 
     @Override
     public void setEntityInputStream(InputStream entity) {
-        clientResponse.setEntityInputStream(entity);
+        clientResponse.setEntityStream(entity);
     }
 }

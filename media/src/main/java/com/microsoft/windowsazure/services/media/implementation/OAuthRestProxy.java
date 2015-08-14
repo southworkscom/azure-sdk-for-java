@@ -18,23 +18,31 @@ import java.io.IOException;
 import java.net.URI;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+//import org.codehaus.jackson.JsonParseException;
+//import org.codehaus.jackson.map.JsonMappingException;
+//import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.type.TypeReference;
+import org.glassfish.jersey.client.ClientResponse;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.UniformInterfaceException;
-import com.sun.jersey.api.representation.Form;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.api.representation.Form;
 
 /**
  * The OAuth rest proxy.
@@ -50,7 +58,7 @@ public class OAuthRestProxy implements OAuthContract {
     @Inject
     public OAuthRestProxy(Client channel, UserAgentFilter userAgentFilter) {
         this.channel = channel;
-        channel.addFilter(new ClientFilterRequestAdapter(userAgentFilter));
+        channel.register(userAgentFilter);
     }
 
     /**
@@ -80,16 +88,18 @@ public class OAuthRestProxy implements OAuthContract {
         ClientResponse clientResponse;
         String responseJson;
 
-        requestForm.add("grant_type", grantType);
-        requestForm.add("client_id", clientId);
-        requestForm.add("client_secret", clientSecret);
-        requestForm.add("scope", scope);
+        requestForm.asMap().add("grant_type", grantType);
+        requestForm.asMap().add("client_id", clientId);
+        requestForm.asMap().add("client_secret", clientSecret);
+        requestForm.asMap().add("scope", scope);
 
         try {
-            clientResponse = channel.resource(oAuthUri)
+            WebTarget target = channel.target(oAuthUri);
+            clientResponse = null;
+            target.request(MediaType.APPLICATION_FORM_URLENCODED)
                     .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                    .type(MediaType.APPLICATION_FORM_URLENCODED)
-                    .post(ClientResponse.class, requestForm);
+                    .post(requestForm, ClientResponse.class);
+            
         } catch (UniformInterfaceException e) {
             log.warn("OAuth server returned error acquiring access_token", e);
             throw ServiceExceptionFactory
@@ -100,7 +110,7 @@ public class OAuthRestProxy implements OAuthContract {
                                     e));
         }
 
-        responseJson = clientResponse.getEntity(String.class);
+        responseJson = clientResponse.readEntity(String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();

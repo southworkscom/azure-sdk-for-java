@@ -27,7 +27,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import com.microsoft.windowsazure.services.media.implementation.content.MediaServiceDTO;
-import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
+//import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
 
 /**
  * Class to plug into Jersey to properly serialize raw Media Services DTO types.

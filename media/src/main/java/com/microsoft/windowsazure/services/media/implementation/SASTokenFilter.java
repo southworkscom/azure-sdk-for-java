@@ -18,8 +18,8 @@ package com.microsoft.windowsazure.services.media.implementation;
 import javax.ws.rs.core.UriBuilder;
 
 import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * Filter responsible for adding SAS tokens to outgoing requests.

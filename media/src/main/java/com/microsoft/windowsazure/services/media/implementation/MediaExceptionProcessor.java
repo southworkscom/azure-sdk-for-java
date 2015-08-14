@@ -36,8 +36,8 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityTypeActi
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
 import com.microsoft.windowsazure.services.media.models.ListResult;
 import com.microsoft.windowsazure.services.media.models.LocatorInfo;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.UniformInterfaceException;
+//import com.sun.jersey.api.client.ClientHandlerException;
+//import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * /** Wrapper implementation of <code>MediaEntityContract</code> that

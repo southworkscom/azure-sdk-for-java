@@ -17,15 +17,22 @@
  */
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
+import java.io.IOException;
+
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.ClientResponseContext;
+import javax.ws.rs.client.ClientResponseFilter;
+
 import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestContext;
 import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseContext;
 
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.ClientHandlerException;
+//import com.sun.jersey.api.client.ClientRequest;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
-public class ClientFilterAdapter extends ClientFilter {
+public class ClientFilterAdapter implements ClientRequestFilter  { //extends ClientFilter {
     private ServiceFilter filter;
 
     public ClientFilterAdapter(ServiceFilter filter) {
@@ -33,24 +40,31 @@ public class ClientFilterAdapter extends ClientFilter {
     }
 
     @Override
-    public ClientResponse handle(ClientRequest clientRequest) {
-
-        final ClientRequest cr = clientRequest;
-        try {
-            ServiceResponseContext resp = filter.handle(
-                    new JerseyServiceRequestContext(clientRequest),
-                    new ServiceFilter.Next() {
-                        @Override
-                        public ServiceResponseContext handle(
-                                ServiceRequestContext request) {
-                            return new JerseyServiceResponseContext(getNext()
-                                    .handle(cr));
-                        }
-                    });
-
-            return ((JerseyServiceResponseContext) resp).getClientResponse();
-        } catch (Exception e) {
-            throw new ClientHandlerException(e);
-        }
+    public void filter(ClientRequestContext requestContext) throws IOException {
+        // TODO Auto-generated method stub
+        
+        
     }
+
+//    @Override
+//    public ClientResponse handle(ClientRequest clientRequest) {
+//
+//        final ClientRequest cr = clientRequest;
+//        try {
+//            ServiceResponseContext resp = filter.handle(
+//                    new JerseyServiceRequestContext(clientRequest),
+//                    new ServiceFilter.Next() {
+//                        @Override
+//                        public ServiceResponseContext handle(
+//                                ServiceRequestContext request) {
+//                            return new JerseyServiceResponseContext(getNext()
+//                                    .handle(cr));
+//                        }
+//                    });
+//
+//            return ((JerseyServiceResponseContext) resp).getClientResponse();
+//        } catch (Exception e) {
+//            throw new ClientHandlerException(e);
+//        }
+//    }
 }

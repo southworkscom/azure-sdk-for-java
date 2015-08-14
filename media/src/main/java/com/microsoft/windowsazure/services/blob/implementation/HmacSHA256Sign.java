@@ -17,7 +17,7 @@ package com.microsoft.windowsazure.services.blob.implementation;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.sun.jersey.core.util.Base64;
+//import com.sun.jersey.core.util.Base64;
 
 public class HmacSHA256Sign {
     private final String accessKey;

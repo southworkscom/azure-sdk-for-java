@@ -24,11 +24,11 @@ import javax.ws.rs.core.MediaType;
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.ListResult;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.WebResource;
+//import com.sun.jersey.api.client.WebResource.Builder;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * The Class EntityRestProxy.

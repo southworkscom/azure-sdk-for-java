@@ -15,9 +15,15 @@
 
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
+import javax.ws.rs.client.Client;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.filter.LoggingFilter;
+
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.config.ClientConfig;
+//import com.sun.jersey.api.client.filter.LoggingFilter;
 
 /**
  * Class used for injecting settings into the various places that need it.
@@ -65,10 +71,8 @@ public class ClientConfigSettings {
      *            object to update.
      */
     public void applyConfig(ClientConfig clientConfig) {
-        clientConfig.getProperties().put(ClientConfig.PROPERTY_CONNECT_TIMEOUT,
-                connectTimeout);
-        clientConfig.getProperties().put(ClientConfig.PROPERTY_READ_TIMEOUT,
-                readTimeout);
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, connectTimeout);
+        clientConfig.property(ClientProperties.READ_TIMEOUT, readTimeout);
     }
 
     /**
@@ -79,7 +83,7 @@ public class ClientConfigSettings {
      */
     public void applyConfig(Client client) {
         if (shouldLog) {
-            client.addFilter(new LoggingFilter());
+            client.register(new LoggingFilter());
         }
     }
 

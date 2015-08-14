@@ -18,7 +18,7 @@ package com.microsoft.windowsazure.services.media.entityoperations;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * The Interface EntityTypeActionOperation.

@@ -46,12 +46,12 @@ import com.microsoft.windowsazure.services.blob.models.ListBlobBlocksOptions;
 import com.microsoft.windowsazure.services.blob.models.ListBlobBlocksResult;
 import com.microsoft.windowsazure.services.blob.models.ListContainersOptions;
 import com.microsoft.windowsazure.services.blob.models.ListContainersResult;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.WebResource.Builder;
-import com.sun.jersey.api.client.filter.ClientFilter;
-import com.sun.jersey.core.util.Base64;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.WebResource;
+//import com.sun.jersey.api.client.WebResource.Builder;
+//import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.core.util.Base64;
 
 public abstract class BlobOperationRestProxy implements BlobContract {
 

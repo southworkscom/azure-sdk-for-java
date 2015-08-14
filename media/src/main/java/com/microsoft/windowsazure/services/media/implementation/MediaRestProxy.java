@@ -34,10 +34,10 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyDat
 import com.microsoft.windowsazure.services.media.entityoperations.EntityRestProxy;
 import com.microsoft.windowsazure.services.media.models.LocatorInfo;
 import com.microsoft.windowsazure.services.media.models.LocatorType;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.config.ClientConfig;
+//import com.sun.jersey.api.client.config.DefaultClientConfig;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * The Class MediaRestProxy.

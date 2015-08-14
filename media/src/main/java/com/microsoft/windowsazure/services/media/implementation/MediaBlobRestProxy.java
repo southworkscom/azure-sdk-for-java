@@ -26,8 +26,8 @@ import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterResponseAdapt
 import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.services.blob.BlobContract;
 import com.microsoft.windowsazure.services.blob.implementation.BlobOperationRestProxy;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.filter.ClientFilter;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * Rest proxy for blob operations that's specialized for working with the blobs
