@@ -43,8 +43,12 @@ import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.glassfish.jersey.client.ClientResponse;
+import org.glassfish.jersey.message.internal.ReaderWriter;
+
 import com.microsoft.windowsazure.core.utils.InputStreamDataSource;
 import com.microsoft.windowsazure.exception.ServiceException;
+import com.microsoft.windowsazure.services.media.UniformInterfaceException;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityBatchOperation;
 import com.microsoft.windowsazure.services.media.implementation.atom.EntryType;
 import com.microsoft.windowsazure.services.media.models.Job;
@@ -326,13 +330,13 @@ public class MediaBatchOperations {
     public void parseBatchResult(ClientResponse response) throws IOException,
             ServiceException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        InputStream inputStream = response.getEntityInputStream();
+        InputStream inputStream = response.getEntityStream();
         ReaderWriter.writeTo(inputStream, byteArrayOutputStream);
-        response.setEntityInputStream(new ByteArrayInputStream(
+        response.setEntityStream(new ByteArrayInputStream(
                 byteArrayOutputStream.toByteArray()));
         JobInfo jobInfo;
 
-        List<DataSource> parts = parseParts(response.getEntityInputStream(),
+        List<DataSource> parts = parseParts(response.getEntityStream(),
                 response.getHeaders().getFirst("Content-Type"));
 
         if (parts.size() == 0 || parts.size() > entityBatchOperations.size()) {
@@ -353,17 +357,16 @@ public class MediaBatchOperations {
 
             if (status.getStatus() >= HTTP_ERROR) {
 
-                InBoundHeaders inBoundHeaders = new InBoundHeaders();
+                /*InBoundHeaders inBoundHeaders = new InBoundHeaders();
                 @SuppressWarnings("unchecked")
                 Enumeration<Header> e = headers.getAllHeaders();
                 while (e.hasMoreElements()) {
                     Header header = e.nextElement();
                     inBoundHeaders.putSingle(header.getName(),
                             header.getValue());
-                }
+                }*/
 
-                ClientResponse clientResponse = new ClientResponse(
-                        status.getStatus(), inBoundHeaders, content, null);
+                ClientResponse clientResponse = response; /// new ClientResponse(null, null);
 
                 UniformInterfaceException uniformInterfaceException = new UniformInterfaceException(
                         clientResponse);

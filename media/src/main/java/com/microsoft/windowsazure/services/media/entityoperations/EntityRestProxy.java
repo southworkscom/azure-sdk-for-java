@@ -19,8 +19,17 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.ClientResponseFilter;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
+import org.glassfish.jersey.client.ClientResponse;
+
+import javax.ws.rs.client.Invocation.Builder;
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.ListResult;
@@ -40,7 +49,8 @@ public abstract class EntityRestProxy implements EntityContract {
     /** The channel. */
     private final Client channel;
     /** The filters. */
-    private final ClientFilter[] filters;
+    private final ClientRequestFilter[] requestFilters;
+    private final ClientResponseFilter[] responseFilters;
 
     /**
      * Instantiates a new entity rest proxy.
@@ -50,9 +60,10 @@ public abstract class EntityRestProxy implements EntityContract {
      * @param filters
      *            the filters
      */
-    public EntityRestProxy(Client channel, ClientFilter[] filters) {
+    public EntityRestProxy(Client channel, ClientRequestFilter[] requestFilters, ClientResponseFilter[] responseFilters) {
         this.channel = channel;
-        this.filters = filters;
+        this.requestFilters = requestFilters;
+        this.responseFilters = responseFilters;
         this.executorService = Executors.newCachedThreadPool();
     }
 
@@ -79,8 +90,12 @@ public abstract class EntityRestProxy implements EntityContract {
      * 
      * @return the filters
      */
-    protected ClientFilter[] getFilters() {
-        return filters;
+    protected ClientRequestFilter[] getRequestFilters() {
+        return requestFilters;
+    }
+    
+    protected ClientResponseFilter[] getResponseFilters() {
+        return responseFilters;
     }
 
     /**
@@ -97,10 +112,13 @@ public abstract class EntityRestProxy implements EntityContract {
      *            the entity name
      * @return the resource
      */
-    private WebResource getResource(String entityName) {
-        WebResource resource = channel.resource(entityName);
-        for (ClientFilter filter : filters) {
-            resource.addFilter(filter);
+    private WebTarget getTarget(String entityName) {
+        WebTarget resource = channel.target(entityName);
+        for (ClientRequestFilter filter : requestFilters) {
+            resource.register(filter);
+        }
+        for (ClientResponseFilter filter : responseFilters) {
+            resource.register(filter);
         }
         return resource;
     }
@@ -114,9 +132,9 @@ public abstract class EntityRestProxy implements EntityContract {
      * @throws ServiceException
      *             the service exception
      */
-    private Builder getResource(EntityOperation operation)
+    private Builder getTarget(EntityOperation operation)
             throws ServiceException {
-        return getResource(operation.getUri()).type(operation.getContentType())
+        return getTarget(operation.getUri()).request(operation.getContentType())
                 .accept(operation.getAcceptType());
     }
 
@@ -133,8 +151,10 @@ public abstract class EntityRestProxy implements EntityContract {
     public <T> T create(EntityCreateOperation<T> creator)
             throws ServiceException {
         creator.setProxyData(createProxyData());
-        Object rawResponse = getResource(creator).post(
-                creator.getResponseClass(), creator.getRequestContents());
+        // TODO: verificar Entity.text
+        Object rawResponse = getTarget(creator).post(
+                Entity.text(creator.getRequestContents()),
+                creator.getResponseClass());
         Object processedResponse = creator.processResponse(rawResponse);
         return (T) processedResponse;
     }
@@ -151,7 +171,7 @@ public abstract class EntityRestProxy implements EntityContract {
     @Override
     public <T> T get(EntityGetOperation<T> getter) throws ServiceException {
         getter.setProxyData(createProxyData());
-        Object rawResponse = getResource(getter).get(getter.getResponseClass());
+        Object rawResponse = getTarget(getter).get(getter.getResponseClass());
         Object processedResponse = getter.processResponse(rawResponse);
         return (T) processedResponse;
     }
@@ -169,10 +189,17 @@ public abstract class EntityRestProxy implements EntityContract {
     public <T> ListResult<T> list(EntityListOperation<T> lister)
             throws ServiceException {
         lister.setProxyData(createProxyData());
-        Object rawResponse = getResource(lister.getUri())
-                .queryParams(lister.getQueryParameters())
-                .type(lister.getContentType()).accept(lister.getAcceptType())
-                .get(lister.getResponseGenericType());
+        WebTarget target = getTarget(lister.getUri());
+        
+        MultivaluedMap<String, String> params = lister.getQueryParameters();
+        for(String key : params.keySet()) {
+            target = target.queryParam(key , params.get(key));
+        }
+        
+        Object rawResponse = target.request(lister.getContentType())
+                                    .accept(lister.getAcceptType())
+                                    .get(lister.getResponseGenericType());
+        
         Object processedResponse = lister.processResponse(rawResponse);
         return (ListResult<T>) processedResponse;
 
@@ -189,9 +216,8 @@ public abstract class EntityRestProxy implements EntityContract {
     @Override
     public String update(EntityUpdateOperation updater) throws ServiceException {
         updater.setProxyData(createProxyData());
-        ClientResponse clientResponse = getResource(updater).header("X-HTTP-METHOD",
-                "MERGE").post(ClientResponse.class,
-                updater.getRequestContents());
+        ClientResponse clientResponse = getTarget(updater).header("X-HTTP-METHOD",
+                "MERGE").post(Entity.text(updater.getRequestContents()), ClientResponse.class);
         PipelineHelpers.throwIfNotSuccess(clientResponse);
         updater.processResponse(clientResponse);
         if (clientResponse.getHeaders().containsKey("operation-id")) {
@@ -215,7 +241,8 @@ public abstract class EntityRestProxy implements EntityContract {
     @Override
     public String delete(EntityDeleteOperation deleter) throws ServiceException {
         deleter.setProxyData(createProxyData());
-        ClientResponse clientResponse =  getResource(deleter.getUri()).delete(ClientResponse.class);
+        ClientResponse clientResponse =  getTarget(deleter.getUri())
+                .request().delete(ClientResponse.class);
         PipelineHelpers.throwIfNotSuccess(clientResponse);
         if (clientResponse.getHeaders().containsKey("operation-id")) {
             List<String> operationIds = clientResponse.getHeaders().get("operation-id");
@@ -238,15 +265,24 @@ public abstract class EntityRestProxy implements EntityContract {
     public <T> T action(EntityTypeActionOperation<T> entityTypeActionOperation)
             throws ServiceException {
         entityTypeActionOperation.setProxyData(createProxyData());
-        Builder webResource = getResource(entityTypeActionOperation.getUri())
-                .queryParams(entityTypeActionOperation.getQueryParameters())
-                .accept(entityTypeActionOperation.getAcceptType())
-                .accept(MediaType.APPLICATION_XML_TYPE)
-                .entity(entityTypeActionOperation.getRequestContents(),
-                        MediaType.APPLICATION_XML_TYPE)
-                .type(MediaType.APPLICATION_XML);
+        WebTarget target = getTarget(entityTypeActionOperation.getUri());
+        
+        MultivaluedMap<String, String> params = entityTypeActionOperation.getQueryParameters();
+        for(String key : params.keySet()) {
+            target = target.queryParam(key , params.get(key));
+        }
+        
+        
+        Builder builder = target.request(MediaType.APPLICATION_XML);
+        
+        builder.accept(MediaType.APPLICATION_XML_TYPE);
+                //.entity(entityTypeActionOperation.getRequestContents(),
+                //       MediaType.APPLICATION_XML_TYPE)
+                // .type(MediaType.APPLICATION_XML);
 
-        ClientResponse clientResponse = webResource.method(
+        //target.request().me
+        
+        ClientResponse clientResponse = builder.method(
                 entityTypeActionOperation.getVerb(), ClientResponse.class);
         return entityTypeActionOperation.processTypeResponse(clientResponse);
     }
@@ -286,19 +322,26 @@ public abstract class EntityRestProxy implements EntityContract {
     private ClientResponse getActionClientResponse(
             EntityActionOperation entityActionOperation) {
         entityActionOperation.setProxyData(createProxyData());
-        Builder webResource = getResource(entityActionOperation.getUri())
-                .queryParams(entityActionOperation.getQueryParameters())
-                .accept(entityActionOperation.getAcceptType())
-                .accept(MediaType.APPLICATION_XML_TYPE)
-                .type(MediaType.APPLICATION_XML_TYPE);
-        if (entityActionOperation.getRequestContents() != null) {
-            webResource = webResource.entity(
-                    entityActionOperation.getRequestContents(),
-                    entityActionOperation.getContentType());
-        } else {
-            webResource = webResource.header("Content-Length", "0");
+        WebTarget target = getTarget(entityActionOperation.getUri());
+        
+        MultivaluedMap<String, String> params = entityActionOperation.getQueryParameters();
+        for(String key : params.keySet()) {
+            target = target.queryParam(key , params.get(key));
         }
-        return webResource.method(entityActionOperation.getVerb(),
+        
+        Builder builder = target.request(MediaType.APPLICATION_XML_TYPE);
+     
+        builder = builder.accept(entityActionOperation.getAcceptType())
+                    .accept(MediaType.APPLICATION_XML_TYPE);
+        
+        if (entityActionOperation.getRequestContents() != null) {
+            /*builder = builder.entity(
+                    entityActionOperation.getRequestContents(),
+                    entityActionOperation.getContentType());*/
+        } else {
+            builder = builder.header("Content-Length", "0");
+        }
+        return builder.method(entityActionOperation.getVerb(),
                 ClientResponse.class);
     }
 }

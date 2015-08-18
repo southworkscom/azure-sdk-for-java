@@ -15,11 +15,19 @@
 
 package com.microsoft.windowsazure.services.media.models;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -27,8 +35,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.glassfish.jersey.client.ClientResponse;
 
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -45,8 +52,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityTypeActi
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyRestType;
 import com.microsoft.windowsazure.services.media.implementation.content.RebindContentKeyType;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
 
 /**
  * Class for creating operations to manipulate content key entities.
@@ -317,7 +322,7 @@ public final class ContentKey {
         }
 
         private RebindContentKeyType parseResponse(ClientResponse clientResponse) {
-            InputStream inputStream = clientResponse.getEntityInputStream();
+            InputStream inputStream = clientResponse.getEntityStream();
             JAXBElement<RebindContentKeyType> rebindContentKeyTypeJaxbElement;
             try {
                 rebindContentKeyTypeJaxbElement = unmarshaller.unmarshal(
@@ -367,13 +372,14 @@ public final class ContentKey {
 
         @Override
         public Object getRequestContents() throws ServiceException {
-            JSONObject document = new JSONObject();
             try {
-                document.put("keyDeliveryType", contentKeyDeliveryType.getCode());
-            } catch (JSONException e) {
-                throw new ServiceException("JSON Exception", e);
+                JsonObject document = Json.createObjectBuilder()
+                        .add("keyDeliveryType", contentKeyDeliveryType.getCode())
+                        .build();
+                return document.toString();
+            } catch (Exception e) {
+                throw new RuntimeException("JSON Exception", e);
             }
-            return document.toString();
         }
         
         @Override
@@ -389,11 +395,14 @@ public final class ContentKey {
         @Override
         public Object processResponse(Object rawResponse) throws ServiceException {
             try {
-                JSONObject object = new JSONObject(rawResponse.toString());
+                JsonReader jsonReader = Json.createReader(new StringReader(rawResponse.toString()));
+                JsonObject object = jsonReader.readObject();
+                jsonReader.close();
                 return object.getString("value");
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 throw new ServiceException(e);
             }
+            
         }
     }    
     
@@ -424,14 +433,15 @@ public final class ContentKey {
         }
         
         @Override
-        public Object getRequestContents() {
-            JSONObject document = new JSONObject();
+        public Object getRequestContents() {            
             try {
-                document.put("AuthorizationPolicyId", contentKeyAuthorizationPolicyId);
-            } catch (JSONException e) {
+                JsonObject document = Json.createObjectBuilder()
+                        .add("AuthorizationPolicyId", contentKeyAuthorizationPolicyId)
+                        .build();
+                return document.toString();
+            } catch (Exception e) {
                 throw new RuntimeException("JSON Exception", e);
             }
-            return document.toString();
         }
 
     }

@@ -16,7 +16,10 @@
 package com.microsoft.windowsazure.services.media.entityoperations;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+
+import org.glassfish.jersey.client.ClientResponse;
 
 import com.microsoft.windowsazure.exception.ServiceException;
 //import com.sun.jersey.api.client.ClientResponse;
@@ -61,7 +64,7 @@ public class DefaultEntityTypeActionOperation<T> implements
      * Instantiates a new default type action operation.
      */
     public DefaultEntityTypeActionOperation() {
-        this.queryParameters = new MultivaluedMapImpl();
+        this.queryParameters = new MultivaluedHashMap<String, String>();
     }
 
     /*

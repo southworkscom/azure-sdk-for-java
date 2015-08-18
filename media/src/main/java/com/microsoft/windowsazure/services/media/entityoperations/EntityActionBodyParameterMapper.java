@@ -20,6 +20,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 //import org.codehaus.jackson.JsonGenerationException;
 //import org.codehaus.jackson.map.JsonMappingException;
 //import org.codehaus.jackson.map.ObjectMapper;
@@ -38,7 +43,7 @@ public class EntityActionBodyParameterMapper {
      */
     public EntityActionBodyParameterMapper() {
         mapper = new ObjectMapper();
-        mapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS,
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
                 false);
     }
 

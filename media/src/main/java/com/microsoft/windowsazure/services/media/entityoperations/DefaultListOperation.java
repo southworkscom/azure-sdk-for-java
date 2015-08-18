@@ -15,6 +15,8 @@
 
 package com.microsoft.windowsazure.services.media.entityoperations;
 
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -34,7 +36,7 @@ public class DefaultListOperation<T> extends EntityOperationBase implements
     public DefaultListOperation(String entityUri,
             GenericType<ListResult<T>> responseType) {
         super(entityUri);
-        queryParameters = new MultivaluedMapImpl();
+        queryParameters = new MultivaluedHashMap<String, String>();
         this.responseType = responseType;
     }
 

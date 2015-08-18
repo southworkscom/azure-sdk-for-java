@@ -39,8 +39,8 @@ import org.apache.http.Header;
 import org.apache.http.HttpRequest;
 import org.apache.http.protocol.HttpContext;
 
-public class HttpServiceRequestContext implements ClientRequestContext {
-    private final HttpRequest clientRequest;
+public class HttpServiceRequestContext { // implements ClientRequestContext {
+   /* private final HttpRequest clientRequest;
     private final HttpContext httpContext;
 
     public HttpServiceRequestContext(HttpRequest clientRequest,
@@ -235,4 +235,5 @@ public class HttpServiceRequestContext implements ClientRequestContext {
         // TODO Auto-generated method stub
         
     }
-}
+*/
+    }

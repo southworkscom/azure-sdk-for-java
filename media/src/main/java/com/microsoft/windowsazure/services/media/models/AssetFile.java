@@ -18,6 +18,8 @@ package com.microsoft.windowsazure.services.media.models;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.ws.rs.core.GenericType;
+
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
@@ -32,7 +34,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityOperatio
 import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyData;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.AssetFileType;
-import com.sun.jersey.api.client.GenericType;
 
 public final class AssetFile {
     private static final String ENTITY_SET = "Files";

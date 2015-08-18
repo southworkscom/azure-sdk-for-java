@@ -31,6 +31,6 @@ public class HttpRequestInterceptorAdapter implements HttpRequestInterceptor {
 
     @Override
     public void process(HttpRequest request, HttpContext context) {
-        filter.filter(new HttpServiceRequestContext(request, context));
+       // filter.filter(new HttpServiceRequestContext(request, context));
     }
 }

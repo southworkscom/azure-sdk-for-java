@@ -16,6 +16,7 @@
 package com.microsoft.windowsazure.services.media.implementation;
 
 import javax.inject.Inject;
+import javax.ws.rs.ClientErrorException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +27,7 @@ import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
 import com.microsoft.windowsazure.services.media.MediaContract;
+import com.microsoft.windowsazure.services.media.UniformInterfaceException;
 import com.microsoft.windowsazure.services.media.WritableBlobContainerContract;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityCreateOperation;
@@ -140,7 +142,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.create(creator);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
     }
@@ -159,7 +161,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.get(getter);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
     }
@@ -179,7 +181,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.list(lister);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
     }
@@ -198,7 +200,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.update(updater);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
 
@@ -220,7 +222,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.delete(deleter);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
     }
@@ -240,7 +242,7 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.action(entityActionOperation);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
     }
@@ -260,21 +262,9 @@ public class MediaExceptionProcessor implements MediaContract {
             return service.action(entityTypeActionOperation);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
-        } catch (ClientHandlerException e) {
+        } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.microsoft.windowsazure.services.media.MediaContract#createBlobWriter
-     * (com.microsoft.windowsazure.services.media.models.LocatorInfo)
-     */
-    @Override
-    public WritableBlobContainerContract createBlobWriter(LocatorInfo locator) {
-        return service.createBlobWriter(locator);
     }
 
 }

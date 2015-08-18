@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.glassfish.jersey.client.ClientResponse;
@@ -66,7 +67,7 @@ public class DefaultActionOperation implements EntityActionOperation {
      * Instantiates a new default action operation.
      */
     public DefaultActionOperation() {
-        this.queryParameters = new MultivaluedMapImpl();
+        this.queryParameters = new MultivaluedHashMap<String, String>();
         this.bodyParameters = new HashMap<String, Object>();
     }
 

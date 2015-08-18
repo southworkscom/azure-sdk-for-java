@@ -14,10 +14,12 @@
  */
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
+import javax.net.ssl.SSLContext;
+
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.JerseyClient;
 
-//import com.sun.jersey.api.client.Client;
+//import    ;
 //import com.sun.jersey.api.client.config.ClientConfig;
 
 public class HttpURLConnectionClient extends JerseyClient {
@@ -25,7 +27,7 @@ public class HttpURLConnectionClient extends JerseyClient {
 
     public HttpURLConnectionClient(HttpURLConnectionClientHandler handler,
             ClientConfig config) {
-        super(handler, config);
+        super(config, (SSLContext) null, null);
         this.rootHandler = handler;
     }
 

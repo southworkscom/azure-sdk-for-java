@@ -15,6 +15,7 @@
 
 package com.microsoft.windowsazure.services.media.entityoperations;
 
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.microsoft.windowsazure.services.media.models.ListResult;

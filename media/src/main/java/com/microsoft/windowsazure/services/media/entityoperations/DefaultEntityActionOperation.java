@@ -19,7 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+
+import org.glassfish.jersey.client.ClientResponse;
 
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -70,7 +73,7 @@ public class DefaultEntityActionOperation implements EntityActionOperation {
      */
     public DefaultEntityActionOperation(String entityName, String entityId,
             String actionName) {
-        this.queryParameters = new MultivaluedMapImpl();
+        this.queryParameters = new MultivaluedHashMap<String, String>();
         this.bodyParameters = new HashMap<String, Object>();
         this.entityName = entityName;
         this.entityId = entityId;

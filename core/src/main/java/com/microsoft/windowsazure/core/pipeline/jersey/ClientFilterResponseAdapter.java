@@ -23,7 +23,7 @@ import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseFilter;
 //import com.sun.jersey.api.client.ClientResponse;
 //import com.sun.jersey.api.client.filter.ClientFilter;
 
-public class ClientFilterResponseAdapter extends ClientFilter {
+public class ClientFilterResponseAdapter { /*extends ClientFilter {
     private ServiceResponseFilter filter;
 
     public ClientFilterResponseAdapter(ServiceResponseFilter filter) {
@@ -36,5 +36,5 @@ public class ClientFilterResponseAdapter extends ClientFilter {
         filter.filter(new JerseyServiceRequestContext(clientRequest),
                 new JerseyServiceResponseContext(clientResponse));
         return clientResponse;
-    }
+    }*/
 }

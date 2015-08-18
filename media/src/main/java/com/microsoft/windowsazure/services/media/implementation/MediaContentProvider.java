@@ -26,6 +26,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
+
 import com.microsoft.windowsazure.services.media.implementation.content.MediaServiceDTO;
 //import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
 

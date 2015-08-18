@@ -19,6 +19,9 @@ import java.net.URI;
 import java.util.Arrays;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.ClientResponseFilter;
 
 import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
@@ -29,7 +32,6 @@ import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapte
 import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterResponseAdapter;
 import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.services.media.MediaContract;
-import com.microsoft.windowsazure.services.media.WritableBlobContainerContract;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyData;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityRestProxy;
 import com.microsoft.windowsazure.services.media.models.LocatorInfo;
@@ -71,14 +73,14 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
             VersionHeadersFilter versionHeadersFilter,
             UserAgentFilter userAgentFilter,
             ClientConfigSettings clientConfigSettings) {
-        super(channel, new ClientFilter[0]);
+        super(channel, new ClientRequestFilter[0], new ClientResponseFilter[0]);
 
         this.clientConfigSettings = clientConfigSettings;
         this.redirectFilter = redirectFilter;
-        channel.addFilter(redirectFilter);
-        channel.addFilter(authFilter);
-        channel.addFilter(versionHeadersFilter);
-        channel.addFilter(new ClientFilterRequestAdapter(userAgentFilter));
+        channel.register(redirectFilter);
+        channel.register(authFilter);
+        channel.register(versionHeadersFilter);
+        channel.register(userAgentFilter);
     }
 
     /**
@@ -91,7 +93,7 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
      * @param clientConfigSettings
      *            currently configured HTTP client settings
      */
-    private MediaRestProxy(Client channel, ClientFilter[] filters,
+    private MediaRestProxy(Client channel, ClientRequestFilter[] filters,
             ClientConfigSettings clientConfigSettings) {
         super(channel, filters);
         this.clientConfigSettings = clientConfigSettings;
@@ -172,59 +174,5 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
         };
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.microsoft.windowsazure.services.media.MediaContract#createBlobWriter
-     * (com.microsoft.windowsazure.services.media.models.LocatorInfo)
-     */
-    @Override
-    public WritableBlobContainerContract createBlobWriter(LocatorInfo locator) {
-        if (locator.getLocatorType() != LocatorType.SAS) {
-            throw new IllegalArgumentException("Can only write to SAS locators");
-        }
-
-        LocatorParser p = new LocatorParser(locator);
-
-        return new MediaBlobContainerWriter(createUploaderClient(),
-                p.getAccountName(), p.getStorageUri(), p.getContainer(),
-                p.getSASToken());
-    }
-
-    /**
-     * Helper class to encapsulate pulling information out of the locator.
-     */
-    private static class LocatorParser {
-        private URI locatorPath;
-
-        public LocatorParser(LocatorInfo locator) {
-            locatorPath = URI.create(locator.getPath());
-        }
-
-        public String getAccountName() {
-            return locatorPath.getHost().split("\\.")[0];
-        }
-
-        public String getStorageUri() {
-            return locatorPath.getScheme() + "://" + locatorPath.getAuthority();
-        }
-
-        public String getContainer() {
-            return locatorPath.getPath().substring(1);
-        }
-
-        public String getSASToken() {
-            return locatorPath.getRawQuery();
-        }
-    }
-
-    private Client createUploaderClient() {
-        ClientConfig clientConfig = new DefaultClientConfig();
-        clientConfigSettings.applyConfig(clientConfig);
-        Client client = Client.create(clientConfig);
-        clientConfigSettings.applyConfig(client);
-        return client;
-    }
 
 }

@@ -25,6 +25,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.glassfish.jersey.client.ClientRequest;
+
 import com.microsoft.windowsazure.core.utils.CommaStringBuilder;
 //import com.sun.jersey.api.client.ClientHandlerException;
 //import com.sun.jersey.api.client.ClientRequest;

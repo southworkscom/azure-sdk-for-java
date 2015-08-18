@@ -33,6 +33,6 @@ public interface MediaContract extends JerseyFilterableService<MediaContract>,
      *            locator specifying where to upload to
      * @return the implementation of <code>WritableBlobContainerContract</code>
      */
-    WritableBlobContainerContract createBlobWriter(LocatorInfo locator);
+    //WritableBlobContainerContract createBlobWriter(LocatorInfo locator);
 
 }

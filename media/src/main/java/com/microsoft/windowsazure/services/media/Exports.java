@@ -20,6 +20,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+
+//import org.glassfish.jersey.client.ClientConfig;
 
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.UserAgentFilter;
@@ -58,32 +61,33 @@ public class Exports implements Builder.Exports {
         registry.alter(MediaContract.class, ClientConfig.class,
                 new Builder.Alteration<ClientConfig>() {
                     @SuppressWarnings("rawtypes")
-                    @Override
+                    @Override 
                     public ClientConfig alter(String profile,
                             ClientConfig instance, Builder builder,
                             Map<String, Object> properties) {
 
-                        instance.getProperties().put(
-                                JSONConfiguration.FEATURE_POJO_MAPPING, true);
-
+                    //    instance.getProperties().put(
+        //                        JSONConfiguration.FEATURE_POJO_MAPPING, true);
+//
                         // Turn off auto-follow redirects, because Media
                         // Services rest calls break if it's on
                         instance.getProperties().put(
-                                ClientConfig.PROPERTY_FOLLOW_REDIRECTS, false);
+                                ClientProperties.FOLLOW_REDIRECTS, false);
 
-                        try {
-                            instance.getSingletons().add(
-                                    new ODataEntityProvider());
-                            instance.getSingletons().add(
-                                    new ODataEntityCollectionProvider());
-                            instance.getSingletons().add(
-                                    new MediaContentProvider());
-                        } catch (JAXBException e) {
-                            throw new RuntimeException(e);
-                        } catch (ParserConfigurationException e) {
-                            throw new RuntimeException(e);
-                        }
-
+                        
+                //        try {
+                          //  instance.getSingletons().add(
+             //                       new ODataEntityProvider());
+              //              instance.getSingletons().add(
+              //                      new ODataEntityCollectionProvider());
+              //              instance.getSingletons().add(
+                          //          new MediaContentProvider());
+           //             } catch (JAXBException e) {
+            //                throw new RuntimeException(e);
+           //             } catch (ParserConfigurationException e) {
+            //                throw new RuntimeException(e);
+               //         }
+//
                         return instance;
                     }
                 });
