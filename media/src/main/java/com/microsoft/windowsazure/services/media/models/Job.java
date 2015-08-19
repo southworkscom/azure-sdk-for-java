@@ -22,9 +22,12 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMultipart;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.glassfish.jersey.client.ClientResponse;
 
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultActionOperation;
@@ -40,8 +43,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityOperatio
 import com.microsoft.windowsazure.services.media.implementation.MediaBatchOperations;
 import com.microsoft.windowsazure.services.media.implementation.content.JobNotificationSubscriptionType;
 import com.microsoft.windowsazure.services.media.implementation.content.JobType;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
 
 /**
  * Class for creating operations to manipulate Job entities.

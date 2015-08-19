@@ -18,6 +18,8 @@ package com.microsoft.windowsazure.services.media.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.GenericType;
+
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultListOperation;
@@ -27,7 +29,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityGetOpera
 import com.microsoft.windowsazure.services.media.entityoperations.EntityOperationSingleResultBase;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyOptionType;
 import com.microsoft.windowsazure.services.media.implementation.content.ContentKeyAuthorizationPolicyRestrictionType;
-import com.sun.jersey.api.client.GenericType;
 
 /**
  * Class for creating operations to manipulate Access Policy entities.

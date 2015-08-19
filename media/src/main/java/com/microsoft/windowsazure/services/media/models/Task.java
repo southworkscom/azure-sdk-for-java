@@ -18,8 +18,7 @@ package com.microsoft.windowsazure.services.media.models;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultListOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityBatchOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.TaskType;
-import com.sun.jersey.api.client.GenericType;
-
+import javax.ws.rs.core.GenericType;
 /**
  * Class for creating operations to manipulate Task entities.
  * 

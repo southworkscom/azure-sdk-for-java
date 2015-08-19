@@ -19,12 +19,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
 
 import com.microsoft.windowsazure.services.media.models.AssetDeliveryPolicyConfigurationKey;
 
@@ -179,18 +180,18 @@ public class AssetDeliveryPolicyRestType implements MediaServiceDTO {
      */
     public AssetDeliveryPolicyRestType setAssetDeliveryConfiguration(Map<AssetDeliveryPolicyConfigurationKey, String> assetDeliveryConfiguration) {
         try {
-            JSONArray result = new JSONArray();
+            JsonArrayBuilder builder = Json.createArrayBuilder();
             if (assetDeliveryConfiguration != null) {
                 for (Map.Entry<AssetDeliveryPolicyConfigurationKey, String> item : assetDeliveryConfiguration.entrySet()) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("Key", item.getKey().getCode());
-                    obj.put("Value", item.getValue());
-                    result.put(obj);
+                    JsonObjectBuilder itemJson = Json.createObjectBuilder()
+                            .add("Key", item.getKey().getCode())
+                            .add("Value", item.getValue());
+                    builder.add(itemJson);
                 }
-                this.assetDeliveryConfiguration = result.toString();
+                this.assetDeliveryConfiguration = builder.build().toString();
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("JSON Exception", e);
         }
         return this;
     }

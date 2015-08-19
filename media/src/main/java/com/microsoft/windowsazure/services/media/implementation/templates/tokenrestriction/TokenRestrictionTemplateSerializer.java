@@ -25,7 +25,6 @@ import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
 
 import com.microsoft.windowsazure.core.utils.Base64;
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,8 +39,9 @@ public final class TokenRestrictionTemplateSerializer {
         StringWriter writer = new StringWriter();
         JAXBContext context = JAXBContext.newInstance(TokenRestrictionTemplate.class);
         Marshaller m = context.createMarshaller();
+        
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
+        /*m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
             @Override
             public String[] getPreDeclaredNamespaceUris() {
                 return new String[] { 
@@ -56,7 +56,7 @@ public final class TokenRestrictionTemplateSerializer {
                 }
                 return suggestion;
             }
-        });
+        });*/
         m.marshal(template, writer);
         return writer.toString();
     }

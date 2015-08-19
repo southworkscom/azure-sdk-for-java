@@ -15,7 +15,7 @@
 
 package com.microsoft.windowsazure.services.media.models;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Class Ipv4.

@@ -24,12 +24,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import org.glassfish.jersey.client.ClientResponse;
+
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityTypeActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityTypeActionOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.ProtectionKeyIdType;
 import com.microsoft.windowsazure.services.media.implementation.content.ProtectionKeyRestType;
-import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * Class for creating operations to manipulate protection key pseudo-entities.
@@ -138,7 +139,7 @@ public final class ProtectionKey {
         private ProtectionKeyIdType parseResponse(ClientResponse clientResponse)
                 throws JAXBException {
 
-            InputStream inputStream = clientResponse.getEntityInputStream();
+            InputStream inputStream = clientResponse.getEntityStream();
             JAXBElement<ProtectionKeyIdType> protectionKeyIdTypeJaxbElement = unmarshaller
                     .unmarshal(new StreamSource(inputStream),
                             ProtectionKeyIdType.class);
@@ -213,7 +214,7 @@ public final class ProtectionKey {
          */
         private ProtectionKeyRestType parseResponse(
                 ClientResponse clientResponse) throws JAXBException {
-            InputStream inputStream = clientResponse.getEntityInputStream();
+            InputStream inputStream = clientResponse.getEntityStream();
             JAXBElement<ProtectionKeyRestType> protectionKeyTypeJaxbElement = unmarshaller
                     .unmarshal(new StreamSource(inputStream),
                             ProtectionKeyRestType.class);

@@ -17,7 +17,12 @@ package com.microsoft.windowsazure.services.media.models;
 
 import java.util.List;
 
+import javax.ws.rs.core.GenericType;
+
+import org.glassfish.jersey.client.ClientResponse;
+
 import com.microsoft.windowsazure.exception.ServiceException;
+import com.microsoft.windowsazure.services.media.UniformInterfaceException;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;
@@ -34,9 +39,7 @@ import com.microsoft.windowsazure.services.media.implementation.content.CrossSit
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointAccessControlType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointCacheControlType;
 import com.microsoft.windowsazure.services.media.implementation.content.StreamingEndpointType;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.UniformInterfaceException;
+
 
 /**
  * Class for creating operations to manipulate Asset entities.
@@ -97,10 +100,10 @@ public final class StreamingEndpoint {
 
             if (clientResponse.getStatus() >= 300) {
                 throw new UniformInterfaceException(
-                        String.format("Received: %s", clientResponse.getEntity(String.class)), clientResponse);
+                        String.format("Received: %s", clientResponse.readEntity(String.class)), clientResponse);
             }
 
-            StreamingEndpointInfo streamingEndpointInfo = clientResponse.getEntity(StreamingEndpointInfo.class);
+            StreamingEndpointInfo streamingEndpointInfo = clientResponse.readEntity(StreamingEndpointInfo.class);
 
             if (clientResponse.getHeaders().containsKey("operation-id")) {
                 List<String> operationIds = clientResponse.getHeaders().get("operation-id");

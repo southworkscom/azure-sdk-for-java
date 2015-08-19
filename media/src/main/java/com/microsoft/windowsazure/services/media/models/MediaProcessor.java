@@ -15,8 +15,9 @@
 
 package com.microsoft.windowsazure.services.media.models;
 
+import javax.ws.rs.core.GenericType;
+
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultListOperation;
-import com.sun.jersey.api.client.GenericType;
 
 /**
  * Entity operations for Media processors

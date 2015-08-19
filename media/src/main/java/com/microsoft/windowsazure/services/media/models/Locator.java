@@ -16,6 +16,8 @@ package com.microsoft.windowsazure.services.media.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.GenericType;
+
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultGetOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultListOperation;
@@ -27,7 +29,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityOperatio
 import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyData;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.LocatorRestType;
-import com.sun.jersey.api.client.GenericType;
 
 /**
  * Implementation of Locator entity.
