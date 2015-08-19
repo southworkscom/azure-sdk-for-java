@@ -22,6 +22,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
+import com.microsoft.windowsazure.core.Builder;
+import com.microsoft.windowsazure.core.UserAgentFilter;
+
 //import org.glassfish.jersey.client.ClientConfig;
 
 //import com.microsoft.windowsazure.core.Builder;
@@ -41,12 +44,12 @@ import com.microsoft.windowsazure.services.media.implementation.VersionHeadersFi
 //import com.sun.jersey.api.client.config.ClientConfig;
 //import com.sun.jersey.api.json.JSONConfiguration;
 
-public class Exports { //implements Builder.Exports {
+public class Exports implements Builder.Exports {
 
     /**
      * register the Media services.
      */
-    /*@Override
+    @Override
     public void register(Builder.Registry registry) {
         registry.add(MediaContract.class, MediaExceptionProcessor.class);
         registry.add(MediaRestProxy.class);
@@ -91,6 +94,6 @@ public class Exports { //implements Builder.Exports {
                         return instance;
                     }
                 });
-    }*/
+    }
     
 }
