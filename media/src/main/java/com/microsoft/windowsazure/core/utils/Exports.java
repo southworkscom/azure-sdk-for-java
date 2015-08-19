@@ -23,6 +23,7 @@ import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.management.configuration.ManagementConfiguration;
 
 public class Exports implements Builder.Exports {
+    
     @Override
     public void register(Builder.Registry registry) {
         registry.add(DateFactory.class, DefaultDateFactory.class);
