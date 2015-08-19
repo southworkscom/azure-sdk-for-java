@@ -17,7 +17,7 @@ package com.microsoft.windowsazure.services.media.implementation;
 
 import javax.ws.rs.core.UriBuilder;
 
-import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
+//import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
 //import com.sun.jersey.api.client.ClientRequest;
 //import com.sun.jersey.api.client.ClientResponse;
 
@@ -25,7 +25,7 @@ import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
  * Filter responsible for adding SAS tokens to outgoing requests.
  * 
  */
-public class SASTokenFilter extends IdempotentClientFilter {
+public class SASTokenFilter { // extends IdempotentClientFilter {
     private final String sasToken;
 
     /**
@@ -46,7 +46,7 @@ public class SASTokenFilter extends IdempotentClientFilter {
      * com.microsoft.windowsazure.services.core.IdempotentClientFilter#doHandle
      * (com.sun.jersey.api.client.ClientRequest)
      */
-    @Override
+   /* @Override
     public ClientResponse doHandle(ClientRequest cr) {
         UriBuilder newUri = UriBuilder.fromUri(cr.getURI());
         String currentQuery = cr.getURI().getRawQuery();
@@ -61,5 +61,5 @@ public class SASTokenFilter extends IdempotentClientFilter {
         cr.setURI(newUri.build());
 
         return getNext().handle(cr);
-    }
+    }*/
 }

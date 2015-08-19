@@ -18,6 +18,7 @@ package com.microsoft.windowsazure.services.media;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -27,8 +28,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyInfo;
@@ -365,7 +369,7 @@ public class AssetIntegrationTest extends IntegrationTestBase {
 
     @Test
     public void canGetParentBackFromAsset() throws ServiceException,
-            InterruptedException {
+            InterruptedException, StorageException, IOException, URISyntaxException {
         // Arrange
         String originalAssetName = testAssetPrefix
                 + "canGetParentBackFromAsset";
@@ -380,12 +384,15 @@ public class AssetIntegrationTest extends IntegrationTestBase {
         LocatorInfo locatorInfo = service.create(Locator.create(
                 accessPolicyInfo.getId(), originalAsset.getId(),
                 LocatorType.SAS));
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locatorInfo);
-
+        
+        URIBuilder builder = new URIBuilder(locatorInfo.getPath());
+        builder.setPath(builder.getPath() + "/" + "MPEG4-H264.mp4");            
+        
+        CloudBlockBlob blobWriter = new CloudBlockBlob(builder.build());
+        
         InputStream mpeg4H264InputStream = getClass().getResourceAsStream(
                 "/media/MPEG4-H264.mp4");
-        blobWriter.createBlockBlob("MPEG4-H264.mp4", mpeg4H264InputStream);
+        blobWriter.upload(mpeg4H264InputStream, mpeg4H264InputStream.available());
         service.action(AssetFile.createFileInfos(originalAsset.getId()));
 
         String jobName = testJobPrefix + "createJobSuccess";

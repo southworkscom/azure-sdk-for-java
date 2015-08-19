@@ -21,9 +21,9 @@ import javax.ws.rs.ClientErrorException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
-import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseFilter;
-import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
+//import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
+//import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseFilter;
+//import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
 import com.microsoft.windowsazure.services.media.MediaContract;
@@ -81,6 +81,7 @@ public class MediaExceptionProcessor implements MediaContract {
      * com.microsoft.windowsazure.services.core.FilterableService#withFilter
      * (com.microsoft.windowsazure.services.core.ServiceFilter)
      */
+    /*
     @Override
     public MediaContract withFilter(ServiceFilter filter) {
         return new MediaExceptionProcessor(service.withFilter(filter));
@@ -113,7 +114,7 @@ public class MediaExceptionProcessor implements MediaContract {
         return new MediaExceptionProcessor(
                 service.withResponseFilterLast(serviceResponseFilter));
     }
-
+*/
     /**
      * Process a catch.
      * 

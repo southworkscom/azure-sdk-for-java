@@ -26,8 +26,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.microsoft.windowsazure.core.pipeline.jersey.ExponentialRetryPolicy;
-import com.microsoft.windowsazure.core.pipeline.jersey.RetryPolicyFilter;
+//import com.microsoft.windowsazure.core.pipeline.jersey.ExponentialRetryPolicy;
+//import com.microsoft.windowsazure.core.pipeline.jersey.RetryPolicyFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyInfo;
@@ -221,7 +221,7 @@ public class AccessPolicyIntegrationTest extends IntegrationTestBase {
         service.delete(AccessPolicy.delete(validButNonexistAccessPolicyId));
     }
 
-    @Test
+    /*@Test
     public void canRetryAccessPolicyCreation() throws Exception {
         String name = testPolicyPrefix + "canRetryAccessPolicyCreationPolicy";
         double duration = 1;
@@ -236,5 +236,5 @@ public class AccessPolicyIntegrationTest extends IntegrationTestBase {
 
         forceRetryService.create(AccessPolicy.create(name + "2", duration,
                 write));
-    }
+    }*/
 }

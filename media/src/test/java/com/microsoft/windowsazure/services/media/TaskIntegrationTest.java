@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.core.Base64;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.Asset;
 import com.microsoft.windowsazure.services.media.models.AssetInfo;
@@ -42,7 +43,6 @@ import com.microsoft.windowsazure.services.media.models.Task.CreateBatchOperatio
 import com.microsoft.windowsazure.services.media.models.TaskInfo;
 import com.microsoft.windowsazure.services.media.models.TaskOption;
 import com.microsoft.windowsazure.services.media.models.TaskState;
-import com.sun.jersey.core.util.Base64;
 
 public class TaskIntegrationTest extends IntegrationTestBase {
     private static AssetInfo assetInfo;
@@ -73,8 +73,7 @@ public class TaskIntegrationTest extends IntegrationTestBase {
         String taskBody = constructTaskBody(0);
 
         // Optional parameters
-        String configuration = new String(Base64.encode(commonConfiguration),
-                "UTF8");
+        String configuration = new String(Base64.encode(commonConfiguration.getBytes()));
         String name = "My encoding Task " + UUID.randomUUID().toString();
         int jobPriority = 3;
         TaskOption options = TaskOption.ProtectedConfiguration;
@@ -83,8 +82,7 @@ public class TaskIntegrationTest extends IntegrationTestBase {
         String encryptionScheme = "ConfigurationEncryption";
         String encryptionVersion = "1.0";
         // Use a trivial vector, 16 bytes of zeros, base-64 encoded.
-        String initializationVector = new String(Base64.encode(new byte[16]),
-                "UTF8");
+        String initializationVector = new String(Base64.encode(new byte[16]));
 
         CreateBatchOperation taskCreator = Task
                 .create(mediaProcessorId, taskBody)

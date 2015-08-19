@@ -18,12 +18,13 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
 
+import javax.ws.rs.client.Client;
+
 import org.junit.Test;
 
 import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.services.media.IntegrationTestBase;
 import com.microsoft.windowsazure.services.media.MediaConfiguration;
-import com.sun.jersey.api.client.Client;
 
 public class OAuthRestProxyIntegrationTest extends IntegrationTestBase {
     @Test

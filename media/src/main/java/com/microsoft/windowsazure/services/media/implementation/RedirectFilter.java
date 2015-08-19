@@ -18,12 +18,12 @@ package com.microsoft.windowsazure.services.media.implementation;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
+//import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
 //import com.sun.jersey.api.client.ClientHandlerException;
 //import com.sun.jersey.api.client.ClientRequest;
 //import com.sun.jersey.api.client.ClientResponse;
 
-public class RedirectFilter extends IdempotentClientFilter {
+public class RedirectFilter { // extends IdempotentClientFilter {
     private final ResourceLocationManager locationManager;
 
     public RedirectFilter(ResourceLocationManager locationManager) {
@@ -37,6 +37,7 @@ public class RedirectFilter extends IdempotentClientFilter {
      * com.microsoft.windowsazure.services.core.IdempotentClientFilter#doHandle
      * (com.sun.jersey.api.client.ClientRequest)
      */
+    /*
     @Override
     public ClientResponse doHandle(ClientRequest request) {
         if (request == null) {
@@ -63,7 +64,7 @@ public class RedirectFilter extends IdempotentClientFilter {
             response = getNext().handle(request);
         }
         return response;
-    }
+    }*/
 
     public URI getBaseURI() {
         return this.locationManager.getBaseURI();

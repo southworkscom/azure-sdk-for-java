@@ -19,6 +19,7 @@ import java.net.URI;
 
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
@@ -36,13 +37,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.windowsazure.core.UserAgentFilter;
-import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapter;
+//import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
 //import com.sun.jersey.api.client.Client;
 //import com.sun.jersey.api.client.ClientResponse;
 //import com.sun.jersey.api.client.UniformInterfaceException;
 //import com.sun.jersey.api.representation.Form;
+import com.microsoft.windowsazure.services.media.UniformInterfaceException;
 
 /**
  * The OAuth rest proxy.
@@ -98,7 +100,7 @@ public class OAuthRestProxy implements OAuthContract {
             clientResponse = null;
             target.request(MediaType.APPLICATION_FORM_URLENCODED)
                     .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                    .post(requestForm, ClientResponse.class);
+                    .post(Entity.form(requestForm), ClientResponse.class);
             
         } catch (UniformInterfaceException e) {
             log.warn("OAuth server returned error acquiring access_token", e);

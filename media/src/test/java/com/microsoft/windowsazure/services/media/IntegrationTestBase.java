@@ -20,8 +20,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -29,11 +31,14 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.windowsazure.Configuration;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
@@ -58,15 +63,9 @@ import com.microsoft.windowsazure.services.media.models.NotificationEndPointInfo
 import com.microsoft.windowsazure.services.media.models.StreamingEndpoint;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointInfo;
 import com.microsoft.windowsazure.services.media.models.StreamingEndpointState;
-import com.microsoft.windowsazure.services.queue.QueueConfiguration;
-import com.microsoft.windowsazure.services.queue.QueueContract;
-import com.microsoft.windowsazure.services.queue.QueueService;
-import com.microsoft.windowsazure.services.queue.models.ListQueuesResult;
-import com.microsoft.windowsazure.services.queue.models.ListQueuesResult.Queue;
 
 public abstract class IntegrationTestBase {
     protected static MediaContract service;
-    protected static QueueContract queueService;
     protected static Configuration config;
 
     protected static final String testAssetPrefix = "testAsset";
@@ -98,14 +97,7 @@ public abstract class IntegrationTestBase {
         overrideWithEnv(config, MediaConfiguration.OAUTH_CLIENT_SECRET);
         overrideWithEnv(config, MediaConfiguration.OAUTH_SCOPE);
 
-        overrideWithEnv(config, QueueConfiguration.ACCOUNT_KEY,
-                "media.queue.account.key");
-        overrideWithEnv(config, QueueConfiguration.ACCOUNT_NAME,
-                "media.queue.account.name");
-        overrideWithEnv(config, QueueConfiguration.URI, "media.queue.uri");
-
         service = MediaService.create(config);
-        queueService = QueueService.create(config);
 
         cleanupEnvironment();
     }
@@ -158,7 +150,6 @@ public abstract class IntegrationTestBase {
         removeAllTestAccessPolicies();
         removeAllTestJobs();
         removeAllTestContentKeys();
-        removeAllTestQueues();
         removeAllTestNotificationEndPoints();
         removeAllTestStreamingEndPoints();
     }
@@ -219,22 +210,7 @@ public abstract class IntegrationTestBase {
             // e.printStackTrace();
         }
     }
-
-    private static void removeAllTestQueues() {
-        try {
-            ListQueuesResult listQueueResult = queueService.listQueues();
-            for (Queue queue : listQueueResult.getQueues()) {
-                try {
-                    queueService.deleteQueue(queue.getName());
-                } catch (Exception e) {
-                    // e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            // e.printStackTrace();
-        }
-    }
-
+    
     private static void removeAllTestContentKeys() {
         try {
             List<ContentKeyInfo> contentKeyInfos = service.list(ContentKey
@@ -351,7 +327,7 @@ public abstract class IntegrationTestBase {
         void verifyEquals(String message, Object expected, Object actual);
     }
 
-    protected static AssetInfo setupAssetWithFile() throws ServiceException {
+    protected static AssetInfo setupAssetWithFile() throws ServiceException, URISyntaxException, StorageException, IOException {
         String name = UUID.randomUUID().toString();
         String testBlobName = "test" + name + ".bin";
         AssetInfo assetInfo = service.create(Asset.create().setName(
@@ -361,12 +337,16 @@ public abstract class IntegrationTestBase {
                 testPolicyPrefix + name, 10,
                 EnumSet.of(AccessPolicyPermission.WRITE)));
         LocatorInfo locator = createLocator(accessPolicyInfo, assetInfo, 5);
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
-        InputStream blobContent = new ByteArrayInputStream(new byte[] { 4, 8,
-                15, 16, 23, 42 });
-        blobWriter.createBlockBlob(testBlobName, blobContent);
+        
+        URIBuilder builder = new URIBuilder(locator.getPath());
+        builder.setPath(builder.getPath() + "/" + testBlobName);            
+        
+        CloudBlockBlob blob = new CloudBlockBlob(builder.build());
+        
+        byte[] buffer = new byte[] { 4, 8, 15, 16, 23, 42 };
+        InputStream blobContent = new ByteArrayInputStream(buffer);
 
+        blob.upload(blobContent, buffer.length);
         service.action(AssetFile.createFileInfos(assetInfo.getId()));
 
         return assetInfo;

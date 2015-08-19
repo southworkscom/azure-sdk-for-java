@@ -15,14 +15,17 @@
 
 package com.microsoft.windowsazure.services.media.implementation.content;
 
+import java.io.StringReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -161,9 +164,10 @@ public class AssetDeliveryPolicyRestType implements MediaServiceDTO {
         try {
             Map<AssetDeliveryPolicyConfigurationKey, String> results 
                 = new HashMap<AssetDeliveryPolicyConfigurationKey, String>();
-            JSONArray source = new JSONArray(assetDeliveryConfiguration);
-            for (int i = 0; i < source.length(); i++) {
-                JSONObject row = source.getJSONObject(i);
+            JsonReader jsonReader = Json.createReader(new StringReader(assetDeliveryConfiguration));
+            JsonArray source = jsonReader.readArray();
+            for (int i = 0; i < source.size(); i++) {
+                JsonObject row = source.getJsonObject(i);
                 results.put(AssetDeliveryPolicyConfigurationKey.fromCode(row.getInt("Key")),
                         row.getString("Value"));
             }

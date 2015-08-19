@@ -23,9 +23,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import com.microsoft.windowsazure.Configuration;
-import com.microsoft.windowsazure.services.blob.BlobConfiguration;
 import com.microsoft.windowsazure.services.media.MediaConfiguration;
-import com.microsoft.windowsazure.services.queue.QueueConfiguration;
 
 public abstract class ScenarioTestBase {
     protected static Configuration config;
@@ -35,15 +33,6 @@ public abstract class ScenarioTestBase {
 
     protected static void initializeConfig() {
         config = new Configuration();
-
-        overrideWithEnv(config, BlobConfiguration.ACCOUNT_NAME);
-        overrideWithEnv(config, BlobConfiguration.ACCOUNT_KEY);
-        overrideWithEnv(config, BlobConfiguration.URI);
-
-        overrideWithEnv(config, QueueConfiguration.ACCOUNT_NAME);
-        overrideWithEnv(config, QueueConfiguration.ACCOUNT_KEY);
-        overrideWithEnv(config, QueueConfiguration.URI);
-
         overrideWithEnv(config, MediaConfiguration.URI);
         overrideWithEnv(config, MediaConfiguration.OAUTH_URI);
         overrideWithEnv(config, MediaConfiguration.OAUTH_CLIENT_ID);

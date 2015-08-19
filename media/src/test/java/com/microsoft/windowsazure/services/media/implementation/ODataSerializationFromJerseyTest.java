@@ -18,11 +18,19 @@ package com.microsoft.windowsazure.services.media.implementation;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+import org.glassfish.jersey.client.ClientProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.core.utils.DefaultDateFactory;
 import com.microsoft.windowsazure.services.media.IntegrationTestBase;
@@ -31,11 +39,6 @@ import com.microsoft.windowsazure.services.media.MediaContract;
 import com.microsoft.windowsazure.services.media.implementation.content.AssetType;
 import com.microsoft.windowsazure.services.media.models.Asset;
 import com.microsoft.windowsazure.services.media.models.AssetInfo;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.json.JSONConfiguration;
 
 public class ODataSerializationFromJerseyTest extends IntegrationTestBase {
 
@@ -45,28 +48,31 @@ public class ODataSerializationFromJerseyTest extends IntegrationTestBase {
         // Build a jersey client object by hand; this is working up to the
         // full integration into the media services rest proxy, but we
         // need to go step by step to begin.
-
-        ClientConfig cc = new DefaultClientConfig();
-        cc.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, false);
-        cc.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, true);
-        cc.getSingletons().add(new ODataEntityProvider());
-        Client c = Client.create(cc);
+        JacksonJsonProvider jacksonJsonProvider = 
+                new JacksonJaxbJsonProvider()
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        
+        Client c = ClientBuilder.newBuilder()
+                .property(ClientProperties.FOLLOW_REDIRECTS, false)
+                .register(jacksonJsonProvider)
+                .register(new ODataEntityProvider())
+                .build();
 
         // c.addFilter(new LoggingFilter(System.out));
-        c.addFilter(new RedirectFilter(createLocationManager()));
-        c.addFilter(new OAuthFilter(createTokenManager()));
-        c.addFilter(new VersionHeadersFilter());
+        c.register(new RedirectFilter(createLocationManager()));
+        c.register(new OAuthFilter(createTokenManager()));
+        c.register(new VersionHeadersFilter());
 
-        WebResource assetResource = c.resource("Assets");
+        WebTarget assetResource = c.target("Assets");
 
         ODataAtomMarshaller m = new ODataAtomMarshaller();
         AssetType requestData = new AssetType();
         requestData.setName(testAssetPrefix + "firstTestAsset");
         requestData.setAlternateId("some external id");
 
-        AssetInfo newAsset = assetResource.type(MediaType.APPLICATION_ATOM_XML)
+        AssetInfo newAsset = assetResource.request(MediaType.APPLICATION_ATOM_XML)
                 .accept(MediaType.APPLICATION_ATOM_XML)
-                .post(AssetInfo.class, m.marshalEntry(requestData));
+                .post(Entity.xml(m.marshalEntry(requestData)), AssetInfo.class);
 
         Assert.assertNotNull(newAsset);
         Assert.assertEquals(testAssetPrefix + "firstTestAsset",
@@ -75,7 +81,7 @@ public class ODataSerializationFromJerseyTest extends IntegrationTestBase {
     }
 
     private OAuthContract createOAuthContract() {
-        return new OAuthRestProxy(Client.create(), new UserAgentFilter());
+        return new OAuthRestProxy(ClientBuilder.newClient(), new UserAgentFilter());
     }
 
     private OAuthTokenManager createTokenManager() throws URISyntaxException {

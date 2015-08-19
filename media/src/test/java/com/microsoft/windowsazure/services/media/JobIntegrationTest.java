@@ -48,7 +48,6 @@ import com.microsoft.windowsazure.services.media.models.Task;
 import com.microsoft.windowsazure.services.media.models.Task.CreateBatchOperation;
 import com.microsoft.windowsazure.services.media.models.TaskHistoricalEvent;
 import com.microsoft.windowsazure.services.media.models.TaskInfo;
-import com.microsoft.windowsazure.services.queue.models.PeekMessagesResult.QueueMessage;
 
 public class JobIntegrationTest extends IntegrationTestBase {
 
@@ -152,67 +151,6 @@ public class JobIntegrationTest extends IntegrationTestBase {
         verifyJobProperties("actualJob", name, priority, duration, state,
                 templateId, created, lastModified, stateTime, endTime, 1,
                 actualJob);
-    }
-
-    @Test
-    public void createJobWithNotificationSuccess() throws ServiceException {
-        // Arrange
-        String name = testJobPrefix + "createJobWithNotificationSuccess";
-        String queueName = testQueuePrefix + "createjobwithnotificationsuccess";
-        int priority = 3;
-        double duration = 0.0;
-        JobState state = JobState.Queued;
-        String templateId = null;
-        Date created = new Date();
-        Date lastModified = new Date();
-        Date stateTime = null;
-        Date endTime = null;
-
-        queueService.createQueue(queueName);
-        String notificationEndPointName = UUID.randomUUID().toString();
-
-        service.create(NotificationEndPoint.create(notificationEndPointName,
-                EndPointType.AzureQueue, queueName));
-        ListResult<NotificationEndPointInfo> listNotificationEndPointInfos = service
-                .list(NotificationEndPoint.list());
-        String notificationEndPointId = null;
-
-        for (NotificationEndPointInfo notificationEndPointInfo : listNotificationEndPointInfos) {
-            if (notificationEndPointInfo.getName().equals(
-                    notificationEndPointName)) {
-                notificationEndPointId = notificationEndPointInfo.getId();
-            }
-        }
-
-        JobNotificationSubscription jobNotificationSubcription = getJobNotificationSubscription(
-                notificationEndPointId, TargetJobState.All);
-
-        Creator creator = Job.create().setName(name).setPriority(priority)
-                .addInputMediaAsset(assetInfo.getId())
-                .addTaskCreator(getTaskCreator(0))
-                .addJobNotificationSubscription(jobNotificationSubcription);
-
-        // Act
-        JobInfo actualJob = service.create(creator);
-
-        // Assert
-        JobInfo pendingJobInfo = service.get(Job.get(actualJob.getId()));
-        int retryCounter = 0;
-        while (pendingJobInfo.getState() != JobState.Error
-                && retryCounter < 100) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-            }
-            pendingJobInfo = service.get(Job.get(actualJob.getId()));
-            retryCounter++;
-        }
-        verifyJobProperties("actualJob", name, priority, duration, state,
-                templateId, created, lastModified, stateTime, endTime, 1,
-                actualJob);
-        List<QueueMessage> queueMessages = queueService.peekMessages(queueName)
-                .getQueueMessages();
-        assertEquals(1, queueMessages.size());
     }
 
     @Test

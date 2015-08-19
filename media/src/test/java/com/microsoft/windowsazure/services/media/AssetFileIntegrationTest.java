@@ -20,16 +20,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
 import com.microsoft.windowsazure.services.media.models.AccessPolicyInfo;
@@ -65,10 +70,8 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
     public void canCreateFileForUploadedBlob() throws Exception {
         AssetInfo asset = createTestAsset("createFileForUploadedBlob");
         LocatorInfo locator = createLocator(writePolicy, asset, 5);
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
 
-        createAndUploadBlob(blobWriter, BLOB_NAME, firstPrimes);
+        createAndUploadBlob(locator, BLOB_NAME, firstPrimes);
 
         service.action(AssetFile.createFileInfos(asset.getId()));
 
@@ -84,10 +87,8 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
     public void canCreateFileEntityDirectly() throws Exception {
         AssetInfo asset = createTestAsset("createFileEntityDirectly");
         LocatorInfo locator = createLocator(writePolicy, asset, 5);
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
 
-        createAndUploadBlob(blobWriter, BLOB_NAME_2, firstPrimes);
+        createAndUploadBlob(locator, BLOB_NAME_2, firstPrimes);
 
         service.create(AssetFile.create(asset.getId(), BLOB_NAME_2));
 
@@ -112,12 +113,10 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
                 10);
         LocatorInfo locator = createLocator(policy, asset, 5);
 
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
 
-        createAndUploadBlob(blobWriter, "blob1.bin", firstPrimes);
-        createAndUploadBlob(blobWriter, "blob2.bin", onesAndZeros);
-        createAndUploadBlob(blobWriter, "blob3.bin", countingUp);
+        createAndUploadBlob(locator, "blob1.bin", firstPrimes);
+        createAndUploadBlob(locator, "blob2.bin", onesAndZeros);
+        createAndUploadBlob(locator, "blob3.bin", countingUp);
 
         AssetFileInfo file1 = service.create(AssetFile
                 .create(asset.getId(), "blob1.bin").setIsPrimary(true)
@@ -158,10 +157,8 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
         AssetInfo asset = createTestAsset("createAndUpdate");
         AccessPolicyInfo policy = createWritePolicy("createAndUpdate", 10);
         LocatorInfo locator = createLocator(policy, asset, 5);
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
 
-        createAndUploadBlob(blobWriter, "toUpdate.bin", firstPrimes);
+        createAndUploadBlob(locator, "toUpdate.bin", firstPrimes);
 
         AssetFileInfo file = service.create(AssetFile.create(asset.getId(),
                 "toUpdate.bin"));
@@ -179,11 +176,9 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
         AssetInfo asset = createTestAsset("deleteFile");
         AccessPolicyInfo policy = createWritePolicy("deleteFile", 10);
         LocatorInfo locator = createLocator(policy, asset, 5);
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locator);
 
-        createAndUploadBlob(blobWriter, "todelete.bin", firstPrimes);
-        createAndUploadBlob(blobWriter, "tokeep.bin", onesAndZeros);
+        createAndUploadBlob(locator, "todelete.bin", firstPrimes);
+        createAndUploadBlob(locator, "tokeep.bin", onesAndZeros);
 
         service.action(AssetFile.createFileInfos(asset.getId()));
 
@@ -219,10 +214,15 @@ public class AssetFileIntegrationTest extends IntegrationTestBase {
     }
 
     private static void createAndUploadBlob(
-            WritableBlobContainerContract blobWriter, String blobName,
-            byte[] data) throws ServiceException {
+            LocatorInfo locator, String blobName,
+            byte[] data) throws ServiceException, URISyntaxException, StorageException, IOException {
         InputStream blobContent = new ByteArrayInputStream(data);
-        blobWriter.createBlockBlob(blobName, blobContent);
+       
+        URIBuilder builder = new URIBuilder(locator.getPath());
+        builder.setPath(builder.getPath() + "/" + blobName);            
+        
+        CloudBlockBlob blob = new CloudBlockBlob(builder.build());
+        blob.upload(blobContent, blobContent.available());
     }
 
     //

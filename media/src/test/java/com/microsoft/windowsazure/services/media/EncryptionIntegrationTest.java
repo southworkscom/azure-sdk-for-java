@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.Key;
@@ -36,9 +37,12 @@ import java.util.UUID;
 
 import javax.crypto.Cipher;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.windowsazure.core.utils.Base64;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
@@ -102,16 +106,19 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
 
         InputStream mpeg4H264InputStream = getClass().getResourceAsStream(
                 "/media/MPEG4-H264.mp4");
+        
         InputStream encryptedContent = EncryptionHelper.encryptFile(
                 mpeg4H264InputStream, aesKey, iv);
         int durationInMinutes = 10;
-
         // Act
         AssetInfo assetInfo = service.create(Asset.create()
                 .setName(testAssetPrefix + "uploadAesProtectedAssetSuccess")
                 .setOptions(AssetOption.StorageEncrypted));
-        WritableBlobContainerContract blobWriter = getBlobWriter(
-                assetInfo.getId(), durationInMinutes);
+        
+        String blobName = "MPEG4-H264.mp4";
+        
+        CloudBlockBlob blobWriter = getBlobWriter(
+                assetInfo.getId(), blobName, durationInMinutes);
 
         // gets the public key for storage encryption.
         String contentKeyId = createContentKey(aesKey);
@@ -120,8 +127,8 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
         service.action(Asset.linkContentKey(assetInfo.getId(), contentKeyId));
 
         // upload the encrypted file to the server.
-        uploadEncryptedAssetFile(assetInfo, blobWriter, "MPEG4-H264.mp4",
-                encryptedContent, contentKeyId, iv);
+        uploadEncryptedAssetFile(assetInfo, blobWriter, blobName,
+                encryptedContent, contentKeyId, iv, encryptedContent.available());
 
         // submit and execute the decoding job.
         JobInfo jobInfo = decodeAsset(testJobPrefix
@@ -280,10 +287,11 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
     }
 
     private void uploadEncryptedAssetFile(AssetInfo asset,
-            WritableBlobContainerContract blobWriter, String blobName,
-            InputStream blobContent, String encryptionKeyId, byte[] iv)
-            throws ServiceException {
-        blobWriter.createBlockBlob(blobName, blobContent);
+            CloudBlockBlob blobWriter, String blobName,
+            InputStream blobContent, String encryptionKeyId, byte[] iv, int blobSize)
+            throws ServiceException, StorageException, IOException {
+        
+        blobWriter.upload(blobContent, blobSize);
         service.action(AssetFile.createFileInfos(asset.getId()));
         ListResult<AssetFileInfo> files = service.list(AssetFile.list(
                 asset.getAssetFilesLink()).set("$filter",
@@ -304,8 +312,9 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
                 .setInitializationVector(initializationVector));
     }
 
-    private WritableBlobContainerContract getBlobWriter(String assetId,
-            int durationInMinutes) throws ServiceException {
+    private CloudBlockBlob getBlobWriter(String assetId, String filename,
+            int durationInMinutes) throws ServiceException, URISyntaxException, StorageException {
+        
         AccessPolicyInfo accessPolicyInfo = service.create(AccessPolicy.create(
                 testPolicyPrefix + "uploadAesPortectedAssetSuccess",
                 durationInMinutes, EnumSet.of(AccessPolicyPermission.WRITE)));
@@ -313,9 +322,11 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
         // creates locator for the input media asset
         LocatorInfo locatorInfo = service.create(Locator.create(
                 accessPolicyInfo.getId(), assetId, LocatorType.SAS));
-        WritableBlobContainerContract blobWriter = service
-                .createBlobWriter(locatorInfo);
-        return blobWriter;
+        
+        URIBuilder builder = new URIBuilder(locatorInfo.getPath());
+        builder.setPath(builder.getPath() + "/" + filename);
+        
+        return new CloudBlockBlob(builder.build());
     }
 
     private InputStream getFileContents(String assetId, String fileName,

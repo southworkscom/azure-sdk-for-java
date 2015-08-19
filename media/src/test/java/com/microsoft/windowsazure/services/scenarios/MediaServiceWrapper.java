@@ -41,10 +41,12 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.http.client.utils.URIBuilder;
+
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.microsoft.windowsazure.core.utils.Base64;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.MediaContract;
-import com.microsoft.windowsazure.services.media.WritableBlobContainerContract;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityListOperation;
 import com.microsoft.windowsazure.services.media.implementation.content.AssetFileType;
 import com.microsoft.windowsazure.services.media.models.AccessPolicy;
@@ -136,9 +138,6 @@ class MediaServiceWrapper {
 
         String contentKeyId = createAssetContentKey(asset, aesKey);
 
-        WritableBlobContainerContract uploader = service
-                .createBlobWriter(locator);
-
         Hashtable<String, AssetFileInfo> infoToUpload = new Hashtable<String, AssetFileInfo>();
 
         boolean isFirst = true;
@@ -157,7 +156,13 @@ class MediaServiceWrapper {
             InputStream digestStream = new DigestInputStream(inputStream,
                     digest);
             CountingStream countingStream = new CountingStream(digestStream);
-            uploader.createBlockBlob(fileName, countingStream);
+            
+            URIBuilder builder = new URIBuilder(locator.getPath());
+            builder.setPath(builder.getPath() + "/" + fileName);         
+            
+            CloudBlockBlob uploader = new CloudBlockBlob(builder.build());
+            
+            uploader.upload(countingStream, countingStream.available());
 
             inputStream.close();
             byte[] md5hash = digest.digest();

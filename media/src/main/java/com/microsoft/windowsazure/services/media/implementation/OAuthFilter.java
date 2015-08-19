@@ -16,7 +16,10 @@ package com.microsoft.windowsazure.services.media.implementation;
 
 import java.net.URISyntaxException;
 
-import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
+import org.glassfish.jersey.client.ClientRequest;
+import org.glassfish.jersey.client.ClientResponse;
+
+//import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
 //import com.sun.jersey.api.client.ClientHandlerException;
 //import com.sun.jersey.api.client.ClientRequest;
@@ -26,7 +29,7 @@ import com.microsoft.windowsazure.exception.ServiceException;
  * The Jersey filter for OAuth.
  * 
  */
-public class OAuthFilter extends IdempotentClientFilter {
+public class OAuthFilter  { //extends IdempotentClientFilter {
     private final OAuthTokenManager oAuthTokenManager;
 
     /**
@@ -45,9 +48,9 @@ public class OAuthFilter extends IdempotentClientFilter {
      * @see
      * com.microsoft.windowsazure.services.core.IdempotentClientFilter#doHandle
      * (com.sun.jersey.api.client.ClientRequest)
-     */@Override
-    public ClientResponse doHandle(ClientRequest clientRequest) {
-        String accessToken;
+     *///@Override
+   // public ClientResponse doHandle(ClientRequest clientRequest) {
+        /*String accessToken;
         try {
             accessToken = oAuthTokenManager.getAccessToken();
         } catch (ServiceException e) {
@@ -61,6 +64,7 @@ public class OAuthFilter extends IdempotentClientFilter {
         clientRequest.getHeaders()
                 .add("Authorization", "Bearer " + accessToken);
 
-        return this.getNext().handle(clientRequest);
-    }
+        return this.getNext().handle(clientRequest);*/
+     //    throw new RuntimeException("Unimplemented");
+   // }
 }
