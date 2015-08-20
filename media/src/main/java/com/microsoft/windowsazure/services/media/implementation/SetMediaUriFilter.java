@@ -16,26 +16,26 @@
 package com.microsoft.windowsazure.services.media.implementation;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
-import javax.ws.rs.core.MultivaluedMap;
 
-/**
- * A small filter that adds the required Media services/OData 3 version headers
- * to the request as it goes through.
- * 
- */
-public class VersionHeadersFilter implements ClientRequestFilter {
-    
+
+public class SetMediaUriFilter implements ClientRequestFilter { // extends IdempotentClientFilter {
+    private final ResourceLocationManager locationManager;
+
+    public SetMediaUriFilter(ResourceLocationManager locationManager) {
+        this.locationManager = locationManager;
+    }
+
+    public URI getBaseURI() {
+        return this.locationManager.getBaseURI();
+    }
+
     @Override
     public void filter(ClientRequestContext requestContext) throws IOException {
-        // TODO Auto-generated method stub
-        MultivaluedMap<String, Object> headers = requestContext.getHeaders();
-        headers.add("DataServiceVersion", "3.0");
-        headers.add("MaxDataServiceVersion", "3.0");
-        headers.add("x-ms-version", "2.11");
+        URI originalURI = requestContext.getUri();
+        requestContext.setUri(locationManager.getRedirectedURI(originalURI));
     }
 }
-
-

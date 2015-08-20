@@ -14,22 +14,19 @@
  */
 package com.microsoft.windowsazure.services.media.implementation;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.glassfish.jersey.client.ClientRequest;
-import org.glassfish.jersey.client.ClientResponse;
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
 
-//import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
-//import com.sun.jersey.api.client.ClientHandlerException;
-//import com.sun.jersey.api.client.ClientRequest;
-//import com.sun.jersey.api.client.ClientResponse;
 
 /**
  * The Jersey filter for OAuth.
  * 
  */
-public class OAuthFilter  { //extends IdempotentClientFilter {
+public class OAuthFilter  implements ClientRequestFilter {
     private final OAuthTokenManager oAuthTokenManager;
 
     /**
@@ -42,29 +39,22 @@ public class OAuthFilter  { //extends IdempotentClientFilter {
         this.oAuthTokenManager = oAuthTokenManager;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.microsoft.windowsazure.services.core.IdempotentClientFilter#doHandle
-     * (com.sun.jersey.api.client.ClientRequest)
-     *///@Override
-   // public ClientResponse doHandle(ClientRequest clientRequest) {
-        /*String accessToken;
+    @Override
+    public void filter(ClientRequestContext requestContext) throws IOException {
+        
+        String accessToken;
         try {
             accessToken = oAuthTokenManager.getAccessToken();
         } catch (ServiceException e) {
             // must wrap exception because of base class signature
-            throw new ClientHandlerException(e);
+            throw new RuntimeException(e);
         } catch (URISyntaxException e) {
             // must wrap exception because of base class signature
-            throw new ClientHandlerException(e);
+            throw new RuntimeException(e);
         }
 
-        clientRequest.getHeaders()
+        requestContext.getHeaders()
                 .add("Authorization", "Bearer " + accessToken);
+    }
 
-        return this.getNext().handle(clientRequest);*/
-     //    throw new RuntimeException("Unimplemented");
-   // }
 }

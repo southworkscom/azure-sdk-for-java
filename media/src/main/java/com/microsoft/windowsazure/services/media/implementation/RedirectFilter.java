@@ -15,15 +15,20 @@
 
 package com.microsoft.windowsazure.services.media.implementation;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientResponseContext;
+import javax.ws.rs.client.ClientResponseFilter;
+import javax.ws.rs.core.Response;
 
 //import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
 //import com.sun.jersey.api.client.ClientHandlerException;
 //import com.sun.jersey.api.client.ClientRequest;
 //import com.sun.jersey.api.client.ClientResponse;
 
-public class RedirectFilter { // extends IdempotentClientFilter {
+public class RedirectFilter implements ClientResponseFilter { // extends IdempotentClientFilter {
     private final ResourceLocationManager locationManager;
 
     public RedirectFilter(ResourceLocationManager locationManager) {
@@ -68,5 +73,18 @@ public class RedirectFilter { // extends IdempotentClientFilter {
 
     public URI getBaseURI() {
         return this.locationManager.getBaseURI();
+    }
+
+    @Override
+    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
+        if (responseContext.getStatusInfo().getFamily() != Response.Status.Family.REDIRECTION) {
+            return;
+        }
+        
+        Response resp = requestContext.getClient().target(responseContext.getLocation()).request().method(requestContext.getMethod());
+        
+        responseContext.setEntityStream((InputStream) resp.getEntity());
+        responseContext.setStatusInfo(resp.getStatusInfo());
+        responseContext.setStatus(resp.getStatus());        
     }
 }

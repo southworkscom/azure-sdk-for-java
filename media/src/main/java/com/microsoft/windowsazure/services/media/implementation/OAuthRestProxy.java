@@ -87,22 +87,20 @@ public class OAuthRestProxy implements OAuthContract {
             String clientSecret, String scope) throws ServiceException {
         OAuthTokenResponse response = null;
         Form requestForm = new Form();
-        ClientResponse clientResponse;
         String responseJson;
 
         requestForm.asMap().add("grant_type", grantType);
         requestForm.asMap().add("client_id", clientId);
         requestForm.asMap().add("client_secret", clientSecret);
         requestForm.asMap().add("scope", scope);
-
+        String str;
         try {
             WebTarget target = channel.target(oAuthUri);
-            clientResponse = null;
-            target.request(MediaType.APPLICATION_FORM_URLENCODED)
-                    .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                    .post(Entity.form(requestForm), ClientResponse.class);
+            responseJson =  target.request(MediaType.APPLICATION_FORM_URLENCODED)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .post(Entity.form(requestForm), String.class);
             
-        } catch (UniformInterfaceException e) {
+        } catch (Exception e) {
             log.warn("OAuth server returned error acquiring access_token", e);
             throw ServiceExceptionFactory
                     .process(
@@ -111,8 +109,6 @@ public class OAuthRestProxy implements OAuthContract {
                                     "OAuth server returned error acquiring access_token",
                                     e));
         }
-
-        responseJson = clientResponse.readEntity(String.class);
 
         try {
             ObjectMapper mapper = new ObjectMapper();

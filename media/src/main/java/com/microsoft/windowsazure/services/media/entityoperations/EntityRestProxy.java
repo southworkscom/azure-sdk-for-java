@@ -33,11 +33,6 @@ import javax.ws.rs.client.Invocation.Builder;
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.models.ListResult;
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.api.client.WebResource;
-//import com.sun.jersey.api.client.WebResource.Builder;
-//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * The Class EntityRestProxy.
@@ -151,9 +146,9 @@ public abstract class EntityRestProxy implements EntityContract {
     public <T> T create(EntityCreateOperation<T> creator)
             throws ServiceException {
         creator.setProxyData(createProxyData());
-        // TODO: verificar Entity.text
+        // TODO: verificar Entity.xml
         Object rawResponse = getTarget(creator).post(
-                Entity.text(creator.getRequestContents()),
+                Entity.json(creator.getRequestContents()),
                 creator.getResponseClass());
         Object processedResponse = creator.processResponse(rawResponse);
         return (T) processedResponse;

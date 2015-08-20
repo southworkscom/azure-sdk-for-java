@@ -25,10 +25,6 @@ import org.glassfish.jersey.client.ClientProperties;
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.UserAgentFilter;
 
-//import org.glassfish.jersey.client.ClientConfig;
-
-//import com.microsoft.windowsazure.core.Builder;
-//import com.microsoft.windowsazure.core.UserAgentFilter;
 import com.microsoft.windowsazure.services.media.implementation.MediaContentProvider;
 import com.microsoft.windowsazure.services.media.implementation.MediaExceptionProcessor;
 import com.microsoft.windowsazure.services.media.implementation.MediaRestProxy;
@@ -40,9 +36,8 @@ import com.microsoft.windowsazure.services.media.implementation.ODataEntityColle
 import com.microsoft.windowsazure.services.media.implementation.ODataEntityProvider;
 import com.microsoft.windowsazure.services.media.implementation.RedirectFilter;
 import com.microsoft.windowsazure.services.media.implementation.ResourceLocationManager;
+import com.microsoft.windowsazure.services.media.implementation.SetMediaUriFilter;
 import com.microsoft.windowsazure.services.media.implementation.VersionHeadersFilter;
-//import com.sun.jersey.api.client.config.ClientConfig;
-//import com.sun.jersey.api.json.JSONConfiguration;
 
 public class Exports implements Builder.Exports {
 
@@ -58,42 +53,42 @@ public class Exports implements Builder.Exports {
         registry.add(OAuthFilter.class);
         registry.add(ResourceLocationManager.class);
         registry.add(RedirectFilter.class);
+        registry.add(SetMediaUriFilter.class);
         registry.add(VersionHeadersFilter.class);
         registry.add(UserAgentFilter.class);
 
-//        registry.alter(MediaContract.class, ClientConfig.class,
-//                new Builder.Alteration<ClientConfig>() {
-//                    @SuppressWarnings("rawtypes")
-//                    @Override 
-//                    public ClientConfig alter(String profile,
-//                            ClientConfig instance, Builder builder,
-//                            Map<String, Object> properties) {
-//
-//                    //    instance.getProperties().put(
-//        //                        JSONConfiguration.FEATURE_POJO_MAPPING, true);
-////
-//                        // Turn off auto-follow redirects, because Media
-//                        // Services rest calls break if it's on
-//                        instance.getProperties().put(
-//                                ClientProperties.FOLLOW_REDIRECTS, false);
-//
-//                        
-//                //        try {
-//                          //  instance.getSingletons().add(
-//             //                       new ODataEntityProvider());
-//              //              instance.getSingletons().add(
-//              //                      new ODataEntityCollectionProvider());
-//              //              instance.getSingletons().add(
-//                          //          new MediaContentProvider());
-//           //             } catch (JAXBException e) {
-//            //                throw new RuntimeException(e);
-//           //             } catch (ParserConfigurationException e) {
-//            //                throw new RuntimeException(e);
-//               //         }
-////
-//                        return instance;
-//                    }
-//                });
+        registry.alter(MediaContract.class, ClientConfig.class,
+                new Builder.Alteration<ClientConfig>() {
+                    @SuppressWarnings("rawtypes")
+                    @Override 
+                    public ClientConfig alter(String profile,
+                            ClientConfig instance, Builder builder,
+                            Map<String, Object> properties) {
+
+                        //instance.getProperties().put(
+                         //       JSONConfiguration.FEATURE_POJO_MAPPING, true);
+
+                        // Turn off auto-follow redirects, because Media
+                        // Services rest calls break if it's on
+                        instance.getProperties().put(
+                                ClientProperties.FOLLOW_REDIRECTS, false);
+                        
+                        /*try {
+                            instance.getSingletons().add(
+                                    new ODataEntityProvider());
+                            instance.getSingletons().add(
+                                    new ODataEntityCollectionProvider());
+                            instance.getSingletons().add(
+                                    new MediaContentProvider());
+                        } catch (JAXBException e) {
+                            throw new RuntimeException(e);
+                        } catch (ParserConfigurationException e) {
+                            throw new RuntimeException(e);
+                        }*/
+
+                        return instance;
+                    }
+                });
     }
     
 }

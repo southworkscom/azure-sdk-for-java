@@ -46,7 +46,7 @@ import com.microsoft.windowsazure.services.media.models.LocatorType;
  */
 public class MediaRestProxy extends EntityRestProxy implements MediaContract {
     /** The redirect filter. */
-    private RedirectFilter redirectFilter;
+    private SetMediaUriFilter mediaUriFilter;
 
     private final ClientConfigSettings clientConfigSettings;
 
@@ -69,15 +69,16 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
      */
     @Inject
     public MediaRestProxy(Client channel, OAuthFilter authFilter,
-            RedirectFilter redirectFilter,
+            SetMediaUriFilter mediaUriFilter,
             VersionHeadersFilter versionHeadersFilter,
             UserAgentFilter userAgentFilter,
             ClientConfigSettings clientConfigSettings) {
         super(channel, new ClientRequestFilter[0], new ClientResponseFilter[0]);
 
         this.clientConfigSettings = clientConfigSettings;
-        this.redirectFilter = redirectFilter;
-        channel.register(redirectFilter);
+        this.mediaUriFilter = mediaUriFilter;
+        //channel.register(redirectFilter);
+        channel.register(mediaUriFilter);
         channel.register(authFilter);
         channel.register(versionHeadersFilter);
         channel.register(userAgentFilter);
@@ -99,72 +100,7 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
         super(channel, requestFilters, responseFilters);
         this.clientConfigSettings = clientConfigSettings;
     }
-    /*
-    @Override
-    public MediaContract withFilter(ServiceFilter filter) {
-        ClientRequestFilter[] requestFilters = getRequestFilters();
-        ClientResponseFilter[] responseFilters = getResponseFilters();
-        ClientRequestFilter[] newRequestFilters = Arrays.copyOf(requestFilters,
-                requestFilters.length + 1);
-        newFilters[currentFilters.length] = new ClientFilterAdapter(filter);
-        return new MediaRestProxy(getChannel(), newFilters,
-                clientConfigSettings);
-        throw new RuntimeException("Unimplemented");
-    }
-
-    @Override
-    public MediaContract withRequestFilterFirst(
-            ServiceRequestFilter serviceRequestFilter) {
-        ClientFilter[] currentFilters = getRequestFilters();
-        ClientFilter[] newFilters = new ClientFilter[currentFilters.length + 1];
-        System.arraycopy(currentFilters, 0, newFilters, 1,
-                currentFilters.length);
-        newFilters[0] = new ClientFilterRequestAdapter(serviceRequestFilter);
-        return new MediaRestProxy(getChannel(), newFilters,
-                clientConfigSettings);
-        throw new RuntimeException("Unimplemented");
-    }
-
-    @Override
-    public MediaContract withRequestFilterLast(
-            ServiceRequestFilter serviceRequestFilter) {
-        ClientFilter[] currentFilters = getRequestFilters();
-        ClientFilter[] newFilters = Arrays.copyOf(currentFilters,
-                currentFilters.length + 1);
-        newFilters[currentFilters.length] = new ClientFilterRequestAdapter(
-                serviceRequestFilter);
-        return new MediaRestProxy(getChannel(), newFilters,
-                clientConfigSettings);
-        throw new RuntimeException("Unimplemented");
-        
-    }
-
-    @Override
-    public MediaContract withResponseFilterFirst(
-            ServiceResponseFilter serviceResponseFilter) {
-        ClientFilter[] currentFilters = getRequestFilters();
-        ClientFilter[] newFilters = new ClientFilter[currentFilters.length + 1];
-        System.arraycopy(currentFilters, 0, newFilters, 1,
-                currentFilters.length);
-        newFilters[0] = new ClientFilterResponseAdapter(serviceResponseFilter);
-        return new MediaRestProxy(getChannel(), newFilters,
-                clientConfigSettings);
-        throw new RuntimeException("Unimplemented");
-    }
-
-    @Override
-    public MediaContract withResponseFilterLast(
-            ServiceResponseFilter serviceResponseFilter) {
-        ClientFilter[] currentFilters = getRequestFilters();
-        ClientFilter[] newFilters = Arrays.copyOf(currentFilters,
-                currentFilters.length + 1);
-        newFilters[currentFilters.length] = new ClientFilterResponseAdapter(
-                serviceResponseFilter);
-        return new MediaRestProxy(getChannel(), newFilters,
-                clientConfigSettings);
-        throw new RuntimeException("Unimplemented");
-    }*/
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -177,7 +113,7 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
         return new EntityProxyData() {
             @Override
             public URI getServiceUri() {
-                return redirectFilter.getBaseURI();
+                return mediaUriFilter.getBaseURI();
             }
         };
     }
