@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -204,6 +205,7 @@ public class NotificationEndPointIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void canDeleteNotificationEndPointByInvalidId() throws Exception {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(400));
@@ -211,6 +213,7 @@ public class NotificationEndPointIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void cannotDeleteNotificationEndPointByNonexistId() throws Exception {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(400));

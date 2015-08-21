@@ -18,6 +18,7 @@ package com.microsoft.windowsazure.services.media.models;
 import java.io.InputStream;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -115,7 +116,7 @@ public final class ProtectionKey {
          * #processResponse(com.sun.jersey.api.client.ClientResponse)
          */
         @Override
-        public String processTypeResponse(ClientResponse clientResponse) {
+        public String processTypeResponse(Response clientResponse) {
             PipelineHelpers.throwIfNotSuccess(clientResponse);
             ProtectionKeyIdType protectionKeyIdType;
             try {
@@ -136,10 +137,10 @@ public final class ProtectionKey {
          * @throws JAXBException
          *             the jAXB exception
          */
-        private ProtectionKeyIdType parseResponse(ClientResponse clientResponse)
+        private ProtectionKeyIdType parseResponse(Response clientResponse)
                 throws JAXBException {
 
-            InputStream inputStream = clientResponse.getEntityStream();
+            InputStream inputStream = (InputStream) clientResponse.getEntity();
             JAXBElement<ProtectionKeyIdType> protectionKeyIdTypeJaxbElement = unmarshaller
                     .unmarshal(new StreamSource(inputStream),
                             ProtectionKeyIdType.class);
@@ -191,7 +192,7 @@ public final class ProtectionKey {
          * #processResponse(com.sun.jersey.api.client.ClientResponse)
          */
         @Override
-        public String processTypeResponse(ClientResponse clientResponse) {
+        public String processTypeResponse(Response clientResponse) {
             PipelineHelpers.throwIfNotSuccess(clientResponse);
             ProtectionKeyRestType protectionKeyRestType;
             try {
@@ -213,8 +214,8 @@ public final class ProtectionKey {
          *             the jAXB exception
          */
         private ProtectionKeyRestType parseResponse(
-                ClientResponse clientResponse) throws JAXBException {
-            InputStream inputStream = clientResponse.getEntityStream();
+                Response clientResponse) throws JAXBException {
+            InputStream inputStream = (InputStream) clientResponse.getEntity();
             JAXBElement<ProtectionKeyRestType> protectionKeyTypeJaxbElement = unmarshaller
                     .unmarshal(new StreamSource(inputStream),
                             ProtectionKeyRestType.class);

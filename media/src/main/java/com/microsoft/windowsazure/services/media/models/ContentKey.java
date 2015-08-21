@@ -29,6 +29,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -315,14 +316,14 @@ public final class ContentKey {
         }
 
         @Override
-        public String processTypeResponse(ClientResponse clientResponse) {
+        public String processTypeResponse(Response clientResponse) {
             PipelineHelpers.throwIfNotSuccess(clientResponse);
             RebindContentKeyType rebindContentKeyType = parseResponse(clientResponse);
             return rebindContentKeyType.getContentKey();
         }
 
-        private RebindContentKeyType parseResponse(ClientResponse clientResponse) {
-            InputStream inputStream = clientResponse.getEntityStream();
+        private RebindContentKeyType parseResponse(Response clientResponse) {
+            InputStream inputStream = (InputStream) clientResponse.getEntity();
             JAXBElement<RebindContentKeyType> rebindContentKeyTypeJaxbElement;
             try {
                 rebindContentKeyTypeJaxbElement = unmarshaller.unmarshal(

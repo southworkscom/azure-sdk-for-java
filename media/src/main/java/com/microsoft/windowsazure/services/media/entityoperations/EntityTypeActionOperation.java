@@ -17,6 +17,7 @@ package com.microsoft.windowsazure.services.media.entityoperations;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientResponse;
 
@@ -37,7 +38,7 @@ public interface EntityTypeActionOperation<T> extends EntityOperation {
      *            the client response
      * @return the t
      */
-    T processTypeResponse(ClientResponse clientResponse);
+    T processTypeResponse(Response clientResponse);
 
     /**
      * Gets the query parameters.

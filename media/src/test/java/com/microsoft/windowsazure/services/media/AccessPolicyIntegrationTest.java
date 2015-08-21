@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 //import com.microsoft.windowsazure.core.pipeline.jersey.ExponentialRetryPolicy;
@@ -127,6 +128,7 @@ public class AccessPolicyIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void canRetrieveListOfAccessPolicies() throws Exception {
         String[] policyNames = new String[] { testPolicyPrefix + "ListOne",
                 testPolicyPrefix + "ListTwo" };
@@ -208,6 +210,7 @@ public class AccessPolicyIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void canDeleteAccessPolicyByInvalidId() throws Exception {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(400));
@@ -215,6 +218,7 @@ public class AccessPolicyIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void canDeleteAccessPolicyByNonexistId() throws Exception {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(404));

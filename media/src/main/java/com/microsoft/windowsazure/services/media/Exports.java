@@ -14,8 +14,11 @@
  */
 package com.microsoft.windowsazure.services.media;
 
+import java.net.URISyntaxException;
 import java.util.Map;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -24,10 +27,12 @@ import org.glassfish.jersey.client.ClientProperties;
 
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.UserAgentFilter;
-
+import com.microsoft.windowsazure.core.pipeline.jersey.ClientConfigSettings;
 import com.microsoft.windowsazure.services.media.implementation.MediaContentProvider;
 import com.microsoft.windowsazure.services.media.implementation.MediaExceptionProcessor;
 import com.microsoft.windowsazure.services.media.implementation.MediaRestProxy;
+import com.microsoft.windowsazure.services.media.implementation.DocumentBodyWriter;
+import com.microsoft.windowsazure.services.media.implementation.MultipartBodyWriter;
 import com.microsoft.windowsazure.services.media.implementation.OAuthContract;
 import com.microsoft.windowsazure.services.media.implementation.OAuthFilter;
 import com.microsoft.windowsazure.services.media.implementation.OAuthRestProxy;
@@ -40,6 +45,8 @@ import com.microsoft.windowsazure.services.media.implementation.SetMediaUriFilte
 import com.microsoft.windowsazure.services.media.implementation.VersionHeadersFilter;
 
 public class Exports implements Builder.Exports {
+    static Object lock = new Object();
+    static ResourceLocationManager resourceLocationManager;
 
     /**
      * register the Media services.
@@ -51,11 +58,31 @@ public class Exports implements Builder.Exports {
         registry.add(OAuthContract.class, OAuthRestProxy.class);
         registry.add(OAuthTokenManager.class);
         registry.add(OAuthFilter.class);
-        registry.add(ResourceLocationManager.class);
         registry.add(RedirectFilter.class);
         registry.add(SetMediaUriFilter.class);
         registry.add(VersionHeadersFilter.class);
         registry.add(UserAgentFilter.class);
+        
+        // register singleton factory.
+        registry.add(new Builder.Factory<ResourceLocationManager>() {
+            @Override
+            public <S> ResourceLocationManager create(String profile, Class<S> service,
+                    Builder builder, Map<String, Object> properties) {
+                
+                synchronized (lock) {
+                    if (resourceLocationManager == null) {
+                        try {
+                            resourceLocationManager = new ResourceLocationManager((String)properties.get(MediaConfiguration.URI));
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                
+                return resourceLocationManager;
+            }
+        });
+
 
         registry.alter(MediaContract.class, ClientConfig.class,
                 new Builder.Alteration<ClientConfig>() {
@@ -66,26 +93,23 @@ public class Exports implements Builder.Exports {
                             Map<String, Object> properties) {
 
                         //instance.getProperties().put(
-                         //       JSONConfiguration.FEATURE_POJO_MAPPING, true);
-
-                        // Turn off auto-follow redirects, because Media
-                        // Services rest calls break if it's on
-                        instance.getProperties().put(
-                                ClientProperties.FOLLOW_REDIRECTS, false);
-                        
-                        /*try {
-                            instance.getSingletons().add(
-                                    new ODataEntityProvider());
-                            instance.getSingletons().add(
-                                    new ODataEntityCollectionProvider());
-                            instance.getSingletons().add(
-                                    new MediaContentProvider());
+                        //       JSONConfiguration.FEATURE_POJO_MAPPING, true);
+                     
+                        instance.property(ClientProperties.FOLLOW_REDIRECTS, false);
+                        try {
+                            instance.register(new ODataEntityProvider());
+                            instance.register(new ODataEntityCollectionProvider());
+                            instance.register(new MediaContentProvider());
+                            instance.register(new MultipartBodyWriter());
+                            instance.register(new DocumentBodyWriter());
                         } catch (JAXBException e) {
-                            throw new RuntimeException(e);
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
                         } catch (ParserConfigurationException e) {
-                            throw new RuntimeException(e);
-                        }*/
-
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        
                         return instance;
                     }
                 });

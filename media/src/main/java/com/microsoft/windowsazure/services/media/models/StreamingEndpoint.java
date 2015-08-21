@@ -18,8 +18,7 @@ package com.microsoft.windowsazure.services.media.models;
 import java.util.List;
 
 import javax.ws.rs.core.GenericType;
-
-import org.glassfish.jersey.client.ClientResponse;
+import javax.ws.rs.core.Response;
 
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.UniformInterfaceException;
@@ -91,12 +90,12 @@ public final class StreamingEndpoint {
         @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public Class getResponseClass() {
-            return ClientResponse.class;
+            return Response.class;
         }
 
         @Override
         public Object processResponse(Object rawResponse) throws ServiceException {
-            ClientResponse clientResponse = (ClientResponse) rawResponse;
+            Response clientResponse = (Response) rawResponse;
 
             if (clientResponse.getStatus() >= 300) {
                 throw new UniformInterfaceException(
@@ -106,9 +105,9 @@ public final class StreamingEndpoint {
             StreamingEndpointInfo streamingEndpointInfo = clientResponse.readEntity(StreamingEndpointInfo.class);
 
             if (clientResponse.getHeaders().containsKey("operation-id")) {
-                List<String> operationIds = clientResponse.getHeaders().get("operation-id");
+                List<Object> operationIds = clientResponse.getHeaders().get("operation-id");
                 if (operationIds.size() >= 0) {
-                    streamingEndpointInfo.setOperationId(operationIds.get(0));
+                    streamingEndpointInfo.setOperationId(operationIds.get(0).toString());
                 }
             }
             return streamingEndpointInfo;

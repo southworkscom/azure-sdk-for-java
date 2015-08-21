@@ -18,58 +18,24 @@ package com.microsoft.windowsazure.services.media.implementation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+
+import javax.ws.rs.RedirectionException;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-//import com.microsoft.windowsazure.core.pipeline.jersey.IdempotentClientFilter;
-//import com.sun.jersey.api.client.ClientHandlerException;
-//import com.sun.jersey.api.client.ClientRequest;
-//import com.sun.jersey.api.client.ClientResponse;
+import javax.ws.rs.core.UriBuilder;
 
 public class RedirectFilter implements ClientResponseFilter { // extends IdempotentClientFilter {
     private final ResourceLocationManager locationManager;
 
     public RedirectFilter(ResourceLocationManager locationManager) {
+        System.out.println("REDIRECT FILTER DONE!" + locationManager.toString());
         this.locationManager = locationManager;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.microsoft.windowsazure.services.core.IdempotentClientFilter#doHandle
-     * (com.sun.jersey.api.client.ClientRequest)
-     */
-    /*
-    @Override
-    public ClientResponse doHandle(ClientRequest request) {
-        if (request == null) {
-            throw new IllegalArgumentException("Request should not be null");
-        }
-
-        URI originalURI = request.getURI();
-        request.setURI(locationManager.getRedirectedURI(originalURI));
-
-        ClientResponse response = getNext().handle(request);
-        while (response.getClientResponseStatus() == ClientResponse.Status.MOVED_PERMANENTLY) {
-            try {
-                locationManager.setRedirectedURI(response.getHeaders()
-                        .getFirst("Location"));
-            } catch (NullPointerException e) {
-                throw new ClientHandlerException(
-                        "HTTP Redirect did not include Location header");
-            } catch (URISyntaxException e) {
-                throw new ClientHandlerException(
-                        "HTTP Redirect location is not a valid URI");
-            }
-
-            request.setURI(locationManager.getRedirectedURI(originalURI));
-            response = getNext().handle(request);
-        }
-        return response;
-    }*/
 
     public URI getBaseURI() {
         return this.locationManager.getBaseURI();
@@ -77,14 +43,42 @@ public class RedirectFilter implements ClientResponseFilter { // extends Idempot
 
     @Override
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        if (responseContext.getStatusInfo().getFamily() != Response.Status.Family.REDIRECTION) {
+        if (!responseContext.getStatusInfo().equals(Response.Status.MOVED_PERMANENTLY)) {
             return;
         }
         
-        Response resp = requestContext.getClient().target(responseContext.getLocation()).request().method(requestContext.getMethod());
+        this.locationManager.setRedirectedURI(responseContext.getLocation());
         
-        responseContext.setEntityStream((InputStream) resp.getEntity());
-        responseContext.setStatusInfo(resp.getStatusInfo());
-        responseContext.setStatus(resp.getStatus());        
+        System.out.println("Location:" + responseContext.getLocation().toString());
+        
+        throw new RedirectionException(Response.Status.FOUND, responseContext.getLocation());
+        
+        /*
+        Builder builder;
+        // rebuild request
+        if (requestContext.getMediaType() != null) {
+            builder = requestContext.getClient().target(requestContext.getUri()).request(requestContext.getMediaType());
+        } else {
+            builder = requestContext.getClient().target(requestContext.getUri()).request();
+        }
+        
+        // rebuild the media types.
+        for(MediaType media : requestContext.getAcceptableMediaTypes()) {
+            builder.accept(media);
+        }
+        
+        // rebuild de content type and body
+        Response realResponse;
+        if (requestContext.hasEntity()) {
+            Object entity = requestContext.getEntity();            
+            realResponse = builder.method(requestContext.getMethod(), Entity.entity(entity, requestContext.getMediaType()));
+        } else {
+            realResponse = builder.method(requestContext.getMethod());
+        }
+        
+        responseContext.setEntityStream((InputStream) realResponse.getEntity());
+        responseContext.setStatusInfo(realResponse.getStatusInfo());
+        responseContext.setStatus(realResponse.getStatus());        
+        */
     }
 }

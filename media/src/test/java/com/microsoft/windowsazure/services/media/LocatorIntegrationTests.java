@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -313,6 +314,7 @@ public class LocatorIntegrationTests extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void deleteLocatorInvalidIdFailed() throws ServiceException {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(400));

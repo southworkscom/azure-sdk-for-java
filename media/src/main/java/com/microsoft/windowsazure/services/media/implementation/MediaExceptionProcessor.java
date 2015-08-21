@@ -17,6 +17,7 @@ package com.microsoft.windowsazure.services.media.implementation;
 
 import javax.inject.Inject;
 import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.RedirectionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,48 +74,6 @@ public class MediaExceptionProcessor implements MediaContract {
     public MediaExceptionProcessor(MediaRestProxy service) {
         this.service = service;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.microsoft.windowsazure.services.core.FilterableService#withFilter
-     * (com.microsoft.windowsazure.services.core.ServiceFilter)
-     */
-    /*
-    @Override
-    public MediaContract withFilter(ServiceFilter filter) {
-        return new MediaExceptionProcessor(service.withFilter(filter));
-    }
-
-    @Override
-    public MediaContract withRequestFilterFirst(
-            ServiceRequestFilter serviceRequestFilter) {
-        return new MediaExceptionProcessor(
-                service.withRequestFilterFirst(serviceRequestFilter));
-    }
-
-    @Override
-    public MediaContract withRequestFilterLast(
-            ServiceRequestFilter serviceRequestFilter) {
-        return new MediaExceptionProcessor(
-                service.withRequestFilterLast(serviceRequestFilter));
-    }
-
-    @Override
-    public MediaContract withResponseFilterFirst(
-            ServiceResponseFilter serviceResponseFilter) {
-        return new MediaExceptionProcessor(
-                service.withResponseFilterFirst(serviceResponseFilter));
-    }
-
-    @Override
-    public MediaContract withResponseFilterLast(
-            ServiceResponseFilter serviceResponseFilter) {
-        return new MediaExceptionProcessor(
-                service.withResponseFilterLast(serviceResponseFilter));
-    }
-*/
     /**
      * Process a catch.
      * 
@@ -140,11 +99,14 @@ public class MediaExceptionProcessor implements MediaContract {
             throws ServiceException {
         try {
             return service.create(creator);
+        } catch (RedirectionException e) {
+            return service.create(creator);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
         } catch (ClientErrorException e) {
             throw processCatch(new ServiceException(e));
         }
+   
     }
 
     /*
@@ -158,6 +120,10 @@ public class MediaExceptionProcessor implements MediaContract {
     @Override
     public <T> T get(EntityGetOperation<T> getter) throws ServiceException {
         try {
+            System.out.println("first attemp <<<<<<<<<<<<<<<<<<< ");
+            return service.get(getter);
+        } catch (RedirectionException e) {
+            System.out.println("sec0nd attemp <<<<<<<<<<<<<<<<<<< ");
             return service.get(getter);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
@@ -179,6 +145,8 @@ public class MediaExceptionProcessor implements MediaContract {
             throws ServiceException {
         try {
             return service.list(lister);
+        } catch (RedirectionException e) {
+            return service.list(lister);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
         } catch (ClientErrorException e) {
@@ -197,6 +165,8 @@ public class MediaExceptionProcessor implements MediaContract {
     @Override
     public String update(EntityUpdateOperation updater) throws ServiceException {
         try {
+            return service.update(updater);
+        } catch (RedirectionException e) {
             return service.update(updater);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
@@ -220,6 +190,8 @@ public class MediaExceptionProcessor implements MediaContract {
     public String delete(EntityDeleteOperation deleter) throws ServiceException {
         try {
             return service.delete(deleter);
+        } catch (RedirectionException e) {
+            return service.delete(deleter);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
         } catch (ClientErrorException e) {
@@ -240,6 +212,8 @@ public class MediaExceptionProcessor implements MediaContract {
             throws ServiceException {
         try {
             return service.action(entityActionOperation);
+        } catch (RedirectionException e) {
+            return service.action(entityActionOperation);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));
         } catch (ClientErrorException e) {
@@ -259,6 +233,8 @@ public class MediaExceptionProcessor implements MediaContract {
     public <T> T action(EntityTypeActionOperation<T> entityTypeActionOperation)
             throws ServiceException {
         try {
+            return service.action(entityTypeActionOperation);
+        } catch (RedirectionException e) {
             return service.action(entityTypeActionOperation);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));

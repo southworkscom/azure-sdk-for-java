@@ -84,6 +84,8 @@ public abstract class IntegrationTestBase {
 
     protected static String MEDIA_ENCODER_MEDIA_PROCESSOR_ID = "nb:mpid:UUID:2e7aa8f3-4961-4e0c-b4db-0e0439e524f5";
     protected static final String invalidId = "notAValidId";
+    
+    private static boolean cleanupEnvironmentEveryTime = false;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -145,13 +147,15 @@ public abstract class IntegrationTestBase {
     }
 
     protected static void cleanupEnvironment() {
-        removeAllTestLocators();
-        removeAllTestAssets();
-        removeAllTestAccessPolicies();
-        removeAllTestJobs();
-        removeAllTestContentKeys();
-        removeAllTestNotificationEndPoints();
-        removeAllTestStreamingEndPoints();
+        if (cleanupEnvironmentEveryTime) {
+            removeAllTestLocators();
+            removeAllTestAssets();
+            removeAllTestAccessPolicies();
+            removeAllTestJobs();
+            removeAllTestContentKeys();
+            removeAllTestNotificationEndPoints();
+            removeAllTestStreamingEndPoints();
+        }
     }
     
     private static boolean ensureStreamingPointStopped(String streamingEndpointId) throws ServiceException {

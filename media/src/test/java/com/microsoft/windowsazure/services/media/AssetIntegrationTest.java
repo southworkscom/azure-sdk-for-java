@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.azure.storage.StorageException;
@@ -289,6 +290,7 @@ public class AssetIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void updateAssetFailedWithInvalidId() throws ServiceException {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(404));
@@ -317,6 +319,7 @@ public class AssetIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void deleteAssetFailedWithInvalidId() throws ServiceException {
         expectedException.expect(ServiceException.class);
         expectedException.expect(new ServiceExceptionMatcher(404));
@@ -354,6 +357,7 @@ public class AssetIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void linkAssetContentKeyInvalidIdFailed() throws ServiceException,
             URISyntaxException {
         // Arrange

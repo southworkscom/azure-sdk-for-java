@@ -18,6 +18,7 @@ package com.microsoft.windowsazure.services.media.entityoperations;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientResponse;
 
@@ -75,7 +76,7 @@ public class DefaultEntityTypeActionOperation<T> implements
      * #processTypeResponse(com.sun.jersey.api.client.ClientResponse)
      */
     @Override
-    public T processTypeResponse(ClientResponse clientResponse) {
+    public T processTypeResponse(Response clientResponse) {
         return null;
     }
 

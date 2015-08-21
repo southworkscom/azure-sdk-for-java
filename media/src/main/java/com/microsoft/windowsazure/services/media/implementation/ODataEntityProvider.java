@@ -30,7 +30,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
 
 import com.microsoft.windowsazure.exception.ServiceException;
-//import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
 
 /**
  * An implementation of {@link AbstractMessageReaderWriterProvider } that is used

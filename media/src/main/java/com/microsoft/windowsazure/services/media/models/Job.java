@@ -24,6 +24,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMultipart;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -175,7 +176,7 @@ public final class Job {
         @SuppressWarnings({ "unchecked", "rawtypes" })
         @Override
         public Class getResponseClass() {
-            return ClientResponse.class;
+            return Response.class;
         }
 
         /*
@@ -185,11 +186,11 @@ public final class Job {
          * EntityCreateOperation#processResponse(java.lang.Object)
          */
         @Override
-        public Object processResponse(Object clientResponse)
+        public Object processResponse(Object response)
                 throws ServiceException {
             try {
                 this.mediaBatchOperations
-                        .parseBatchResult((ClientResponse) clientResponse);
+                        .parseBatchResult((Response)response);
             } catch (IOException e) {
                 throw new ServiceException(e);
             }

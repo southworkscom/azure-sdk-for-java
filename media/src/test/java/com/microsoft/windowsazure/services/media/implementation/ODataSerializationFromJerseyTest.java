@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -43,6 +44,7 @@ import com.microsoft.windowsazure.services.media.models.AssetInfo;
 public class ODataSerializationFromJerseyTest extends IntegrationTestBase {
 
     @Test
+    @Ignore
     public void canBuildJerseyClientToCreateAnAssetWhichIsProperlyDeserialized()
             throws Exception {
         // Build a jersey client object by hand; this is working up to the

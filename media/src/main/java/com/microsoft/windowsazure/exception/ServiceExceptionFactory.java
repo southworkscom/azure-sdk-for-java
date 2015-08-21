@@ -21,9 +21,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
 
 import com.microsoft.windowsazure.core.ServiceTimeoutException;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.api.client.ClientResponse.Status;
-//import com.sun.jersey.api.client.UniformInterfaceException;
 
 public abstract class ServiceExceptionFactory {
     public static ServiceException process(String serviceName,

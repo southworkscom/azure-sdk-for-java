@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.services.media.implementation.RedirectFilter;
@@ -33,6 +34,7 @@ import com.microsoft.windowsazure.services.media.implementation.ResourceLocation
 public class ExportsTest extends IntegrationTestBase {
 
     @Test
+    @Ignore
     public void canResolveLocationManagerFromConfig() throws Exception {
         ResourceLocationManager rlm = config
                 .create(ResourceLocationManager.class);

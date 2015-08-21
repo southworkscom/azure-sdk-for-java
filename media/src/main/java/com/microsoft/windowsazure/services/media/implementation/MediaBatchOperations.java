@@ -39,6 +39,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimePartDataSource;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -327,17 +328,17 @@ public class MediaBatchOperations {
      * @throws ServiceException
      *             the service exception
      */
-    public void parseBatchResult(ClientResponse response) throws IOException,
+    public void parseBatchResult(Response response) throws IOException,
             ServiceException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        InputStream inputStream = response.getEntityStream();
-        ReaderWriter.writeTo(inputStream, byteArrayOutputStream);
-        response.setEntityStream(new ByteArrayInputStream(
-                byteArrayOutputStream.toByteArray()));
+        //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        InputStream inputStream = (InputStream) response.getEntity();
+        //ReaderWriter.writeTo(inputStream, byteArrayOutputStream);
+        
         JobInfo jobInfo;
+        
+        String mediaType = response.getHeaders().getFirst("Content-Type").toString();
 
-        List<DataSource> parts = parseParts(response.getEntityStream(),
-                response.getHeaders().getFirst("Content-Type"));
+        List<DataSource> parts = parseParts(inputStream, mediaType);
 
         if (parts.size() == 0 || parts.size() > entityBatchOperations.size()) {
             throw new UniformInterfaceException(String.format(
@@ -366,10 +367,9 @@ public class MediaBatchOperations {
                             header.getValue());
                 }*/
 
-                ClientResponse clientResponse = response; /// new ClientResponse(null, null);
+                Response clientResponse = response; /// new ClientResponse(null, null);
 
-                UniformInterfaceException uniformInterfaceException = new UniformInterfaceException(
-                        clientResponse);
+                UniformInterfaceException uniformInterfaceException = new UniformInterfaceException("", null);
                 throw uniformInterfaceException;
             } else if (entityBatchOperation instanceof Job.CreateBatchOperation) {
 

@@ -14,21 +14,14 @@
  */
 package com.microsoft.windowsazure.core.pipeline;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import javax.ws.rs.client.WebTarget;
-
-import org.glassfish.jersey.client.ClientResponse;
+import javax.ws.rs.core.Response;
 
 public final class PipelineHelpers {
     private PipelineHelpers() {
     }
 
-    private static String createErrorMessage(ClientResponse clientResponse) {
+    private static String createErrorMessage(Response clientResponse) {
         clientResponse.bufferEntity();
         String errorMessage = clientResponse.toString();
         if (clientResponse.hasEntity()) {
@@ -38,20 +31,18 @@ public final class PipelineHelpers {
         return errorMessage;
     }
 
-    public static void throwIfNotSuccess(ClientResponse clientResponse) {
+    public static void throwIfNotSuccess(Response clientResponse) {
         int statusCode = clientResponse.getStatus();
 
         if ((statusCode < 200) || (statusCode >= 300)) {
             String errorMessage = createErrorMessage(clientResponse);
-            //throw new UniformInterfaceException(errorMessage, clientResponse);
-            throw new RuntimeException(errorMessage); // , clientResponse);
+            throw new RuntimeException(errorMessage);
         }
     }
 
-    public static void throwIfError(ClientResponse clientResponse) {
+    public static void throwIfError(Response clientResponse) {
         if (clientResponse.getStatus() >= 400) {
             String errorMessage = createErrorMessage(clientResponse);
-            // throw new UniformInterfaceException(errorMessage, clientResponse);
             throw new RuntimeException(errorMessage); 
         }
     }
@@ -70,20 +61,6 @@ public final class PipelineHelpers {
             webTarget = webTarget.queryParam(key, Integer.toString(value));
         }
         return webTarget;
-    }
-
-    public static HashMap<String, String> getMetadataFromHeaders(
-            ClientResponse response) {
-        HashMap<String, String> metadata = new HashMap<String, String>();
-        for (Entry<String, List<String>> entry : response.getHeaders()
-                .entrySet()) {
-            if (entry.getKey().startsWith("x-ms-meta-")) {
-                String name = entry.getKey().substring("x-ms-meta-".length());
-                String value = entry.getValue().get(0);
-                metadata.put(name, value);
-            }
-        }
-        return metadata;
     }
 
 }

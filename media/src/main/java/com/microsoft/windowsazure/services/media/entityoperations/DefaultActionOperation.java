@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientResponse;
 
@@ -209,7 +210,7 @@ public class DefaultActionOperation implements EntityActionOperation {
      */
     @Override
     public Object processResponse(Object rawResponse) throws ServiceException {
-        PipelineHelpers.throwIfNotSuccess((ClientResponse) rawResponse);
+        PipelineHelpers.throwIfNotSuccess((Response) rawResponse);
         return rawResponse;
     }
 

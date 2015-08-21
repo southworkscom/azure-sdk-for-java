@@ -28,10 +28,12 @@ import java.util.ServiceLoader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 public class DefaultBuilder implements Builder, Builder.Registry {
     private Map<Class<?>, Factory<?>> factories;
     private Map<Class<?>, Map<Class<?>, List<Alteration<?>>>> alterations;
+   
 
     public DefaultBuilder() {
         factories = new HashMap<Class<?>, Factory<?>>();
@@ -91,6 +93,7 @@ public class DefaultBuilder implements Builder, Builder.Registry {
     @Override
     public <T, TImpl> Builder.Registry add(Class<T> service,
             final Class<TImpl> implementation) {
+        
         final Constructor<?> ctor = findInjectConstructor(implementation);
         final Class<?>[] parameterTypes = ctor.getParameterTypes();
         final Annotation[][] parameterAnnotations = ctor

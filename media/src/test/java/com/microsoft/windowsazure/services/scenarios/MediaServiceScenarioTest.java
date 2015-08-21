@@ -27,6 +27,7 @@ import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -95,8 +96,9 @@ public class MediaServiceScenarioTest extends ScenarioTestBase {
         wrapper.uploadFilesToAsset(asset, 10, getTestAssetFiles());
         validator.validateAssetFiles(asset, getTestAssetFiles());
     }
-
+/*
     @Test
+    @Ignore
     public void uploadEncryptedFiles() throws Exception {
         signalSetupStarting();
         byte[] aesKey = getNewAesKey();
@@ -110,6 +112,7 @@ public class MediaServiceScenarioTest extends ScenarioTestBase {
     }
 
     @Test
+    @Ignore
     public void downloadFiles() throws Exception {
         signalSetupStarting();
         AssetInfo asset = wrapper.createAsset(
@@ -121,7 +124,7 @@ public class MediaServiceScenarioTest extends ScenarioTestBase {
                 .downloadFilesFromAsset(asset, 10);
         validator.validateAssetFiles(getTestAssetFiles(), actualFileStreams);
     }
-
+*/
     @Test
     public void createJob() throws Exception {
         signalSetupStarting();

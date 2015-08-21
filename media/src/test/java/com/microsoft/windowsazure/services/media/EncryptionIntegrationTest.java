@@ -39,6 +39,7 @@ import javax.crypto.Cipher;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.azure.storage.StorageException;
@@ -87,6 +88,7 @@ public class EncryptionIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void uploadAesProtectedAssetAndDownloadSuccess() throws Exception {
         // Arrange
         if (!EncryptionHelper.canUseStrongCrypto()) {

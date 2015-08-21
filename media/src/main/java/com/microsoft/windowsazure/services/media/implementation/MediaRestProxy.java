@@ -47,6 +47,7 @@ import com.microsoft.windowsazure.services.media.models.LocatorType;
 public class MediaRestProxy extends EntityRestProxy implements MediaContract {
     /** The redirect filter. */
     private SetMediaUriFilter mediaUriFilter;
+    private RedirectFilter redirectFilter;
 
     private final ClientConfigSettings clientConfigSettings;
 
@@ -69,6 +70,7 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
      */
     @Inject
     public MediaRestProxy(Client channel, OAuthFilter authFilter,
+            RedirectFilter redirectFilter,
             SetMediaUriFilter mediaUriFilter,
             VersionHeadersFilter versionHeadersFilter,
             UserAgentFilter userAgentFilter,
@@ -77,7 +79,8 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
 
         this.clientConfigSettings = clientConfigSettings;
         this.mediaUriFilter = mediaUriFilter;
-        //channel.register(redirectFilter);
+        this.redirectFilter = redirectFilter;
+        channel.register(redirectFilter);        
         channel.register(mediaUriFilter);
         channel.register(authFilter);
         channel.register(versionHeadersFilter);

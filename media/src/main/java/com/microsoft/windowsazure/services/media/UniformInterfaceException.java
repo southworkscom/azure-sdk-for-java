@@ -1,5 +1,7 @@
 package com.microsoft.windowsazure.services.media;
 
+import javax.ws.rs.core.Response;
+
 import org.glassfish.jersey.client.ClientResponse;
 
 public class UniformInterfaceException extends RuntimeException {
@@ -8,28 +10,28 @@ public class UniformInterfaceException extends RuntimeException {
      */
     private static final long serialVersionUID = -3142049092636270755L;
 
-    private ClientResponse response;
+    private Response response;
     
-    public UniformInterfaceException(String format, ClientResponse response) {
+    public UniformInterfaceException(String format, Response response) {
         super(format);
         this.setResponse(response);
     }
 
-    public UniformInterfaceException(ClientResponse clientResponse) {
+    public UniformInterfaceException(Response clientResponse) {
         this.setResponse(clientResponse);
     }
 
     /**
      * @return the response
      */
-    public ClientResponse getResponse() {
+    public Response getResponse() {
         return response;
     }
 
     /**
      * @param response the response to set
      */
-    public void setResponse(ClientResponse response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 
