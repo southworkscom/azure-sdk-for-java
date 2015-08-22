@@ -16,24 +16,18 @@
 package com.microsoft.windowsazure.services.media.implementation;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 
 import javax.ws.rs.RedirectionException;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 
 public class RedirectFilter implements ClientResponseFilter { // extends IdempotentClientFilter {
     private final ResourceLocationManager locationManager;
 
     public RedirectFilter(ResourceLocationManager locationManager) {
-        System.out.println("REDIRECT FILTER DONE!" + locationManager.toString());
         this.locationManager = locationManager;
     }
 
@@ -43,42 +37,14 @@ public class RedirectFilter implements ClientResponseFilter { // extends Idempot
 
     @Override
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        if (!responseContext.getStatusInfo().equals(Response.Status.MOVED_PERMANENTLY)) {
+        
+        if (responseContext.getStatusInfo().getStatusCode() != Response.Status.MOVED_PERMANENTLY.getStatusCode()) {
             return;
         }
         
         this.locationManager.setRedirectedURI(responseContext.getLocation());
         
-        System.out.println("Location:" + responseContext.getLocation().toString());
-        
         throw new RedirectionException(Response.Status.FOUND, responseContext.getLocation());
         
-        /*
-        Builder builder;
-        // rebuild request
-        if (requestContext.getMediaType() != null) {
-            builder = requestContext.getClient().target(requestContext.getUri()).request(requestContext.getMediaType());
-        } else {
-            builder = requestContext.getClient().target(requestContext.getUri()).request();
-        }
-        
-        // rebuild the media types.
-        for(MediaType media : requestContext.getAcceptableMediaTypes()) {
-            builder.accept(media);
-        }
-        
-        // rebuild de content type and body
-        Response realResponse;
-        if (requestContext.hasEntity()) {
-            Object entity = requestContext.getEntity();            
-            realResponse = builder.method(requestContext.getMethod(), Entity.entity(entity, requestContext.getMediaType()));
-        } else {
-            realResponse = builder.method(requestContext.getMethod());
-        }
-        
-        responseContext.setEntityStream((InputStream) realResponse.getEntity());
-        responseContext.setStatusInfo(realResponse.getStatusInfo());
-        responseContext.setStatus(realResponse.getStatus());        
-        */
     }
 }

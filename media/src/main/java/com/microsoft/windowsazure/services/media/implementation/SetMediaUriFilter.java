@@ -26,7 +26,6 @@ public class SetMediaUriFilter implements ClientRequestFilter { // extends Idemp
     private final ResourceLocationManager locationManager;
 
     public SetMediaUriFilter(ResourceLocationManager locationManager) {
-        System.out.println("SetMediaUriFilter DONE!" + locationManager.toString());
         this.locationManager = locationManager;
     }
 
@@ -37,8 +36,6 @@ public class SetMediaUriFilter implements ClientRequestFilter { // extends Idemp
     @Override
     public void filter(ClientRequestContext requestContext) throws IOException {
         URI originalURI = requestContext.getUri();
-        System.out.println("ORIURI:" + originalURI.toString());
-        System.out.println("RDTURI:" + locationManager.getRedirectedURI(originalURI));
         requestContext.setUri(locationManager.getRedirectedURI(originalURI));
     }
 }

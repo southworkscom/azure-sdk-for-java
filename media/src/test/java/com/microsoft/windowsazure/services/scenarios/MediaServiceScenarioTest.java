@@ -159,6 +159,7 @@ public class MediaServiceScenarioTest extends ScenarioTestBase {
     }
 
     @Test
+    @Ignore
     public void transformEncryptedAsset() throws Exception {
         signalSetupStarting();
         byte[] aesKey = getNewAesKey();
