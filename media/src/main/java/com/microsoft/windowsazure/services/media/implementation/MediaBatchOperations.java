@@ -344,6 +344,7 @@ public class MediaBatchOperations {
                     .get(i);
 
             StatusLine status = StatusLine.create(ds);
+            @SuppressWarnings("unused")
             InternetHeaders headers = parseHeaders(ds);
             InputStream content = parseEntity(ds);
 
