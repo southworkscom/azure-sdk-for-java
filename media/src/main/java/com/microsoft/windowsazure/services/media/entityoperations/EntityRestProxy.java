@@ -28,8 +28,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientResponse;
-
 import javax.ws.rs.client.Invocation.Builder;
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;
@@ -186,8 +184,8 @@ public abstract class EntityRestProxy implements EntityContract {
         WebTarget target = getTarget(lister.getUri());
         
         MultivaluedMap<String, String> params = lister.getQueryParameters();
-        for(String key : params.keySet()) {
-            for(String value : params.get(key)) {
+        for (String key : params.keySet()) {
+            for (String value : params.get(key)) {
                 target = target.queryParam(key , value);
             }
         }        
@@ -266,8 +264,8 @@ public abstract class EntityRestProxy implements EntityContract {
         WebTarget target = getTarget(entityTypeActionOperation.getUri());
         
         MultivaluedMap<String, String> params = entityTypeActionOperation.getQueryParameters();
-        for(String key : params.keySet()) {
-            for(String value : params.get(key)) {
+        for (String key : params.keySet()) {
+            for (String value : params.get(key)) {
                 target = target.queryParam(key , value);
             }
         }
@@ -321,8 +319,8 @@ public abstract class EntityRestProxy implements EntityContract {
         WebTarget target = getTarget(entityActionOperation.getUri());
         
         MultivaluedMap<String, String> params = entityActionOperation.getQueryParameters();
-        for(String key : params.keySet()) {
-            for(String value : params.get(key)) {
+        for (String key : params.keySet()) {
+            for (String value : params.get(key)) {
                 target = target.queryParam(key , value);
             }
         }

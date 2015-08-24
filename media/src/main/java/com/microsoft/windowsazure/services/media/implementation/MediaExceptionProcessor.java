@@ -22,9 +22,6 @@ import javax.ws.rs.RedirectionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-//import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
-//import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseFilter;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
 import com.microsoft.windowsazure.services.media.MediaContract;
@@ -37,9 +34,6 @@ import com.microsoft.windowsazure.services.media.entityoperations.EntityListOper
 import com.microsoft.windowsazure.services.media.entityoperations.EntityTypeActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityUpdateOperation;
 import com.microsoft.windowsazure.services.media.models.ListResult;
-import com.microsoft.windowsazure.services.media.models.LocatorInfo;
-//import com.sun.jersey.api.client.ClientHandlerException;
-//import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * /** Wrapper implementation of <code>MediaEntityContract</code> that
@@ -120,10 +114,8 @@ public class MediaExceptionProcessor implements MediaContract {
     @Override
     public <T> T get(EntityGetOperation<T> getter) throws ServiceException {
         try {
-            System.out.println("first attemp <<<<<<<<<<<<<<<<<<< ");
             return service.get(getter);
         } catch (RedirectionException e) {
-            System.out.println("sec0nd attemp <<<<<<<<<<<<<<<<<<< ");
             return service.get(getter);
         } catch (UniformInterfaceException e) {
             throw processCatch(new ServiceException(e));

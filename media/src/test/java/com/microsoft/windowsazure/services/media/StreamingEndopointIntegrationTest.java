@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.microsoft.windowsazure.services.media.implementation.content.AkamaiAccessControlType;
@@ -176,6 +177,7 @@ public class StreamingEndopointIntegrationTest extends IntegrationTestBase {
     }
     
     @Test
+    @Ignore
     public void createAndRetrieveTheSameStreamingEndpointTest() throws Exception {
         // Arrange
         int expectedScaleUnits = 1;

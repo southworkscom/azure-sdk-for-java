@@ -19,10 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientResponse;
-
-//import com.sun.jersey.api.client.ClientResponse;
-
 /**
  * The Interface EntityTypeActionOperation.
  * 

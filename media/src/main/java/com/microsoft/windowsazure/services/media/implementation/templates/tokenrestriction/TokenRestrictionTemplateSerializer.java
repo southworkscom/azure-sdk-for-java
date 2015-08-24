@@ -14,7 +14,6 @@ import java.util.UUID;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -41,22 +40,6 @@ public final class TokenRestrictionTemplateSerializer {
         Marshaller m = context.createMarshaller();
         
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        /*m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
-            @Override
-            public String[] getPreDeclaredNamespaceUris() {
-                return new String[] { 
-                        XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI 
-                     };
-            }
-
-            @Override
-            public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
-                if (namespaceUri.equals(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI)) {
-                    return "i";
-                }
-                return suggestion;
-            }
-        });*/
         m.marshal(template, writer);
         return writer.toString();
     }

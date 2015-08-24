@@ -28,8 +28,6 @@ import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.glassfish.jersey.client.ClientResponse;
-
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultDeleteOperation;
@@ -190,7 +188,7 @@ public final class Job {
                 throws ServiceException {
             try {
                 this.mediaBatchOperations
-                        .parseBatchResult((Response)response);
+                        .parseBatchResult((Response) response);
             } catch (IOException e) {
                 throw new ServiceException(e);
             }

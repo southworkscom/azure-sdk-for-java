@@ -2,7 +2,7 @@
     namespace = "http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/TokenRestrictionTemplate/v1",
     elementFormDefault = XmlNsForm.QUALIFIED,
     xmlns = {
-            @XmlNs( prefix="", namespaceURI="http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/TokenRestrictionTemplate/v1")
+            @XmlNs(prefix = "", namespaceURI = "http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/TokenRestrictionTemplate/v1")
     })
 package com.microsoft.windowsazure.services.media.implementation.templates.tokenrestriction;
 

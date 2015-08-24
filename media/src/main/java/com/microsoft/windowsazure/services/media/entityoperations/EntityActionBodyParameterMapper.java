@@ -25,11 +25,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-//import org.codehaus.jackson.JsonGenerationException;
-//import org.codehaus.jackson.map.JsonMappingException;
-//import org.codehaus.jackson.map.ObjectMapper;
-//import org.codehaus.jackson.map.SerializationConfig;
-
 /**
  * The Class entity action body parameter mapper.
  */

@@ -30,7 +30,6 @@ public class VersionHeadersFilter implements ClientRequestFilter {
     
     @Override
     public void filter(ClientRequestContext requestContext) throws IOException {
-        // TODO Auto-generated method stub
         MultivaluedMap<String, Object> headers = requestContext.getHeaders();
         headers.add("DataServiceVersion", "3.0");
         headers.add("MaxDataServiceVersion", "3.0");

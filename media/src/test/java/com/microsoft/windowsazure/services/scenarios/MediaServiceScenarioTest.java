@@ -58,9 +58,9 @@ public class MediaServiceScenarioTest extends ScenarioTestBase {
 
     @AfterClass
     public static void cleanup() throws ServiceException {
-        wrapper.removeAllAssetsWithPrefix(rootTestAssetPrefix);
-        wrapper.removeAllAccessPoliciesWithPrefix();
-        wrapper.removeAllJobWithPrefix(testJobPrefix);
+        //wrapper.removeAllAssetsWithPrefix(rootTestAssetPrefix);
+        //wrapper.removeAllAccessPoliciesWithPrefix();
+       // wrapper.removeAllJobWithPrefix(testJobPrefix);
     }
 
     @Test

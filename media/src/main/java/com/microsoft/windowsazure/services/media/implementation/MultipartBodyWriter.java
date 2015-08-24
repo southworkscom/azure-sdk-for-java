@@ -7,13 +7,10 @@ import java.lang.reflect.Type;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMultipart;
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 
 public class MultipartBodyWriter implements MessageBodyWriter<MimeMultipart> {
 

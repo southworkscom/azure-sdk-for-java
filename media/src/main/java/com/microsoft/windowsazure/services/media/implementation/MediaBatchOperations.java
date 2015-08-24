@@ -44,9 +44,6 @@ import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.glassfish.jersey.client.ClientResponse;
-import org.glassfish.jersey.message.internal.ReaderWriter;
-
 import com.microsoft.windowsazure.core.utils.InputStreamDataSource;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.services.media.UniformInterfaceException;
@@ -56,10 +53,6 @@ import com.microsoft.windowsazure.services.media.models.Job;
 import com.microsoft.windowsazure.services.media.models.JobInfo;
 import com.microsoft.windowsazure.services.media.models.Task;
 import com.microsoft.windowsazure.services.media.models.TaskInfo;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.api.client.UniformInterfaceException;
-//import com.sun.jersey.core.header.InBoundHeaders;
-//import com.sun.jersey.core.util.ReaderWriter;
 
 /**
  * The Class MediaBatchOperations.
@@ -330,9 +323,7 @@ public class MediaBatchOperations {
      */
     public void parseBatchResult(Response response) throws IOException,
             ServiceException {
-        //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         InputStream inputStream = (InputStream) response.getEntity();
-        //ReaderWriter.writeTo(inputStream, byteArrayOutputStream);
         
         JobInfo jobInfo;
         
@@ -357,22 +348,8 @@ public class MediaBatchOperations {
             InputStream content = parseEntity(ds);
 
             if (status.getStatus() >= HTTP_ERROR) {
-
-                /*InBoundHeaders inBoundHeaders = new InBoundHeaders();
-                @SuppressWarnings("unchecked")
-                Enumeration<Header> e = headers.getAllHeaders();
-                while (e.hasMoreElements()) {
-                    Header header = e.nextElement();
-                    inBoundHeaders.putSingle(header.getName(),
-                            header.getValue());
-                }*/
-
-                Response clientResponse = response; /// new ClientResponse(null, null);
-
-                UniformInterfaceException uniformInterfaceException = new UniformInterfaceException("", null);
-                throw uniformInterfaceException;
+                throw new UniformInterfaceException("", null);
             } else if (entityBatchOperation instanceof Job.CreateBatchOperation) {
-
                 try {
                     jobInfo = oDataAtomUnmarshaller.unmarshalEntry(content,
                             JobInfo.class);

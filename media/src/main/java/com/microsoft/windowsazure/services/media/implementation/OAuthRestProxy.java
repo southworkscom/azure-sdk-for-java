@@ -26,25 +26,14 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import org.codehaus.jackson.JsonParseException;
-//import org.codehaus.jackson.map.JsonMappingException;
-//import org.codehaus.jackson.map.ObjectMapper;
-//import org.codehaus.jackson.type.TypeReference;
-import org.glassfish.jersey.client.ClientResponse;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.windowsazure.core.UserAgentFilter;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapter;
 import com.microsoft.windowsazure.exception.ServiceException;
 import com.microsoft.windowsazure.exception.ServiceExceptionFactory;
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.api.client.UniformInterfaceException;
-//import com.sun.jersey.api.representation.Form;
-import com.microsoft.windowsazure.services.media.UniformInterfaceException;
 
 /**
  * The OAuth rest proxy.
@@ -93,7 +82,7 @@ public class OAuthRestProxy implements OAuthContract {
         requestForm.asMap().add("client_id", clientId);
         requestForm.asMap().add("client_secret", clientSecret);
         requestForm.asMap().add("scope", scope);
-        String str;
+
         try {
             WebTarget target = channel.target(oAuthUri);
             responseJson =  target.request(MediaType.APPLICATION_FORM_URLENCODED)

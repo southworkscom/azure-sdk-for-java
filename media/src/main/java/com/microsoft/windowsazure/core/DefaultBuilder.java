@@ -28,7 +28,6 @@ import java.util.ServiceLoader;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 public class DefaultBuilder implements Builder, Builder.Registry {
     private Map<Class<?>, Factory<?>> factories;

@@ -15,13 +15,10 @@
 
 package com.microsoft.windowsazure.services.media.models;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
 
 import javax.json.Json;
@@ -35,8 +32,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-
-import org.glassfish.jersey.client.ClientResponse;
 
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.exception.ServiceException;

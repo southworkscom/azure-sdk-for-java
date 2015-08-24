@@ -20,11 +20,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientResponse;
-
 import com.microsoft.windowsazure.exception.ServiceException;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  * The Class DefaultTypeActionOperation.

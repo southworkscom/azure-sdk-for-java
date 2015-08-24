@@ -17,8 +17,6 @@ package com.microsoft.windowsazure.services.media.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
  * A class representing OAuth token response.
  * 

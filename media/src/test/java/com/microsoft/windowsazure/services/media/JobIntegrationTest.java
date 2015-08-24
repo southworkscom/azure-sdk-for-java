@@ -256,6 +256,7 @@ public class JobIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void cancelJobSuccess() throws ServiceException {
         // Arrange
         JobInfo jobInfo = createJob(testJobPrefix + "cancelJobSuccess");

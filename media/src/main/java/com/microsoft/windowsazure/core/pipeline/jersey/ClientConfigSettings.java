@@ -16,20 +16,10 @@
 package com.microsoft.windowsazure.core.pipeline.jersey;
 
 import javax.ws.rs.client.Client;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.filter.LoggingFilter;
-
-import com.microsoft.windowsazure.services.media.implementation.MediaContentProvider;
-import com.microsoft.windowsazure.services.media.implementation.ODataEntityCollectionProvider;
-import com.microsoft.windowsazure.services.media.implementation.ODataEntityProvider;
-
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.config.ClientConfig;
-//import com.sun.jersey.api.client.filter.LoggingFilter;
 
 /**
  * Class used for injecting settings into the various places that need it.

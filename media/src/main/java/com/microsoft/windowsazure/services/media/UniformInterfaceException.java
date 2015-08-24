@@ -2,8 +2,6 @@ package com.microsoft.windowsazure.services.media;
 
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientResponse;
-
 public class UniformInterfaceException extends RuntimeException {
     /**
      * serial
@@ -34,5 +32,4 @@ public class UniformInterfaceException extends RuntimeException {
     public void setResponse(Response response) {
         this.response = response;
     }
-
 }

@@ -25,8 +25,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.glassfish.jersey.client.ClientResponse;
-
 import com.microsoft.windowsazure.core.pipeline.PipelineHelpers;
 import com.microsoft.windowsazure.services.media.entityoperations.DefaultEntityTypeActionOperation;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityTypeActionOperation;

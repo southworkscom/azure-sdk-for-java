@@ -29,7 +29,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.glassfish.jersey.message.internal.AbstractMessageReaderWriterProvider;
 
 import com.microsoft.windowsazure.services.media.implementation.content.MediaServiceDTO;
-//import com.sun.jersey.core.provider.AbstractMessageReaderWriterProvider;
 
 /**
  * Class to plug into Jersey to properly serialize raw Media Services DTO types.

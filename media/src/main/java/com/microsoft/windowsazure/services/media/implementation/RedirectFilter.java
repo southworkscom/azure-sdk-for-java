@@ -24,7 +24,7 @@ import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
 import javax.ws.rs.core.Response;
 
-public class RedirectFilter implements ClientResponseFilter { // extends IdempotentClientFilter {
+public class RedirectFilter implements ClientResponseFilter { 
     private final ResourceLocationManager locationManager;
 
     public RedirectFilter(ResourceLocationManager locationManager) {

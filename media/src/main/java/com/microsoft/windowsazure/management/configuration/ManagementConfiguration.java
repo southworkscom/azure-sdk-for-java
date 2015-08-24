@@ -296,8 +296,8 @@ public final class ManagementConfiguration {
         }
         
         Configuration resultConfiguration = configure(profile, configuration, uri, subscriptionId, keyStoreLocation, keyStorePassword, keyStoreType);
-        resultConfiguration.setProperty(profile+ManagementConfiguration.CLOUD_SERVICE_NAME, cloudServiceName);
-        resultConfiguration.setProperty(profile+ManagementConfiguration.JOB_COLLECTION_NAME, jobCollectionName);
+        resultConfiguration.setProperty(profile + ManagementConfiguration.CLOUD_SERVICE_NAME, cloudServiceName);
+        resultConfiguration.setProperty(profile + ManagementConfiguration.JOB_COLLECTION_NAME, jobCollectionName);
         return resultConfiguration;
     }
 }

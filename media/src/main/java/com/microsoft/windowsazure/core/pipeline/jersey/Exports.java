@@ -27,7 +27,6 @@ import org.glassfish.jersey.client.ClientConfig;
 import com.microsoft.windowsazure.core.Builder;
 import com.microsoft.windowsazure.core.Builder.Registry;
 
-
 public class Exports implements Builder.Exports {
 
     @Override

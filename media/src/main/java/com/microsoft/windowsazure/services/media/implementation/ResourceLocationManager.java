@@ -19,7 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.ws.rs.core.UriBuilder;
 
 import com.microsoft.windowsazure.services.media.MediaConfiguration;
@@ -43,8 +42,7 @@ public class ResourceLocationManager {
     }
 
     public URI getRedirectedURI(URI originalURI) {
-        if (originalURI.isAbsolute() &&
-                originalURI.toString().startsWith(initialURI.toString())) {
+        if (originalURI.isAbsolute() && originalURI.toString().startsWith(initialURI.toString())) {
             try {
                 originalURI = new URI(originalURI.toString().substring(initialURI.toString().length()));
             } catch (URISyntaxException e) {
@@ -60,6 +58,7 @@ public class ResourceLocationManager {
         if (queryString != null && !queryString.isEmpty()) {
             uriBuilder.replaceQuery(queryString);
         }
+        
         return uriBuilder.build();
     }
 

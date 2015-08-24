@@ -16,7 +16,6 @@
 package com.microsoft.windowsazure.services.media.implementation;
 
 import java.net.URI;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
@@ -24,22 +23,10 @@ import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.ClientResponseFilter;
 
 import com.microsoft.windowsazure.core.UserAgentFilter;
-//import com.microsoft.windowsazure.core.pipeline.filter.ServiceRequestFilter;
-//import com.microsoft.windowsazure.core.pipeline.filter.ServiceResponseFilter;
 import com.microsoft.windowsazure.core.pipeline.jersey.ClientConfigSettings;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterAdapter;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterRequestAdapter;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ClientFilterResponseAdapter;
-//import com.microsoft.windowsazure.core.pipeline.jersey.ServiceFilter;
 import com.microsoft.windowsazure.services.media.MediaContract;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityProxyData;
 import com.microsoft.windowsazure.services.media.entityoperations.EntityRestProxy;
-import com.microsoft.windowsazure.services.media.models.LocatorInfo;
-import com.microsoft.windowsazure.services.media.models.LocatorType;
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.config.ClientConfig;
-//import com.sun.jersey.api.client.config.DefaultClientConfig;
-//import com.sun.jersey.api.client.filter.ClientFilter;
 
 /**
  * The Class MediaRestProxy.
@@ -47,8 +34,7 @@ import com.microsoft.windowsazure.services.media.models.LocatorType;
 public class MediaRestProxy extends EntityRestProxy implements MediaContract {
     /** The redirect filter. */
     private SetMediaUriFilter mediaUriFilter;
-    private RedirectFilter redirectFilter;
-
+    @SuppressWarnings("unused")
     private final ClientConfigSettings clientConfigSettings;
 
     /**
@@ -79,7 +65,6 @@ public class MediaRestProxy extends EntityRestProxy implements MediaContract {
 
         this.clientConfigSettings = clientConfigSettings;
         this.mediaUriFilter = mediaUriFilter;
-        this.redirectFilter = redirectFilter;
         channel.register(redirectFilter);        
         channel.register(mediaUriFilter);
         channel.register(authFilter);

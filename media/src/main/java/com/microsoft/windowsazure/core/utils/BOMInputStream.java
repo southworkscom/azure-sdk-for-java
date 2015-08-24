@@ -34,10 +34,10 @@ public class BOMInputStream extends InputStream {
         
       pushbackInputStream = new PushbackInputStream(inputStream, 4);
 
-      final byte [] bom = new byte[4];
+      final byte[] bom = new byte[4];
       final int read = pushbackInputStream.read(bom);
 
-      switch(read) {
+      switch (read) {
           case 4:
               if ((bom[0] == (byte) 0xFF)
                && (bom[1] == (byte) 0xFE)
@@ -100,7 +100,7 @@ public class BOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
-    public int read(final byte [] b) throws  IOException,
+    public int read(final byte[] b) throws  IOException,
                                             NullPointerException {
         return pushbackInputStream.read(b, 0, b.length);
     }
@@ -108,7 +108,7 @@ public class BOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
-    public int read(final byte [] b,
+    public int read(final byte[] b,
                     final int off,
                     final int len) throws IOException,
                                           NullPointerException {
@@ -223,12 +223,12 @@ public class BOMInputStream extends InputStream {
             return result;
         }
 
-        private BOM(final byte [] bom, final String description) {
+        private BOM(final byte[] bom, final String description) {
             this.bytes = bom;
             this.description = description;
         }
 
-        private final byte [] bytes;
+        private final byte[] bytes;
         private final String description;
     }
 }
