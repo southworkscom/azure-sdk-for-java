@@ -298,6 +298,7 @@ public class AssetIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void deleteAssetSuccess() throws Exception {
         // Arrange
         String assetName = testAssetPrefix + "deleteAssetSuccess";
