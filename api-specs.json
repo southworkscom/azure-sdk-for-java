@@ -3,7 +3,7 @@
     "dir": "botframework/connector",
     "source": "specification/botframework/data-plane/connector/readme.md",
     "package": "com.microsoft.azure.botframework.connector",
-    "args": "--payload-flattening-threshold=1"
+    "args": ""
   },
   "analysisservices": {
     "dir": "archive/azure-mgmt-analysisservices",
