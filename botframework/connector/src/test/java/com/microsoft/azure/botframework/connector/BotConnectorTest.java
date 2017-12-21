@@ -1,37 +1,11 @@
 package com.microsoft.azure.botframework.connector;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.botframework.connector.customizations.ConnectorCredentials;
 import com.microsoft.azure.botframework.connector.implementation.*;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.rest.RestClient;
-import com.microsoft.rest.ServiceResponseBuilder;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.credentials.TokenCredentials;
-import com.microsoft.rest.serializer.JacksonAdapter;
-import okhttp3.*;
-import okio.BufferedSink;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
-
-class AuthenticationResponse {
-    @SerializedName("token_type")
-    public String tokenType;
-    @SerializedName("expires_in")
-    public Integer expiresIn;
-    @SerializedName("ext_expires_in")
-    public Integer extExpiresIn;
-    @SerializedName("access_token")
-    public String accessToken;
-}
 
 public class BotConnectorTest {
 
