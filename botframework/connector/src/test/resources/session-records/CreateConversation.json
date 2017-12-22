@@ -1,20 +1,19 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://smba.trafficmanager.net/apis/v3/conversations",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Body" : "{\"bot\":{\"id\":\"7b0mbj5dal2f\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Create Conversation\"}}",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 21 Dec 2017 20:26:15 GMT",
-      "content-length" : "107",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "connection" : "close",
-      "content-type" : "application/json; charset=utf-8",
+      "date" : "Fri, 22 Dec 2017 19:10:12 GMT",
+      "content-length" : "52",
+      "content-type" : "application/json",
       "retry-after" : "0",
-      "StatusCode" : "201",
-      "Body" : "{\"id\":\"8:live:enzocano\",\"activityId\":\"0:1PbvtuAtVRZ9uOFoB2Bbw7cvG286KJqafKuVTM7LI1FljKJ_k_NVlbzx6dRAjsOAn\"}"
+      "StatusCode" : "200",
+      "Body" : "{\"id\":\"033fc5gf8j8cec\",\"activityId\":\"10eb067j8i574\"}"
     }
   } ],
   "variables" : [ ]

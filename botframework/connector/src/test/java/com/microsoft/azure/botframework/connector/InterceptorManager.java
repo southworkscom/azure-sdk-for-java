@@ -111,6 +111,8 @@ public class InterceptorManager {
         networkCallRecord.Method = request.method();
         networkCallRecord.Uri = applyReplacementRule(request.url().toString().replaceAll("\\?$", ""));
 
+        networkCallRecord.Body = bodyToString(request);
+
         Response response = chain.proceed(request);
 
         networkCallRecord.Response = new HashMap<>();
@@ -128,6 +130,17 @@ public class InterceptorManager {
         }
 
         return response;
+    }
+
+    private String bodyToString(final Request request) {
+        try {
+            final Buffer buffer = new Buffer();
+
+            request.newBuilder().build().body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final Exception e) {
+            return "";
+        }
     }
 
     private Response playback(Interceptor.Chain chain) throws IOException {

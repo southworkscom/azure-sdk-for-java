@@ -1,0 +1,36 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "POST",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Body" : "{\"bot\":{\"id\":\"7b0mbj5dal2f\"},\"members\":[{\"id\":\"default-user\"}]}",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 22 Dec 2017 19:10:16 GMT",
+      "content-length" : "22",
+      "content-type" : "application/json",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "Body" : "{\"id\":\"2d0kh5kcaj64h\"}"
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations/2d0kh5kcaj64h/activities",
+    "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"7b0mbj5dal2f\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send to Conversation\",\"name\":\"activity\"}",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Fri, 22 Dec 2017 19:10:17 GMT",
+      "content-length" : "20",
+      "content-type" : "application/json",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "Body" : "{\"id\":\"lbi93403mi8\"}"
+    }
+  } ],
+  "variables" : [ ]
+}

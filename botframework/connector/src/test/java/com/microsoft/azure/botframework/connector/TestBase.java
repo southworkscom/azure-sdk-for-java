@@ -4,6 +4,7 @@ import com.microsoft.azure.botframework.connector.customizations.ConnectorCreden
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import com.microsoft.rest.ServiceResponseBuilder;
+import com.microsoft.rest.credentials.TokenCredentials;
 import com.microsoft.rest.interceptors.LoggingInterceptor;
 import com.microsoft.rest.serializer.JacksonAdapter;
 import org.junit.*;
@@ -15,11 +16,8 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public abstract class TestBase {
-    private PrintStream out;
 
-    public static String generateRandomResourceName(String prefix, int maxLen) {
-        return prefix + new Random().nextInt();
-    }
+    private PrintStream out;
 
     protected enum RunCondition {
         MOCK_ONLY,
@@ -31,11 +29,6 @@ public abstract class TestBase {
         PLAYBACK,
         RECORD
     }
-
-    protected final static String ZERO_SUBSCRIPTION = "00000000-0000-0000-0000-000000000000";
-    protected final static String ZERO_TENANT = "00000000-0000-0000-0000-000000000000";
-    private static final String PLAYBACK_URI_BASE = "http://localhost:";
-    protected static String playbackUri = null;
 
     private final RunCondition runCondition;
 
@@ -61,6 +54,20 @@ public abstract class TestBase {
 
     private static TestMode testMode = null;
 
+    protected final static String ZERO_CLIENT_ID = "00000000-0000-0000-0000-000000000000";
+    protected final static String ZERO_CLIENT_SECRET = "00000000000000000000000";
+    protected final static String ZERO_USER_ID = "<--dummy-user-id-->";
+    protected final static String ZERO_BOT_ID = "<--dummy-bot-id-->";
+    protected final static String ZERO_TOKEN = "<--dummy-token-->";
+
+    private static final String PLAYBACK_URI = "https://mock.api.botframework.com";
+
+    protected static String hostUri = null;
+    protected static String clientId = null;
+    protected static String clientSecret = null;
+    protected static String userId = null;
+    protected static String botId = null;
+
     private static void initTestMode() throws IOException {
         String azureTestMode = System.getenv("AZURE_TEST_MODE");
         if (azureTestMode != null) {
@@ -77,18 +84,26 @@ public abstract class TestBase {
         }
     }
 
-    private static void initPlaybackUri() throws IOException {
-        if (isPlaybackMode()) {
+    private static void initParams() {
+        try {
             Properties mavenProps = new Properties();
             InputStream in = TestBase.class.getResourceAsStream("/maven.properties");
             if (in == null) {
                 throw new IOException("The file \"maven.properties\" has not been generated yet. Please execute \"mvn compile\" to generate the file.");
             }
             mavenProps.load(in);
-            String port = mavenProps.getProperty("playbackServerPort");
-            playbackUri = PLAYBACK_URI_BASE + port;
-        } else {
-            playbackUri = PLAYBACK_URI_BASE + "1234";
+
+            clientId = mavenProps.getProperty("clientId");
+            clientSecret = mavenProps.getProperty("clientSecret");
+            hostUri = mavenProps.getProperty("hostUrl");
+            userId = mavenProps.getProperty("userId");
+            botId = mavenProps.getProperty("botId");
+        } catch (IOException e) {
+            clientId = ZERO_CLIENT_ID;
+            clientSecret = ZERO_CLIENT_SECRET;
+            hostUri = PLAYBACK_URI;
+            userId = ZERO_USER_ID;
+            botId = ZERO_BOT_ID;
         }
     }
 
@@ -121,7 +136,7 @@ public abstract class TestBase {
     public static void beforeClass() throws IOException {
         printThreadInfo("beforeClass");
         initTestMode();
-        initPlaybackUri();
+        initParams();
     }
 
     @Before
@@ -132,14 +147,13 @@ public abstract class TestBase {
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
-        ConnectorCredentials credentials;
+        TokenCredentials credentials;
         RestClient restClient;
-        String defaultSubscription;
 
         if (isPlaybackMode()) {
-            credentials = new ConnectorCredentials("dummy-client-id", "dummy-secret");
+            credentials = new TokenCredentials(null, ZERO_TOKEN);
             restClient = buildRestClient(new RestClient.Builder()
-                            .withBaseUrl(playbackUri + "/")
+                            .withBaseUrl(PLAYBACK_URI + "/")
                             .withSerializerAdapter(new JacksonAdapter())
                             .withResponseBuilderFactory(new ServiceResponseBuilder.Factory())
                             .withCredentials(credentials)
@@ -148,8 +162,6 @@ public abstract class TestBase {
                             .withNetworkInterceptor(interceptorManager.initInterceptor())
                     ,true);
 
-            defaultSubscription = ZERO_SUBSCRIPTION;
-            System.out.println(playbackUri);
             out = System.out;
             System.setOut(new PrintStream(new OutputStream() {
                 public void write(int b) {
@@ -158,9 +170,9 @@ public abstract class TestBase {
             }));
         }
         else { // Record mode
-            credentials = new ConnectorCredentials("a4e3b5f5-4d52-4378-a1f8-7c177fb5eb68", "ujnV6~{cvpcECDEOJ6019_|");
+            credentials = new ConnectorCredentials(clientId, clientSecret);
             restClient = buildRestClient(new RestClient.Builder()
-                            .withBaseUrl("https://smba.trafficmanager.net/apis/")
+                            .withBaseUrl(hostUri + "/")
                             .withSerializerAdapter(new JacksonAdapter())
                             .withResponseBuilderFactory(new ServiceResponseBuilder.Factory())
                             .withCredentials(credentials)
@@ -170,12 +182,9 @@ public abstract class TestBase {
                             .withNetworkInterceptor(interceptorManager.initInterceptor())
                     ,false);
 
-            defaultSubscription = credentials.toString();
-            interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
-            interceptorManager.addTextReplacementRule("https://management.azure.com/", playbackUri + "/");
-            interceptorManager.addTextReplacementRule("https://graph.windows.net/", playbackUri + "/");
+            interceptorManager.addTextReplacementRule(hostUri, PLAYBACK_URI);
         }
-        initializeClients(restClient, defaultSubscription, null);
+        initializeClients(restClient, botId, userId);
     }
 
     @After
@@ -195,6 +204,6 @@ public abstract class TestBase {
         return builder.build();
     }
 
-    protected abstract void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException;
+    protected abstract void initializeClients(RestClient restClient, String botId, String userId) throws IOException;
     protected abstract void cleanUpResources();
 }

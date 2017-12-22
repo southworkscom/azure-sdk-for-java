@@ -1,38 +1,151 @@
 package com.microsoft.azure.botframework.connector;
 
-import com.microsoft.azure.botframework.connector.implementation.ActivityInner;
-import com.microsoft.azure.botframework.connector.implementation.ChannelAccountInner;
-import com.microsoft.azure.botframework.connector.implementation.ConversationParametersInner;
-import com.microsoft.azure.botframework.connector.implementation.ConversationResourceResponseInner;
+import com.microsoft.azure.botframework.connector.implementation.*;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class ConversationTest extends  BotConnectorTestBase {
+
     @Test
     public void CreateConversation() {
 
-        String botId = "28:a4e3b5f5-4d52-4378-a1f8-7c177fb5eb68";
-        String userId = "29:1wbew5yiGBFqsT1I4OKnKn6Us4BLp9E7R8ahZFVFbpCw";
-
-        ChannelAccountInner bot = new ChannelAccountInner().withId(botId);
-        ChannelAccountInner user = new ChannelAccountInner().withId(userId);
-
         ActivityInner activity = new ActivityInner()
                 .withType(ActivityType.MESSAGE)
-                .withChannelId("skype")
-                .withFrom(bot)
                 .withRecipient(user)
-                .withText("This is a new message from JAVA");
+                .withText("TEST Create Conversation");
 
         ConversationParametersInner params = new ConversationParametersInner()
-                .withBot(bot)
                 .withMembers(Collections.singletonList(user))
+                .withBot(bot)
                 .withActivity(activity);
 
         ConversationResourceResponseInner result = connector.conversations().createConversation(params);
 
-        Assert.assertNotNull(result.serviceUrl());
+        Assert.assertNotNull(result.activityId());
+    }
+
+    @Test
+    public void GetConversationMembers() {
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        List<ChannelAccountInner> members = connector.conversations().getConversationMembers(conversation.id());
+
+        boolean hasUser = false;
+
+        for (ChannelAccountInner member : members) {
+            hasUser = member.id().equals(user.id());
+            if (hasUser) break;
+        }
+
+        Assert.assertTrue(hasUser);
+    }
+
+    @Test
+    public void SendToConversation() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withName("activity")
+                .withText("TEST Send to Conversation");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner response = connector.conversations().sendToConversation(conversation.id(), activity);
+
+        Assert.assertNotNull(response.id());
+    }
+
+    @Test
+    public void GetActivityMembers() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withText("TEST Get Activity Members");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot)
+                .withActivity(activity);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        List<ChannelAccountInner> members = connector.conversations().getActivityMembers(conversation.id(), conversation.activityId());
+
+        boolean hasUser = false;
+
+        for (ChannelAccountInner member : members) {
+            hasUser = member.id().equals(user.id());
+            if (hasUser) break;
+        }
+
+        Assert.assertTrue(hasUser);
+    }
+
+    @Test
+    public void ReplyToActivity() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withText("TEST Send to Conversation");
+
+        ActivityInner reply = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withText("TEST Reply to Activity");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner response = connector.conversations().sendToConversation(conversation.id(), activity);
+
+        ResourceResponseInner replyResponse = connector.conversations().replyToActivity(conversation.id(), response.id(), reply);
+
+        Assert.assertNotNull(replyResponse.id());
+    }
+
+    @Test
+    public void DeleteActivity() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withText("TEST Delete Activity");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot)
+                .withActivity(activity);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        connector.conversations().deleteActivity(conversation.id(), conversation.activityId());
+
+        Assert.assertNotNull(conversation.activityId());
     }
 }
