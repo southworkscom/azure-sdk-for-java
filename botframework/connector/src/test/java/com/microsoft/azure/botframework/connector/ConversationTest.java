@@ -1,13 +1,12 @@
 package com.microsoft.azure.botframework.connector;
 
 import com.microsoft.azure.botframework.connector.implementation.*;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class ConversationTest extends  BotConnectorTestBase {
@@ -147,5 +146,108 @@ public class ConversationTest extends  BotConnectorTestBase {
         connector.conversations().deleteActivity(conversation.id(), conversation.activityId());
 
         Assert.assertNotNull(conversation.activityId());
+    }
+
+    @Test
+    public void UpdateActivity() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withText("TEST Send to Conversation");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner response = connector.conversations().sendToConversation(conversation.id(), activity);
+
+        ActivityInner update = activity.withId(response.id())
+                .withText("TEST Update Activity");
+
+        ResourceResponseInner updateResponse = connector.conversations().updateActivity(conversation.id(), response.id(), update);
+
+        Assert.assertNotNull(updateResponse.id());
+    }
+
+    @Test
+    public void UploadAttachment() {
+
+        AttachmentDataInner attachment = new AttachmentDataInner()
+                .withName("bot-framework.png")
+                .withType("image/png")
+                .withOriginalBase64(encodeToBase64(new File(getClass().getClassLoader().getResource("bot-framework.png").getFile())));
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner response = connector.conversations().uploadAttachment(conversation.id(), attachment);
+
+        Assert.assertNotNull(response.id());
+    }
+
+    @Test
+    public void GetAttachmentInfo() {
+
+        AttachmentDataInner attachment = new AttachmentDataInner()
+                .withName("bot-framework.png")
+                .withType("image/png")
+                .withOriginalBase64(encodeToBase64(new File(getClass().getClassLoader().getResource("bot-framework.png").getFile())));
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner attachmentResponse = connector.conversations().uploadAttachment(conversation.id(), attachment);
+
+        AttachmentInfoInner response = connector.attachments().getAttachmentInfo(attachmentResponse.id());
+
+        Assert.assertEquals(attachment.name(), response.name());
+    }
+
+    @Test
+    public void GetAttachment() {
+
+        byte[] attachmentPayload = encodeToBase64(new File(getClass().getClassLoader().getResource("bot-framework.png").getFile()));
+
+        AttachmentDataInner attachment = new AttachmentDataInner()
+                .withName("bot-framework.png")
+                .withType("image/png")
+                .withOriginalBase64(attachmentPayload);
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner attachmentResponse = connector.conversations().uploadAttachment(conversation.id(), attachment);
+
+        AttachmentInfoInner attachmentInfo = connector.attachments().getAttachmentInfo(attachmentResponse.id());
+
+        for (AttachmentView attView : attachmentInfo.views()) {
+            byte[] retrievedAttachment = connector.attachments().getAttachment(attachmentResponse.id(), attView.viewId());
+
+            Assert.assertEquals(attachmentPayload, retrievedAttachment);
+        }
+    }
+    
+    private byte[] encodeToBase64(File file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            byte[] result = new byte[(int)file.length()];
+            int size = fis.read(result);
+            return result;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
