@@ -217,12 +217,12 @@ public class AttachmentsInner {
     }
 
     private ServiceResponse<byte[]> getAttachmentDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<byte[], ErrorResponseException>newInstance(this.client.serializerAdapter())
+        return  new ServiceResponse<byte[]>(response.body().bytes(), this.client.restClient().responseBuilderFactory().<byte[], ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<byte[]>() { }.getType())
                 .register(301, new TypeToken<Void>() { }.getType())
                 .register(302, new TypeToken<Void>() { }.getType())
                 .registerError(ErrorResponseException.class)
-                .build(response);
+                .build(response).response());
     }
 
 }
