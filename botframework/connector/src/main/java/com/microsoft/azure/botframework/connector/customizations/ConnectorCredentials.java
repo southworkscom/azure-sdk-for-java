@@ -9,6 +9,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.logging.Logger;
 
 public class ConnectorCredentials extends TokenCredentials {
     private String clientId;
@@ -16,6 +18,9 @@ public class ConnectorCredentials extends TokenCredentials {
 
     private OkHttpClient client;
     private Gson gson;
+
+    private String currentToken = null;
+    private long expiredTime = 0;
 
     public ConnectorCredentials(String clientId, String clientSecret) {
         super("Bearer", "");
@@ -27,6 +32,9 @@ public class ConnectorCredentials extends TokenCredentials {
 
     @Override
     protected String getToken(Request request) throws IOException {
+        if (System.currentTimeMillis() < expiredTime) {
+            return currentToken;
+        }
         Request reqToken = request.newBuilder()
                 .url("https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token")
                 .post(new FormBody.Builder()
@@ -38,16 +46,18 @@ public class ConnectorCredentials extends TokenCredentials {
         Response response = client.newCall(reqToken).execute();
         String payload = response.body().string();
         AuthenticationResponse authResponse = gson.fromJson(payload, AuthenticationResponse.class);
-        return authResponse.accessToken;
+        expiredTime = System.currentTimeMillis() + (authResponse.expiresIn * 1000);
+        currentToken = authResponse.accessToken;
+        return currentToken;
     }
 
     private class AuthenticationResponse {
         @SerializedName("token_type")
         private String tokenType;
         @SerializedName("expires_in")
-        private Integer expiresIn;
+        private long expiresIn;
         @SerializedName("ext_expires_in")
-        private Integer extExpiresIn;
+        private long extExpiresIn;
         @SerializedName("access_token")
         private String accessToken;
     }
