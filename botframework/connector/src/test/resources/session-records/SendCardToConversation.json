@@ -8,28 +8,28 @@
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:45:16 GMT",
+      "date" : "Tue, 26 Dec 2017 21:44:50 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"7i6a4bjm0416\"}"
+      "Body" : "{\"id\":\"4f5k286b922h\"}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/7i6a4bjm0416/activities",
-    "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send to Conversation\",\"name\":\"activity\"}",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations/4f5k286b922h/activities",
+    "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send Card to Conversation\",\"attachments\":[{\"contentType\":\"application/vnd.microsoft.card.hero\",\"content\":{\"title\":\"A static image\",\"subtitle\":\"JPEG image\",\"images\":[{\"url\":\"https://docs.microsoft.com/en-us/bot-framework/media/designing-bots/core/dialogs-screens.png\"}]}},{\"contentType\":\"application/vnd.microsoft.card.hero\",\"content\":{\"title\":\"An animation\",\"subtitle\":\"GIF image\",\"images\":[{\"url\":\"http://i.giphy.com/Ki55RUbOV5njy.gif\"}]}}],\"name\":\"activity\"}",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:45:16 GMT",
-      "content-length" : "21",
+      "date" : "Tue, 26 Dec 2017 21:44:50 GMT",
+      "content-length" : "20",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"ffacdddij49f\"}"
+      "Body" : "{\"id\":\"d5l6ib6k3h9\"}"
     }
   } ],
   "variables" : [ ]

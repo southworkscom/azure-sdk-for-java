@@ -8,44 +8,44 @@
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:57 GMT",
-      "content-length" : "21",
+      "date" : "Tue, 26 Dec 2017 21:44:38 GMT",
+      "content-length" : "20",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"jndhh78lm23d\"}"
+      "Body" : "{\"id\":\"e10e675b5gh\"}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/jndhh78lm23d/activities",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations/e10e675b5gh/activities",
     "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send to Conversation\"}",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:57 GMT",
+      "date" : "Tue, 26 Dec 2017 21:44:38 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"d6d248e5hcke\"}"
+      "Body" : "{\"id\":\"b1n51i2n6kl3\"}"
     }
   }, {
-    "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/jndhh78lm23d/activities/d6d248e5hcke",
-    "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Reply to Activity\"}",
+    "Method" : "PUT",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations/e10e675b5gh/activities/b1n51i2n6kl3",
+    "Body" : "{\"type\":\"message\",\"id\":\"b1n51i2n6kl3\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Update Activity\"}",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:58 GMT",
+      "date" : "Tue, 26 Dec 2017 21:44:39 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"h484fej1nh0l\"}"
+      "Body" : "{\"id\":\"b1n51i2n6kl3\"}"
     }
   } ],
   "variables" : [ ]

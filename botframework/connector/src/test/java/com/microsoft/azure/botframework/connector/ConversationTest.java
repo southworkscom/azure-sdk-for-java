@@ -1,11 +1,13 @@
 package com.microsoft.azure.botframework.connector;
 
+import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.botframework.connector.implementation.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,6 +61,44 @@ public class ConversationTest extends  BotConnectorTestBase {
                 .withFrom(bot)
                 .withName("activity")
                 .withText("TEST Send to Conversation");
+
+        ConversationParametersInner createMessage = new ConversationParametersInner()
+                .withMembers(Collections.singletonList(user))
+                .withBot(bot);
+
+        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
+
+        ResourceResponseInner response = connector.conversations().sendToConversation(conversation.id(), activity);
+
+        Assert.assertNotNull(response.id());
+    }
+
+    @Test
+    public void SendCardToConversation() {
+
+        ActivityInner activity = new ActivityInner()
+                .withType(ActivityType.MESSAGE)
+                .withRecipient(user)
+                .withFrom(bot)
+                .withName("activity")
+                .withText("TEST Send Card to Conversation")
+                .withAttachments(Arrays.asList(
+                        new Attachment()
+                            .withContentType("application/vnd.microsoft.card.hero")
+                            .withContent(new HeroCard()
+                                .withTitle("A static image")
+                                .withSubtitle("JPEG image")
+                                .withImages(Collections.singletonList(new CardImage()
+                                        .withUrl("https://docs.microsoft.com/en-us/bot-framework/media/designing-bots/core/dialogs-screens.png")))),
+                        new Attachment()
+                                .withContentType("application/vnd.microsoft.card.hero")
+                                .withContent(new HeroCard()
+                                        .withTitle("An animation")
+                                        .withSubtitle("GIF image")
+                                        .withImages(Collections.singletonList(new CardImage()
+                                                .withUrl("http://i.giphy.com/Ki55RUbOV5njy.gif"))))
+
+                        ));
 
         ConversationParametersInner createMessage = new ConversationParametersInner()
                 .withMembers(Collections.singletonList(user))
@@ -216,10 +256,10 @@ public class ConversationTest extends  BotConnectorTestBase {
     @Test
     public void GetAttachment() {
 
-        byte[] attachmentPayload = encodeToBase64(new File(getClass().getClassLoader().getResource("bot-framework.png").getFile()));
+        byte[] attachmentPayload = encodeToBase64(new File(getClass().getClassLoader().getResource("bot_icon.png").getFile()));
 
         AttachmentDataInner attachment = new AttachmentDataInner()
-                .withName("bot-framework.png")
+                .withName("bot_icon.png")
                 .withType("image/png")
                 .withOriginalBase64(attachmentPayload);
 
@@ -236,10 +276,10 @@ public class ConversationTest extends  BotConnectorTestBase {
         for (AttachmentView attView : attachmentInfo.views()) {
             byte[] retrievedAttachment = connector.attachments().getAttachment(attachmentResponse.id(), attView.viewId());
 
-            Assert.assertEquals(attachmentPayload, retrievedAttachment);
+            Assert.assertEquals(BaseEncoding.base64().encode(attachmentPayload), BaseEncoding.base64().encode(retrievedAttachment));
         }
     }
-    
+
     private byte[] encodeToBase64(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);

@@ -2,34 +2,34 @@
   "networkCallRecords" : [ {
     "Method" : "POST",
     "Uri" : "https://mock.api.botframework.com/v3/conversations",
-    "Body" : "{\"bot\":{\"id\":\"7b0mbj5dal2f\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"from\":{\"id\":\"7b0mbj5dal2f\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Get Activity Members\"}}",
+    "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Get Activity Members\"}}",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 22 Dec 2017 19:10:01 GMT",
-      "content-length" : "49",
+      "date" : "Tue, 26 Dec 2017 21:44:46 GMT",
+      "content-length" : "50",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"0e5m255bn9lj\",\"activityId\":\"mi8j5m4chc7g\"}"
+      "Body" : "{\"id\":\"mbig1f33fb3j\",\"activityId\":\"0hn3ik1g1b0fa\"}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/0e5m255bn9lj/activities/mi8j5m4chc7g/members",
+    "Uri" : "https://mock.api.botframework.com/v3/conversations/mbig1f33fb3j/activities/0hn3ik1g1b0fa/members",
     "Body" : "",
     "Headers" : {
       "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Fri, 22 Dec 2017 19:10:02 GMT",
+      "date" : "Tue, 26 Dec 2017 21:44:47 GMT",
       "content-length" : "58",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "[{\"id\":\"7b0mbj5dal2f\",\"name\":\"Bot\"},{\"id\":\"default-user\"}]"
+      "Body" : "[{\"id\":\"6bl73lhk128m\",\"name\":\"Bot\"},{\"id\":\"default-user\"}]"
     }
   } ],
   "variables" : [ ]
