@@ -84,14 +84,14 @@ public class ConversationTest extends  BotConnectorTestBase {
                 .withText("TEST Send Card to Conversation")
                 .withAttachments(Arrays.asList(
                         new Attachment()
-                            .withContentType("application/vnd.microsoft.card.hero")
+                            .withContentType(CardContentType.HERO.toString())
                             .withContent(new HeroCard()
                                 .withTitle("A static image")
                                 .withSubtitle("JPEG image")
                                 .withImages(Collections.singletonList(new CardImage()
                                         .withUrl("https://docs.microsoft.com/en-us/bot-framework/media/designing-bots/core/dialogs-screens.png")))),
                         new Attachment()
-                                .withContentType("application/vnd.microsoft.card.hero")
+                                .withContentType(CardContentType.HERO.toString())
                                 .withContent(new HeroCard()
                                         .withTitle("An animation")
                                         .withSubtitle("GIF image")

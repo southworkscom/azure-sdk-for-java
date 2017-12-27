@@ -14,6 +14,7 @@ import com.microsoft.azure.botframework.connector.ActivityType;
 import org.joda.time.DateTime;
 import com.microsoft.azure.botframework.connector.ConversationAccount;
 import com.microsoft.azure.botframework.connector.TextFormat;
+import com.microsoft.azure.botframework.connector.AttachmentLayout;
 import java.util.List;
 import com.microsoft.azure.botframework.connector.MessageReaction;
 import com.microsoft.azure.botframework.connector.InputHint;
@@ -76,7 +77,7 @@ public class ActivityInner {
     private ChannelAccountInner from;
 
     /**
-     * Conversation.
+     * Channel account information.
      */
     @JsonProperty(value = "conversation")
     private ConversationAccount conversation;
@@ -96,10 +97,10 @@ public class ActivityInner {
 
     /**
      * Hint for how to deal with multiple attachments: [list|carousel] Default:
-     * list.
+     * list. Possible values include: 'list', 'carousel'.
      */
     @JsonProperty(value = "attachmentLayout")
-    private String attachmentLayout;
+    private AttachmentLayout attachmentLayout;
 
     /**
      * Members added to the conversation. Present only if activity type is
@@ -182,7 +183,7 @@ public class ActivityInner {
     private SuggestedActions suggestedActions;
 
     /**
-     * Attachments.
+     * List of Attachments.
      */
     @JsonProperty(value = "attachments")
     private List<Attachment> attachments;
@@ -446,7 +447,7 @@ public class ActivityInner {
      *
      * @return the attachmentLayout value
      */
-    public String attachmentLayout() {
+    public AttachmentLayout attachmentLayout() {
         return this.attachmentLayout;
     }
 
@@ -456,7 +457,7 @@ public class ActivityInner {
      * @param attachmentLayout the attachmentLayout value to set
      * @return the ActivityInner object itself.
      */
-    public ActivityInner withAttachmentLayout(String attachmentLayout) {
+    public ActivityInner withAttachmentLayout(AttachmentLayout attachmentLayout) {
         this.attachmentLayout = attachmentLayout;
         return this;
     }

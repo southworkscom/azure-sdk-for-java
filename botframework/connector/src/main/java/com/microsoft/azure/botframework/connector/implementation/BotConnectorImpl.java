@@ -171,6 +171,6 @@ public class BotConnectorImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BotConnector", "v3.0");
+        return String.format("%s (%s, %s)", super.userAgent(), "BotConnector", "3.0");
     }
 }
