@@ -10,55 +10,67 @@
 
 package com.microsoft.azure.botframework.connector;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for CardContentType.
  */
-public final class CardContentType extends ExpandableStringEnum<CardContentType> {
-    /** Static value application/vnd.microsoft.card.keyboard for CardContentType. */
-    public static final CardContentType KEYBOARD = fromString("application/vnd.microsoft.card.keyboard");
+public enum CardContentType {
+    /** Enum value application/vnd.microsoft.card.keyboard. */
+    KEYBOARD("application/vnd.microsoft.card.keyboard"),
 
-    /** Static value application/vnd.microsoft.card.thumbnail for CardContentType. */
-    public static final CardContentType THUMBNAIL = fromString("application/vnd.microsoft.card.thumbnail");
+    /** Enum value application/vnd.microsoft.card.thumbnail. */
+    THUMBNAIL("application/vnd.microsoft.card.thumbnail"),
 
-    /** Static value application/vnd.microsoft.card.hero for CardContentType. */
-    public static final CardContentType HERO = fromString("application/vnd.microsoft.card.hero");
+    /** Enum value application/vnd.microsoft.card.hero. */
+    HERO("application/vnd.microsoft.card.hero"),
 
-    /** Static value application/vnd.microsoft.card.receipt for CardContentType. */
-    public static final CardContentType RECEIPT = fromString("application/vnd.microsoft.card.receipt");
+    /** Enum value application/vnd.microsoft.card.receipt. */
+    RECEIPT("application/vnd.microsoft.card.receipt"),
 
-    /** Static value application/vnd.microsoft.card.signin for CardContentType. */
-    public static final CardContentType SIGN_IN = fromString("application/vnd.microsoft.card.signin");
+    /** Enum value application/vnd.microsoft.card.signin. */
+    SIGN_IN("application/vnd.microsoft.card.signin"),
 
-    /** Static value application/vnd.microsoft.card.animation for CardContentType. */
-    public static final CardContentType ANIMATION = fromString("application/vnd.microsoft.card.animation");
+    /** Enum value application/vnd.microsoft.card.animation. */
+    ANIMATION("application/vnd.microsoft.card.animation"),
 
-    /** Static value application/vnd.microsoft.card.audio for CardContentType. */
-    public static final CardContentType AUDIO = fromString("application/vnd.microsoft.card.audio");
+    /** Enum value application/vnd.microsoft.card.audio. */
+    AUDIO("application/vnd.microsoft.card.audio"),
 
-    /** Static value application/vnd.microsoft.card.video for CardContentType. */
-    public static final CardContentType VIDEO = fromString("application/vnd.microsoft.card.video");
+    /** Enum value application/vnd.microsoft.card.video. */
+    VIDEO("application/vnd.microsoft.card.video"),
 
-    /** Static value application/vnd.microsoft.card.payment for CardContentType. */
-    public static final CardContentType PAYMENT = fromString("application/vnd.microsoft.card.payment");
+    /** Enum value application/vnd.microsoft.card.payment. */
+    PAYMENT("application/vnd.microsoft.card.payment");
 
-    /**
-     * Creates or finds a CardContentType from its string representation.
-     * @param name a name to look for
-     * @return the corresponding CardContentType
-     */
-    @JsonCreator
-    public static CardContentType fromString(String name) {
-        return fromString(name, CardContentType.class);
+    /** The actual serialized value for a CardContentType instance. */
+    private String value;
+
+    CardContentType(String value) {
+        this.value = value;
     }
 
     /**
-     * @return known CardContentType values
+     * Parses a serialized value to a CardContentType instance.
+     *
+     * @param value the serialized value to parse.
+     * @return the parsed CardContentType object, or null if unable to parse.
      */
-    public static Collection<CardContentType> values() {
-        return values(CardContentType.class);
+    @JsonCreator
+    public static CardContentType fromString(String value) {
+        CardContentType[] items = CardContentType.values();
+        for (CardContentType item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

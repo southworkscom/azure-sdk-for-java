@@ -10,34 +10,46 @@
 
 package com.microsoft.azure.botframework.connector;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Defines values for AttachmentLayout.
  */
-public final class AttachmentLayout extends ExpandableStringEnum<AttachmentLayout> {
-    /** Static value list for AttachmentLayout. */
-    public static final AttachmentLayout LIST = fromString("list");
+public enum AttachmentLayout {
+    /** Enum value list. */
+    LIST("list"),
 
-    /** Static value carousel for AttachmentLayout. */
-    public static final AttachmentLayout CAROUSEL = fromString("carousel");
+    /** Enum value carousel. */
+    CAROUSEL("carousel");
 
-    /**
-     * Creates or finds a AttachmentLayout from its string representation.
-     * @param name a name to look for
-     * @return the corresponding AttachmentLayout
-     */
-    @JsonCreator
-    public static AttachmentLayout fromString(String name) {
-        return fromString(name, AttachmentLayout.class);
+    /** The actual serialized value for a AttachmentLayout instance. */
+    private String value;
+
+    AttachmentLayout(String value) {
+        this.value = value;
     }
 
     /**
-     * @return known AttachmentLayout values
+     * Parses a serialized value to a AttachmentLayout instance.
+     *
+     * @param value the serialized value to parse.
+     * @return the parsed AttachmentLayout object, or null if unable to parse.
      */
-    public static Collection<AttachmentLayout> values() {
-        return values(AttachmentLayout.class);
+    @JsonCreator
+    public static AttachmentLayout fromString(String value) {
+        AttachmentLayout[] items = AttachmentLayout.values();
+        for (AttachmentLayout item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

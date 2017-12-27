@@ -34,7 +34,7 @@ public class ActivityInner {
      * 'conversationUpdate', 'contactRelationUpdate', 'typing',
      * 'endOfConversation', 'event', 'invoke'.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", required = true)
     private ActivityType type;
 
     /**
@@ -85,7 +85,7 @@ public class ActivityInner {
     /**
      * (Outbound to bot only) Bot's address that received the message.
      */
-    @JsonProperty(value = "recipient")
+    @JsonProperty(value = "recipient", required = true)
     private ChannelAccountInner recipient;
 
     /**

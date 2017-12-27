@@ -121,12 +121,14 @@ public class InterceptorManager {
         extractResponseData(networkCallRecord.Response, response);
 
         // remove pre-added header if this is a waiting or redirection
-        if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
-                || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == 307) {
-            // Do nothing
-        } else {
-            synchronized (recordedData.getNetworkCallRecords()) {
-                recordedData.getNetworkCallRecords().add(networkCallRecord);
+        if (networkCallRecord.Response.get("Body") != null) {
+            if (networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
+                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == 307) {
+                // Do nothing
+            } else {
+                synchronized (recordedData.getNetworkCallRecords()) {
+                    recordedData.getNetworkCallRecords().add(networkCallRecord);
+                }
             }
         }
 
