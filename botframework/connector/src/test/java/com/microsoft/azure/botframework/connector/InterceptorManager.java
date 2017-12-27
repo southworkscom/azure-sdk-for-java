@@ -2,6 +2,7 @@ package com.microsoft.azure.botframework.connector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.io.BaseEncoding;
 import okhttp3.*;
 import okhttp3.internal.Util;
 import okio.Buffer;
@@ -169,10 +170,12 @@ public class InterceptorManager {
 
         int recordStatusCode = Integer.parseInt(networkCallRecord.Response.get("StatusCode"));
 
-        Response originalResponse = chain.proceed(request);
-        originalResponse.body().close();
+        //Response originalResponse = chain.proceed(request);
+        //originalResponse.body().close();
 
-        Response.Builder responseBuilder = originalResponse.newBuilder()
+        Response.Builder responseBuilder = new Response.Builder()
+                .request(request.newBuilder().build())
+                .protocol(Protocol.HTTP_2)
                 .code(recordStatusCode).message("-");
 
         for (Map.Entry<String, String> pair : networkCallRecord.Response.entrySet()) {
@@ -200,7 +203,14 @@ public class InterceptorManager {
                     ? "application/json; charset=utf-8"
                     : rawContentType;
 
-            ResponseBody responseBody = ResponseBody.create(MediaType.parse(contentType), rawBody.getBytes());
+            ResponseBody responseBody;
+
+            if (contentType.toLowerCase().contains("application/json")) {
+                responseBody = ResponseBody.create(MediaType.parse(contentType), rawBody.getBytes());
+            } else {
+                responseBody = ResponseBody.create(MediaType.parse(contentType), BaseEncoding.base64().decode(rawBody));
+            }
+
             responseBuilder.body(responseBody);
             responseBuilder.addHeader("Content-Length", String.valueOf(rawBody.getBytes("UTF-8").length));
         }
@@ -236,7 +246,15 @@ public class InterceptorManager {
         String content = null;
 
         if (response.header("Content-Encoding") == null) {
-            content = new String(buffer.readString(Util.UTF_8));
+            String contentType = response.header("Content-Type");
+            if (contentType != null) {
+                if (contentType.equalsIgnoreCase("application/octet-stream"))
+                {
+                    content = BaseEncoding.base64().encode(buffer.readByteArray());
+                } else {
+                    content = buffer.readString(Util.UTF_8);
+                }
+            }
         } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {
             GZIPInputStream gis = new GZIPInputStream(buffer.inputStream());
             content = "";

@@ -60,7 +60,7 @@ public abstract class TestBase {
     protected final static String ZERO_BOT_ID = "<--dummy-bot-id-->";
     protected final static String ZERO_TOKEN = "<--dummy-token-->";
 
-    private static final String PLAYBACK_URI = "https://mock.api.botframework.com";
+    private static final String PLAYBACK_URI = "http://localhost:1234";
 
     protected static String hostUri = null;
     protected static String clientId = null;
@@ -153,13 +153,13 @@ public abstract class TestBase {
         if (isPlaybackMode()) {
             credentials = new TokenCredentials(null, ZERO_TOKEN);
             restClient = buildRestClient(new RestClient.Builder()
-                            .withBaseUrl(PLAYBACK_URI + "/")
+                            .withBaseUrl(hostUri + "/")
                             .withSerializerAdapter(new JacksonAdapter())
                             .withResponseBuilderFactory(new ServiceResponseBuilder.Factory())
                             .withCredentials(credentials)
                             .withLogLevel(LogLevel.NONE)
                             .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                            .withNetworkInterceptor(interceptorManager.initInterceptor())
+                            .withInterceptor(interceptorManager.initInterceptor())
                     ,true);
 
             out = System.out;
@@ -179,10 +179,10 @@ public abstract class TestBase {
                             .withLogLevel(LogLevel.NONE)
                             .withReadTimeout(3, TimeUnit.MINUTES)
                             .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                            .withNetworkInterceptor(interceptorManager.initInterceptor())
+                            .withInterceptor(interceptorManager.initInterceptor())
                     ,false);
 
-            interceptorManager.addTextReplacementRule(hostUri, PLAYBACK_URI);
+            //interceptorManager.addTextReplacementRule(hostUri, PLAYBACK_URI);
         }
         initializeClients(restClient, botId, userId);
     }
