@@ -1,35 +1,33 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}]}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:45:16 GMT",
-      "content-length" : "21",
+      "date" : "Wed, 27 Dec 2017 17:23:30 GMT",
+      "content-length" : "20",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"7i6a4bjm0416\"}"
+      "Body" : "{\"id\":\"ed7a2n2fgcc\"}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/7i6a4bjm0416/activities",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/ed7a2n2fgcc/activities",
     "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send to Conversation\",\"name\":\"activity\"}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:45:16 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:31 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"ffacdddij49f\"}"
+      "Body" : "{\"id\":\"a4ngkg9a0nn1\"}"
     }
   } ],
   "variables" : [ ]

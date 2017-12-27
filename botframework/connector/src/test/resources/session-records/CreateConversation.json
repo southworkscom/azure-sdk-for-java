@@ -1,19 +1,18 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Create Conversation\"}}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:45:09 GMT",
-      "content-length" : "49",
+      "date" : "Wed, 27 Dec 2017 17:23:24 GMT",
+      "content-length" : "48",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"j2cb5f477akh\",\"activityId\":\"5b0i8k1djil2\"}"
+      "Body" : "{\"id\":\"949a3396680j\",\"activityId\":\"e21maimf2kc\"}"
     }
   } ],
   "variables" : [ ]

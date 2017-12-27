@@ -1,30 +1,28 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Delete Activity\"}}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:53 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:07 GMT",
       "content-length" : "49",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"ll1fb5h79h6l\",\"activityId\":\"k0070j61m2nb\"}"
+      "Body" : "{\"id\":\"7ajd57ec5jh5\",\"activityId\":\"8c33f90m4246\"}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/ll1fb5h79h6l/activities/k0070j61m2nb",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/7ajd57ec5jh5/activities/8c33f90m4246",
     "Body" : "",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:54 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:07 GMT",
       "transfer-encoding" : "chunked",
       "retry-after" : "0",
       "StatusCode" : "200",

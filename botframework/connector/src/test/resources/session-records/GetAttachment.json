@@ -1,46 +1,44 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}]}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:42 GMT",
-      "content-length" : "20",
-      "content-type" : "application/json",
-      "retry-after" : "0",
-      "StatusCode" : "200",
-      "Body" : "{\"id\":\"b9mlj1fgakh\"}"
-    }
-  }, {
-    "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/b9mlj1fgakh/attachments",
-    "Body" : "{\"type\":\"image/png\",\"name\":\"bot_icon.png\",\"originalBase64\":\"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\"}",
-    "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
-    },
-    "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:42 GMT",
+      "date" : "Wed, 27 Dec 2017 17:22:55 GMT",
       "content-length" : "22",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"0aa327f7bng08\"}"
+      "Body" : "{\"id\":\"2in9igbnn8mag\"}"
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/2in9igbnn8mag/attachments",
+    "Body" : "{\"type\":\"image/png\",\"name\":\"bot_icon.png\",\"originalBase64\":\"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\"}",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
+    },
+    "Response" : {
+      "date" : "Wed, 27 Dec 2017 17:22:56 GMT",
+      "content-length" : "21",
+      "content-type" : "application/json",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "Body" : "{\"id\":\"e8dgg2l3emj8\"}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "https://mock.api.botframework.com/v3/attachments/0aa327f7bng08",
+    "Uri" : "https://233b55ff.ngrok.io/v3/attachments/e8dgg2l3emj8",
     "Body" : "",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:43 GMT",
+      "date" : "Wed, 27 Dec 2017 17:22:56 GMT",
       "content-length" : "86",
       "content-type" : "application/json",
       "retry-after" : "0",
@@ -49,19 +47,19 @@
     }
   }, {
     "Method" : "GET",
-    "Uri" : "https://mock.api.botframework.com/v3/attachments/0aa327f7bng08/views/original",
+    "Uri" : "https://233b55ff.ngrok.io/v3/attachments/e8dgg2l3emj8/views/original",
     "Body" : "",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:43 GMT",
+      "date" : "Wed, 27 Dec 2017 17:22:57 GMT",
       "content-length" : "1899",
       "content-type" : "application/octet-stream",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "�PNG\r\n\u001A\n\u0000\u0000\u0000\rIHDR\u0000\u0000\u0000K\u0000\u0000\u0000K\b\u0006\u0000\u0000\u00008Nz�\u0000\u0000\u0000\u0006bKGD\u0000�\u0000�\u0000�����\u0000\u0000\u0000\tpHYs\u0000\u0000\u000B\u0013\u0000\u0000\u000B\u0013\u0001\u0000��\u0018\u0000\u0000\u0000\u0007tIME\u0007�\f\u001A\u0012.\u0017|�È\u0000\u0000\u0006�IDATx���ypSE\u001C\u0007�o^C)�\u0016\nii�4)�\u001C-\n\u0005\n��rC\u0011�\u0005���Q�[ƋcT<Q���\b\u001E�};�\"�#2(�\u0003�\u0007:8�!\u0002MzpN�\u0017m���{�\u001F�e�n�5}/\f��f���6o�'���o�5`�q\n\u0011�B\u0012\u0004\u0002K`\t,�%�\u0004� \u0010X\u0002K`\t,�%�\u0004��\u0012X\u0002K`\t,mB�\b\r1��#B\f\u0006���XD��)�(]�\u0003F)0�^�P�^썉�Ã\u000E&\u0005\u0013j�T3V\u000E��9�\b��V��2��ģI\u0000�o\u0016X�ջcP���E(�L�Ū;���\u0012:��su\u0012\"ګ�B�9�\t�1�-H��^�\u0003��\u0001�)�\u001B\u001E���T�y\u0015x��;�����l��y\t\u0018�38`��P�����p\u0016���軹\u0004DQw�%�\u0004�\u000B\u001C \u001C�\u0003\u000B\u00130&�\u0016��$=��c�X&\u000Bu�\u0017)��@+���.��T耏\u0003��\"+F��\u0017L�\u000Bj��1X3�+Su�\u0017}�Z\u000F�\u0018gj}H*pB�\u001D|��\u0011I��i���0)\u0006�F�P�*��)p��8]K�T�\u0007�a�\u0015�:�IZC=71\u001AO�b�\u001C�^�*rjv��\u001A�\u001E�N�^y?.�bx�\u000E��IZB=�\u0015���ML������P�QVCУ��\u0005;�Ć�Dm�$����\u0010��ǘ��Xr�C��ni5Ar�\u0003�s��Km\u0018f�\u000EL�\u0002���&<;�Ŀ\u0011\u001D����*��E\u000Enݑe6�n�\u0006Lj+��cMx~\\t\u000B�\u0014�#�G8��#�\u0017?/�a�5��`R[�֎1�\t,��\u001A����A]�DH���/�\u001318!�:`�(֌���h�:�ʴ~���5-O8��D\f�\u000F\u000B\"�L�訮�O�a���\u0012t/prW�<pP�n��>\u001E2���(�\fד\u0017�H��\u0007�me\"\u0006ƅ\u0005\u0001K�xxD\u0017\u0014�\u0015�ME�B��\u0018pxE\"h~\u001FТT�\u0002����)\u0014{�[@\u000BR@\u000BS�='���䞩[�`�?��4s{}������Iݘ��u>��fD�\u0014�s��k�+�1+\u001A����m)�Rv,rR#��V\f�²�(U�=^�E�\u0016���ꎘp�NX>�l?�1��2,\u001B���'-}�d\u000ELN_��'Q09�m��\u001A\u0001�/ſ*�Hm��K�\u0013��_�\\\u001BQ\u001DB�|h����\u0000�ְ�SVM؜Q2��ym��\u0012�M�bZ�=�za\u0019�t�\u0005T���\u0000ؖ�\r�3��\u0003\u000B�0��fE\u0015�>\u0014\u001E�b�\u001A\rX��fE^�b�\u0015�qB���\u0004�~�5��D=v\u001D��*,Ck���\u0019\r(_�\fSx\b��e_^��G�����\r\u0005̑F�E�KƻGk��k�l/!/�\u0013<>�7��@V1��(�j�\u0015ws\u001E��'\u001B���\u001Chg�\u0017\u000B\u0000:\u0018\r([�\fSG\u0016lɞ\u000B���\n0=�(ػЊl\u000EԁS\r\u0018��\u001C0��\u0001-J�>�D{1*]�#�cJ,\u0016\r��*%\u0014{��P�\u0017\u0007\u000Eզt�E(l�\u000ETs�ޘjF���\u0001�P|>߂�T\u0016ꠣ\u0001cw\u0004\u000E��D�E\u0014X�Ũv�`o�k��!�\u0011�\u0004�P�g��[#��\u001F�.�y�mP�l�4x�#��\u0003��43�\u000E\n\u0002\u0018Q��<\u000B���B�X�¨���\f���_�W���@-\u0007��f�\u0019�I?0����\u0016�ǁ:T���W���\f\u000B\u0000�.+��\u001D��Q\u0018�\u000F��a�@\u001D�����`f�H��p�\u001B���j\u0006�)�U�b�y\u0014��\u0019q�9@C0���9�՟�:R�Ɲ\u001ACi�\u0005\u0000�<W�.�`�̌Ì4\r����s㑛��v?����]{(]���9�`�Ί�}�#\u0003\u0007#\u0014�Ύ��\u0003X�_N�1L'(ݰ(�Z�\f��\u0018�^\u0016���_$��\u001E��Yq�7��:zƃ��Ju�\u001Ct;�@\u0001Ը\u0015X�\u001Dh���΍ǔ��Ճ\u0011�7g��`\u0010\u000B��Y\u000F��\\�{���)\u001A?�\f��\u0001\u0017�h�\u0017s,�\bSׅ{�G`azg����\u001E\f�Z\u0012�\\T��Y\u0014@�K�-�\u0018.�|\u0018e�(��x���:l8X٬��9\u000F҃\u0004\u0015\u0014�ƨt�H�;�2�2w��P�[�!\u0011�\u0001��U4��q�2\u0006\u0006\u0011*�-��/\u0006�u2\"5�=\u000E�l\b�4��b��.x�H����\u001B\u0011�F\u000F�O\u0003\u0002K`\t,�%�D\b,�%�\u0004��\u0012X\"\u0004��\u0012X\u0002K`ݤ�/���h(F�\u0000\u0000\u0000\u0000IEND�B`�"
+      "Body" : "iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QwaEi4XfO7DiAAABvhJREFUeNrt23lwU0UcB/BvXkMp0hYKaWnaNCmlHC0KBQqCxXJDEakFkavIUZBbxotjVDxRmraACB7gfTuCIqMjMiijA4MHOjj+IQJNenBOpRdtk5DNe+sfoWXKbvU1fS8MzP5m+s/uNm/fJ/ve7m+7NWDdcQoRqkISBAJLYAksgSWwBJYgEFgCS2AJLIElsASBwBJYAktgCSxtQqYIDTG06SNCDAaA3uxYRMG2KbEoXdMDRikwsF6mUPhe7I2JvcODDiYFE2rrVDNWDouCOdII5+qkVoP1MoXixKNJAIBvFliQ1btjUMGCg0UotkyJxao7opqKEjq3g3N1EiLaq+tCmjmsCaox9i1IwPhewQOTggG1KacbHsrowlTVeRV4iLo7rfXI8Mps2/15CRjbMzhgkt5Qhdnd8MhwFurvf7zou7kERFF3lyXVBN0LHCAcsAMLEzAm+RbdwSQ9oeyTY/BYJgt14qIXKZucQCvf8ecu+ZBU6ICPA/zdIitG9dAXTNILauPdMVgzoitTdfKiF32KWg/VGGdqfUgqcELmgB18wIoRSfqBaY/lo9gwKQbrRrJQpyq96L0pcKjGOF1LkFTIB/thsRWZOoFJWkM9NzEaT4xioRyVXvQqcmp2qfIagh6FTvBeeT8utmJ49w6ag0laQj2TFY31o01MlbOKoKeGUI1RVkPQo9DBBTu0xIaMRG3BJK2gnpoQjafHmLizWHKhQ7f3bmk1QXKRA5RzgcNLbRhm0w5M0gLqyfEmPDvWxL8RHaGavpAqgp5FDm7dkWU23G7VBkxqK9TjY014flx0C+8U/iOiRziq/COMFz8vt2GINazNYFJboNaOMeGFCSzU6RqCpILgQV2dREiLk8gvyxMxOCHsOmD5KNaM7or8rGjOOujKtH6djsg1LU848euKRAyKDwsilkzx6KiusE+MYarO1hJ0L3ByV9g8cFD/bsT/Ph4y9f/4KNQM15MXvUjZzAf7bWUiBsaFBQFLpnh4RBcU3RXDTUXUQoWGGHB4RSJofh/QolT/AtbXwu8pFHvmW0ALUkALU7A9J7blttfknqlb+GC/P5iINHN7fbGm9o/E5kndmPLzdT5/kqtmRMkUu3Pj/WugK7ExKxrj+oSzbSnwUnYsclIjmopWDIvCsowoVf09XuFF3xbAjq3qjphwo05YPtpsP6oxqt0yLBuLudsnLX3OZA5MTl/OzidRMDmFbZudGgG1L8W/KrxIbeGRzEvvpBOW5F/PXBtRHUKwfGiU6s7DAJTWsJ9TVk3YnFEy+Mt5bdXushKKTZNiWpg9vXphGbB0zwVU1MvMANiW3Q3LM7qoAwuVMH/X+WZFFfU+FB6qYtsaDVj65YVmRV6ZYu23FeqScULx9aIE/379NbHvRD12HbvUKixDa8/BhxkNKF+bDFN4CNPfZV9ewOtHqoH/++sNBcyRRuSmReKiS8a7R2v/82uLbC8hL70TPD6KN4/WQFYxgYIo+GqhFXdzHuP9JxuQtbMcaGfQFwsAOhgNKFuXDFNHFmzJngvY+ZMKMD2DKNi70IpsDtSBUw0Yv7McMLa+fwEtSt0+ikR7MSpd7CO5Y0osFg3tjOu2KiUUe/L4UN8XBw7VpnTHRShs+Q5Uc8DemGpG3u3XAYxQfD7fgpxUFuqgowFjdwQO1eZE2kUUWO3FqHazYG/da8b8IZ0RtASRUOyaZ8HUWyOYqh+cLox5vW1QmmzRNHj9I6yGA/bONDPmDgoCGFHw2TwLpt3GQv1Y4sKo18raDKXZ5l+9V4HN7kAtB+y96WbMGdRJPzCi4JO5FtzHgTpU6sbIV7WB0gwLAOouK7DaHbjkURiwD6bHYfZAHcCIgo/vt2Bmv0im6nCpG5mvlGoGpSnWVbBi1HkUpu6jGXGYOUBDMKLgwznxmNWfhTpS5sadGkNpjgUAlzxXwC6zYJ/MjMOMNA3AiIL3c+ORm8bmdj+Xu5GxXXsoXbCugjm4YJ/OisN9/SMDByMU786Ox/0DWKhfTrsxTCco3bAogFq3DJu9GPVeFuyz2fG4t18koLQe6u1ZcZg3kIU6esaDodtKdc0cdDvrQAHUuBVY8x1o4IDtzo3HlNvC1YMRijdnmrFgEAv121kPhrxconuKpespGj+YDJvdARfnaNEXcyyICFPXhXv6R2Bhemem/PezHgzeWhKUXFT381kUQKVLhi2/GC7SfBhl7ijjvtd4sffPOmw4WNms7Ng5D9KDBBUUrMaodMlItDvgvjLCMneU4VCJW/0hEaMB6/dVNIH9cf4yBgYRKuAtmsAvBsR1MiI1pj0OnGwI7DSNj2LF8C545UiV+t3SGxHrRg/xTwMCS2AJLIElsEQILIElsASWwBJYIgSWwBJYAktg3aTxL+285/JoKEb1AAAAAElFTkSuQmCC"
     }
   } ],
   "variables" : [ ]

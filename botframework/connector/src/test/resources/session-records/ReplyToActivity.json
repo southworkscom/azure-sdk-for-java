@@ -1,51 +1,48 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}]}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:57 GMT",
-      "content-length" : "21",
+      "date" : "Wed, 27 Dec 2017 17:23:10 GMT",
+      "content-length" : "22",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"jndhh78lm23d\"}"
+      "Body" : "{\"id\":\"19m0nc5ggc13e\"}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/jndhh78lm23d/activities",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/19m0nc5ggc13e/activities",
     "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Send to Conversation\"}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:57 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:11 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"d6d248e5hcke\"}"
+      "Body" : "{\"id\":\"7bbiikec1ja7\"}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/jndhh78lm23d/activities/d6d248e5hcke",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/19m0nc5ggc13e/activities/7bbiikec1ja7",
     "Body" : "{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Reply to Activity\"}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:58 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:11 GMT",
       "content-length" : "21",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"h484fej1nh0l\"}"
+      "Body" : "{\"id\":\"befc400km035\"}"
     }
   } ],
   "variables" : [ ]

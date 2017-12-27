@@ -1,30 +1,29 @@
 {
   "networkCallRecords" : [ {
     "Method" : "POST",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations",
     "Body" : "{\"bot\":{\"id\":\"6bl73lhk128m\"},\"members\":[{\"id\":\"default-user\"}],\"activity\":{\"type\":\"message\",\"from\":{\"id\":\"6bl73lhk128m\"},\"recipient\":{\"id\":\"default-user\"},\"text\":\"TEST Get Activity Members\"}}",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:46 GMT",
-      "content-length" : "50",
+      "date" : "Wed, 27 Dec 2017 17:23:00 GMT",
+      "content-length" : "49",
       "content-type" : "application/json",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "Body" : "{\"id\":\"mbig1f33fb3j\",\"activityId\":\"0hn3ik1g1b0fa\"}"
+      "Body" : "{\"id\":\"fg2b73k7md4b\",\"activityId\":\"hlkf53m339ea\"}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "https://mock.api.botframework.com/v3/conversations/mbig1f33fb3j/activities/0hn3ik1g1b0fa/members",
+    "Uri" : "https://233b55ff.ngrok.io/v3/conversations/fg2b73k7md4b/activities/hlkf53m339ea/members",
     "Body" : "",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, v3.0)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:9e47c26c664df3d17fb33da29e81da7dc1985b292e3d49ee55b301a3f3f92046 Java:1.8.0_151 (BotConnector, 3.0)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Tue, 26 Dec 2017 21:44:47 GMT",
+      "date" : "Wed, 27 Dec 2017 17:23:00 GMT",
       "content-length" : "58",
       "content-type" : "application/json",
       "retry-after" : "0",
