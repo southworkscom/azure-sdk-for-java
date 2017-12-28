@@ -19,7 +19,7 @@ public class AttachmentDataInner {
     /**
      * Content-Type of the attachment.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", required = true)
     private String type;
 
     /**
@@ -31,7 +31,7 @@ public class AttachmentDataInner {
     /**
      * Attachment content.
      */
-    @JsonProperty(value = "originalBase64")
+    @JsonProperty(value = "originalBase64", required = true)
     private byte[] originalBase64;
 
     /**

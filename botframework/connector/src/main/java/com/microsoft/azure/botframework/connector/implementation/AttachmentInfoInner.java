@@ -27,13 +27,13 @@ public class AttachmentInfoInner {
     /**
      * ContentType of the attachment.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", required = true)
     private String type;
 
     /**
      * attachment views.
      */
-    @JsonProperty(value = "views")
+    @JsonProperty(value = "views", required = true)
     private List<AttachmentView> views;
 
     /**

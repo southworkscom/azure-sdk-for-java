@@ -73,7 +73,7 @@ public class ActivityInner {
     /**
      * Sender address.
      */
-    @JsonProperty(value = "from")
+    @JsonProperty(value = "from", required = true)
     private ChannelAccountInner from;
 
     /**

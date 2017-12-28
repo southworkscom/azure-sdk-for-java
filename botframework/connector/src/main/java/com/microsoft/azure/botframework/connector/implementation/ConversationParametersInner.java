@@ -26,13 +26,13 @@ public class ConversationParametersInner {
     /**
      * The bot address for this conversation.
      */
-    @JsonProperty(value = "bot")
+    @JsonProperty(value = "bot", required = true)
     private ChannelAccountInner bot;
 
     /**
      * Members to add to the conversation.
      */
-    @JsonProperty(value = "members")
+    @JsonProperty(value = "members", required = true)
     private List<ChannelAccountInner> members;
 
     /**
