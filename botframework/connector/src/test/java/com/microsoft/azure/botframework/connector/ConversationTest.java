@@ -19,6 +19,7 @@ public class ConversationTest extends  BotConnectorTestBase {
         ActivityInner activity = new ActivityInner()
                 .withType(ActivityType.MESSAGE)
                 .withRecipient(user)
+                .withFrom(bot)
                 .withText("TEST Create Conversation");
 
         ConversationParametersInner params = new ConversationParametersInner()

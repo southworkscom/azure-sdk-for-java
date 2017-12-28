@@ -1,5 +1,6 @@
 package com.microsoft.azure.botframework.connector;
 
+import com.microsoft.azure.botframework.connector.base.TestBase;
 import com.microsoft.azure.botframework.connector.implementation.BotConnectorImpl;
 import com.microsoft.azure.botframework.connector.implementation.ChannelAccountInner;
 import com.microsoft.rest.RestClient;

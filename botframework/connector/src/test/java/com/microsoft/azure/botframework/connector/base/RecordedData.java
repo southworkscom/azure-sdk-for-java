@@ -1,4 +1,4 @@
-package com.microsoft.azure.botframework.connector;
+package com.microsoft.azure.botframework.connector.base;
 
 import java.util.LinkedList;
 

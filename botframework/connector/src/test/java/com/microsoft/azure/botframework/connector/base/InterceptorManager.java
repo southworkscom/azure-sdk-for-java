@@ -1,4 +1,4 @@
-package com.microsoft.azure.botframework.connector;
+package com.microsoft.azure.botframework.connector.base;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -250,11 +250,11 @@ public class InterceptorManager {
         if (response.header("Content-Encoding") == null) {
             String contentType = response.header("Content-Type");
             if (contentType != null) {
-                if (contentType.equalsIgnoreCase("application/octet-stream"))
+                if (contentType.startsWith("application/json"))
                 {
-                    content = BaseEncoding.base64().encode(buffer.readByteArray());
-                } else {
                     content = buffer.readString(Util.UTF_8);
+                } else {
+                    content = BaseEncoding.base64().encode(buffer.readByteArray());
                 }
             }
         } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {

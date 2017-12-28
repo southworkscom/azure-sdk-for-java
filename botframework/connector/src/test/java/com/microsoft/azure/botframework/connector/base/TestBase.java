@@ -1,4 +1,4 @@
-package com.microsoft.azure.botframework.connector;
+package com.microsoft.azure.botframework.connector.base;
 
 import com.microsoft.azure.botframework.connector.customizations.ConnectorCredentials;
 import com.microsoft.rest.LogLevel;
@@ -12,7 +12,6 @@ import org.junit.rules.TestName;
 
 import java.io.*;
 import java.util.Properties;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public abstract class TestBase {
