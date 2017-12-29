@@ -218,7 +218,7 @@ public class AttachmentsInner {
     }
 
     private ServiceResponse<byte[]> getAttachmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return new ServiceResponse<>(response.body().bytes(), this.client.restClient().responseBuilderFactory().<byte[], CloudException>newInstance(this.client.serializerAdapter())
+        return new ServiceResponse<>(response.body() != null ? response.body().bytes() : null, this.client.restClient().responseBuilderFactory().<byte[], CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<byte[]>() { }.getType())
                 .register(301, new TypeToken<Void>() { }.getType())
                 .register(302, new TypeToken<Void>() { }.getType())

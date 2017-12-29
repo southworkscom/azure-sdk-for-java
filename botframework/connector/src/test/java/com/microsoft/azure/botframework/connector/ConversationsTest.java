@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ConversationTest extends  BotConnectorTestBase {
+public class ConversationsTest extends BotConnectorTestBase {
 
     @Test
     public void CreateConversation() {
@@ -231,54 +231,6 @@ public class ConversationTest extends  BotConnectorTestBase {
         ResourceResponseInner response = connector.conversations().uploadAttachment(conversation.id(), attachment);
 
         Assert.assertNotNull(response.id());
-    }
-
-    @Test
-    public void GetAttachmentInfo() {
-
-        AttachmentDataInner attachment = new AttachmentDataInner()
-                .withName("bot-framework.png")
-                .withType("image/png")
-                .withOriginalBase64(encodeToBase64(new File(getClass().getClassLoader().getResource("bot-framework.png").getFile())));
-
-        ConversationParametersInner createMessage = new ConversationParametersInner()
-                .withMembers(Collections.singletonList(user))
-                .withBot(bot);
-
-        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
-
-        ResourceResponseInner attachmentResponse = connector.conversations().uploadAttachment(conversation.id(), attachment);
-
-        AttachmentInfoInner response = connector.attachments().getAttachmentInfo(attachmentResponse.id());
-
-        Assert.assertEquals(attachment.name(), response.name());
-    }
-
-    @Test
-    public void GetAttachment() {
-
-        byte[] attachmentPayload = encodeToBase64(new File(getClass().getClassLoader().getResource("bot_icon.png").getFile()));
-
-        AttachmentDataInner attachment = new AttachmentDataInner()
-                .withName("bot_icon.png")
-                .withType("image/png")
-                .withOriginalBase64(attachmentPayload);
-
-        ConversationParametersInner createMessage = new ConversationParametersInner()
-                .withMembers(Collections.singletonList(user))
-                .withBot(bot);
-
-        ConversationResourceResponseInner conversation = connector.conversations().createConversation(createMessage);
-
-        ResourceResponseInner attachmentResponse = connector.conversations().uploadAttachment(conversation.id(), attachment);
-
-        AttachmentInfoInner attachmentInfo = connector.attachments().getAttachmentInfo(attachmentResponse.id());
-
-        for (AttachmentView attView : attachmentInfo.views()) {
-            byte[] retrievedAttachment = connector.attachments().getAttachment(attachmentResponse.id(), attView.viewId());
-
-            Assert.assertEquals(BaseEncoding.base64().encode(attachmentPayload), BaseEncoding.base64().encode(retrievedAttachment));
-        }
     }
 
     private byte[] encodeToBase64(File file) {
