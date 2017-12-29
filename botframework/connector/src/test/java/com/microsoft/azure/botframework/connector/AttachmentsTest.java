@@ -11,7 +11,6 @@ import java.util.Collections;
 
 public class AttachmentsTest extends BotConnectorTestBase {
 
-
     @Test
     public void GetAttachmentInfo() {
 
