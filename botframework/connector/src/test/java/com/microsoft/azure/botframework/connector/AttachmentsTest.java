@@ -5,8 +5,8 @@ import com.microsoft.azure.botframework.connector.implementation.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class AttachmentsTest extends BotConnectorTestBase {
@@ -35,7 +35,15 @@ public class AttachmentsTest extends BotConnectorTestBase {
     @Test
     public void GetAttachment() {
 
-        byte[] attachmentPayload = encodeToBase64(new File(getClass().getClassLoader().getResource("bot_icon.png").getFile()));
+        File attachmentFile = new File(getClass().getClassLoader().getResource("bot_icon.png").getFile());
+        byte[] attachmentPayload = encodeToBase64(attachmentFile);
+
+        InputStream attachmentStream = null;
+        try {
+            attachmentStream = new FileInputStream(attachmentFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         AttachmentDataInner attachment = new AttachmentDataInner()
                 .withName("bot_icon.png")
@@ -53,9 +61,9 @@ public class AttachmentsTest extends BotConnectorTestBase {
         AttachmentInfoInner attachmentInfo = connector.attachments().getAttachmentInfo(attachmentResponse.id());
 
         for (AttachmentView attView : attachmentInfo.views()) {
-            byte[] retrievedAttachment = connector.attachments().getAttachment(attachmentResponse.id(), attView.viewId());
+            InputStream retrievedAttachment = connector.attachments().getAttachment(attachmentResponse.id(), attView.viewId());
 
-            Assert.assertEquals(BaseEncoding.base64().encode(attachmentPayload), BaseEncoding.base64().encode(retrievedAttachment));
+            Assert.assertTrue(isSame(retrievedAttachment, attachmentStream));
         }
     }
 
@@ -67,6 +75,42 @@ public class AttachmentsTest extends BotConnectorTestBase {
             return result;
         } catch (Exception ex) {
             return new byte[0];
+        }
+    }
+
+    private boolean isSame(InputStream expected, InputStream actual) {
+        boolean error = false;
+        try {
+            byte[] buffer1 = new byte[1024];
+            byte[] buffer2 = new byte[1024];
+            try {
+                int numRead1 = 0;
+                int numRead2 = 0;
+                while (true) {
+                    numRead1 = expected.read(buffer1);
+                    numRead2 = actual.read(buffer2);
+                    if (numRead1 > -1) {
+                        if (numRead2 != numRead1) return false;
+                        // Otherwise same number of bytes read
+                        if (!Arrays.equals(buffer1, buffer2)) return false;
+                        // Otherwise same bytes read, so continue ...
+                    } else {
+                        // Nothing more in stream 1 ...
+                        return numRead2 < 0;
+                    }
+                }
+            } finally {
+                expected.close();
+            }
+        } catch (IOException | RuntimeException e) {
+            error = true; // this error should be thrown, even if there is an error closing stream 2
+            return false;
+        } finally {
+            try {
+                actual.close();
+            } catch (IOException e) {
+                if (!error) return false;
+            }
         }
     }
 }

@@ -17,12 +17,14 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+import java.io.InputStream;
 import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -59,6 +61,7 @@ public class AttachmentsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.botframework.connector.Attachments getAttachment" })
         @GET("v3/attachments/{attachmentId}/views/{viewId}")
+        @Streaming
         Observable<Response<ResponseBody>> getAttachment(@Path("attachmentId") String attachmentId, @Path("viewId") String viewId, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
@@ -149,9 +152,9 @@ public class AttachmentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the byte[] object if successful.
+     * @return the InputStream object if successful.
      */
-    public byte[] getAttachment(String attachmentId, String viewId) {
+    public InputStream getAttachment(String attachmentId, String viewId) {
         return getAttachmentWithServiceResponseAsync(attachmentId, viewId).toBlocking().single().body();
     }
 
@@ -165,7 +168,7 @@ public class AttachmentsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<byte[]> getAttachmentAsync(String attachmentId, String viewId, final ServiceCallback<byte[]> serviceCallback) {
+    public ServiceFuture<InputStream> getAttachmentAsync(String attachmentId, String viewId, final ServiceCallback<InputStream> serviceCallback) {
         return ServiceFuture.fromResponse(getAttachmentWithServiceResponseAsync(attachmentId, viewId), serviceCallback);
     }
 
@@ -176,12 +179,12 @@ public class AttachmentsInner {
      * @param attachmentId Attachment ID.
      * @param viewId View ID from attachmentInfo
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the byte[] object
+     * @return the observable to the InputStream object
      */
-    public Observable<byte[]> getAttachmentAsync(String attachmentId, String viewId) {
-        return getAttachmentWithServiceResponseAsync(attachmentId, viewId).map(new Func1<ServiceResponse<byte[]>, byte[]>() {
+    public Observable<InputStream> getAttachmentAsync(String attachmentId, String viewId) {
+        return getAttachmentWithServiceResponseAsync(attachmentId, viewId).map(new Func1<ServiceResponse<InputStream>, InputStream>() {
             @Override
-            public byte[] call(ServiceResponse<byte[]> response) {
+            public InputStream call(ServiceResponse<InputStream> response) {
                 return response.body();
             }
         });
@@ -194,9 +197,9 @@ public class AttachmentsInner {
      * @param attachmentId Attachment ID.
      * @param viewId View ID from attachmentInfo
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the byte[] object
+     * @return the observable to the InputStream object
      */
-    public Observable<ServiceResponse<byte[]>> getAttachmentWithServiceResponseAsync(String attachmentId, String viewId) {
+    public Observable<ServiceResponse<InputStream>> getAttachmentWithServiceResponseAsync(String attachmentId, String viewId) {
         if (attachmentId == null) {
             throw new IllegalArgumentException("Parameter attachmentId is required and cannot be null.");
         }
@@ -204,11 +207,11 @@ public class AttachmentsInner {
             throw new IllegalArgumentException("Parameter viewId is required and cannot be null.");
         }
         return service.getAttachment(attachmentId, viewId, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<byte[]>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<InputStream>>>() {
                 @Override
-                public Observable<ServiceResponse<byte[]>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<InputStream>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<byte[]> clientResponse = getAttachmentDelegate(response);
+                        ServiceResponse<InputStream> clientResponse = getAttachmentDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -217,13 +220,13 @@ public class AttachmentsInner {
             });
     }
 
-    private ServiceResponse<byte[]> getAttachmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return new ServiceResponse<>(response.body() != null ? response.body().bytes() : null, this.client.restClient().responseBuilderFactory().<byte[], CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<byte[]>() { }.getType())
+    private ServiceResponse<InputStream> getAttachmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<InputStream>() { }.getType())
                 .register(301, new TypeToken<Void>() { }.getType())
                 .register(302, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
-                .build(response).response());
+                .build(response);
     }
 
 }
